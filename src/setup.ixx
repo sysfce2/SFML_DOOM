@@ -64,7 +64,7 @@ export int numnodes;
 export std::vector<node_t> nodes;
 
 export int numlines;
-export line_t *lines;
+export std::vector<line_t> lines;
 
 export int numsides;
 export side_t *sides;
@@ -232,7 +232,6 @@ void P_LoadSectors(int lump) {
 //
 void P_LoadNodes(int lump) {
   std::byte *data;
-  int i;
   int j;
   int k;
   mapnode_t *mn;
@@ -313,70 +312,66 @@ void P_LoadThings(int lump) {
 //
 void P_LoadLineDefs(int lump) {
   std::byte *data;
-  int i;
   maplinedef_t *mld;
-  line_t *ld;
   vertex_t *v1;
   vertex_t *v2;
 
   numlines = W_LumpLength(lump) / sizeof(maplinedef_t);
-  lines = static_cast<line_t *>(malloc(numlines * sizeof(line_t)));
-  memset(lines, 0, numlines * sizeof(line_t));
+  lines.resize( numlines );
   data = static_cast<std::byte *>(W_CacheLumpNum(lump));
 
   mld = (maplinedef_t *)data;
-  ld = lines;
-  for (i = 0; i < numlines; i++, mld++, ld++) {
-    ld->flags = SHORT(mld->flags);
-    ld->special = SHORT(mld->special);
-    ld->tag = SHORT(mld->tag);
+  for ( auto& line : lines )
+  {
+    line.flags = SHORT(mld->flags);
+    line.special = SHORT(mld->special);
+    line.tag = SHORT(mld->tag);
     v1 = ld->v1 = &vertexes[SHORT(mld->v1)];
     v2 = ld->v2 = &vertexes[SHORT(mld->v2)];
-    ld->dx = v2->x - v1->x;
-    ld->dy = v2->y - v1->y;
+    line.dx = v2->x - v1->x;
+    line.dy = v2->y - v1->y;
 
     if (!ld->dx)
-      ld->slopetype = ST_VERTICAL;
+        line.slopetype = ST_VERTICAL;
     else if (!ld->dy)
-      ld->slopetype = ST_HORIZONTAL;
+        line.slopetype = ST_HORIZONTAL;
     else {
       if (FixedDiv(ld->dy, ld->dx) > 0)
-        ld->slopetype = ST_POSITIVE;
+          line.slopetype = ST_POSITIVE;
       else
-        ld->slopetype = ST_NEGATIVE;
+          line.slopetype = ST_NEGATIVE;
     }
 
     if (v1->x < v2->x) {
-      ld->bbox[BOXLEFT] = v1->x;
-      ld->bbox[BOXRIGHT] = v2->x;
+        line.bbox[BOXLEFT] = v1->x;
+        line.bbox[BOXRIGHT] = v2->x;
     } else {
-      ld->bbox[BOXLEFT] = v2->x;
-      ld->bbox[BOXRIGHT] = v1->x;
+      line.bbox[BOXLEFT] = v2->x;
+      line.bbox[BOXRIGHT] = v1->x;
     }
 
     if (v1->y < v2->y) {
-      ld->bbox[BOXBOTTOM] = v1->y;
-      ld->bbox[BOXTOP] = v2->y;
+      line.bbox[BOXBOTTOM] = v1->y;
+      line.bbox[BOXTOP] = v2->y;
     } else {
-      ld->bbox[BOXBOTTOM] = v2->y;
-      ld->bbox[BOXTOP] = v1->y;
+      line.bbox[BOXBOTTOM] = v2->y;
+      line.bbox[BOXTOP] = v1->y;
     }
 
-    ld->sidenum[0] = SHORT(mld->sidenum[0]);
-    ld->sidenum[1] = SHORT(mld->sidenum[1]);
+    line.sidenum[0] = SHORT(mld->sidenum[0]);
+    line.sidenum[1] = SHORT(mld->sidenum[1]);
 
-    if (ld->sidenum[0] != -1)
-      ld->frontsector = sides[ld->sidenum[0]].sector;
+    if ( line.sidenum[0] != -1)
+        line.frontsector = sides[ld->sidenum[0]].sector;
     else
-      ld->frontsector = 0;
+        line.frontsector = 0;
 
     if (ld->sidenum[1] != -1)
-      ld->backsector = sides[ld->sidenum[1]].sector;
+        line.backsector = sides[ld->sidenum[1]].sector;
     else
-      ld->backsector = 0;
+        line.backsector = 0;
+    mld++;
   }
-
-  free(data);
 }
 
 //
@@ -403,8 +398,6 @@ void P_LoadSideDefs(int lump) {
     sd->midtexture = R_TextureNumForName(msd->midtexture);
     sd->sector = &sectors[SHORT(msd->sector)];
   }
-
-  free(data);
 }
 
 //
