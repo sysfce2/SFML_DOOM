@@ -61,7 +61,7 @@ int numsubsectors;
 export subsector_t *subsectors;
 
 export int numnodes;
-export node_t *nodes;
+export std::vector<node_t> nodes;
 
 export int numlines;
 export line_t *lines;
@@ -132,9 +132,6 @@ void P_LoadVertexes(int lump) {
     li->x = SHORT(ml->x) << FRACBITS;
     li->y = SHORT(ml->y) << FRACBITS;
   }
-
-  // Free buffer memory.
-  free(data);
 }
 
 //
@@ -239,28 +236,27 @@ void P_LoadNodes(int lump) {
   int j;
   int k;
   mapnode_t *mn;
-  node_t *no;
 
   numnodes = W_LumpLength(lump) / sizeof(mapnode_t);
-  nodes = static_cast<node_t *>(malloc(numnodes * sizeof(node_t)));
+  nodes.resize( numnodes );
   data = static_cast<std::byte *>(W_CacheLumpNum(lump));
 
   mn = (mapnode_t *)data;
-  no = nodes;
 
-  for (i = 0; i < numnodes; i++, no++, mn++) {
-    no->x = SHORT(mn->x) << FRACBITS;
-    no->y = SHORT(mn->y) << FRACBITS;
-    no->dx = SHORT(mn->dx) << FRACBITS;
-    no->dy = SHORT(mn->dy) << FRACBITS;
-    for (j = 0; j < 2; j++) {
-      no->children[j] = SHORT(mn->children[j]);
-      for (k = 0; k < 4; k++)
-        no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
-    }
+  for ( auto& node : nodes )
+  {
+      node.x = SHORT( mn->x ) << FRACBITS;
+      node.y = SHORT( mn->y ) << FRACBITS;
+      node.dx = SHORT( mn->dx ) << FRACBITS;
+      node.dy = SHORT( mn->dy ) << FRACBITS;
+      for ( j = 0; j < 2; j++ )
+      {
+          node.children[j] = SHORT( mn->children[j] );
+          for ( k = 0; k < 4; k++ )
+              node.bbox[j][k] = SHORT( mn->bbox[j][k] ) << FRACBITS;
+      }
+      mn++;
   }
-
-  free(data);
 }
 
 //
