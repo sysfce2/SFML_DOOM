@@ -104,9 +104,7 @@ void P_UnArchivePlayers(void) {
 // P_ArchiveWorld
 //
 void P_ArchiveWorld(void) {
-  int i;
   int j;
-  line_t *li;
   side_t *si;
   short *put;
 
@@ -124,15 +122,16 @@ void P_ArchiveWorld(void) {
   }
 
   // do lines
-  for (i = 0, li = lines; i < numlines; i++, li++) {
-    *put++ = li->flags;
-    *put++ = li->special;
-    *put++ = li->tag;
+  for (const auto& line : lines )
+  {
+    *put++ = line.flags;
+    *put++ = line.special;
+    *put++ = line.tag;
     for (j = 0; j < 2; j++) {
-      if (li->sidenum[j] == -1)
+      if (line.sidenum[j] == -1)
         continue;
 
-      si = &sides[li->sidenum[j]];
+      si = &sides[line.sidenum[j]];
 
       *put++ = si->textureoffset >> FRACBITS;
       *put++ = si->rowoffset >> FRACBITS;
@@ -172,14 +171,15 @@ void P_UnArchiveWorld(void) {
   }
 
   // do lines
-  for (i = 0, li = lines; i < numlines; i++, li++) {
-    li->flags = *get++;
-    li->special = *get++;
-    li->tag = *get++;
+  for (auto& line : lines)
+  {
+    line.flags = *get++;
+    line.special = *get++;
+    line.tag = *get++;
     for (j = 0; j < 2; j++) {
-      if (li->sidenum[j] == -1)
+      if ( line.sidenum[j] == -1)
         continue;
-      si = &sides[li->sidenum[j]];
+      si = &sides[line.sidenum[j]];
       si->textureoffset = *get++ << FRACBITS;
       si->rowoffset = *get++ << FRACBITS;
       si->toptexture = *get++;

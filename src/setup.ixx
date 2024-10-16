@@ -326,17 +326,17 @@ void P_LoadLineDefs(int lump) {
     line.flags = SHORT(mld->flags);
     line.special = SHORT(mld->special);
     line.tag = SHORT(mld->tag);
-    v1 = ld->v1 = &vertexes[SHORT(mld->v1)];
-    v2 = ld->v2 = &vertexes[SHORT(mld->v2)];
+    v1 = line.v1 = &vertexes[SHORT(mld->v1)];
+    v2 = line.v2 = &vertexes[SHORT(mld->v2)];
     line.dx = v2->x - v1->x;
     line.dy = v2->y - v1->y;
 
-    if (!ld->dx)
+    if (!line.dx)
         line.slopetype = ST_VERTICAL;
-    else if (!ld->dy)
+    else if (!line.dy)
         line.slopetype = ST_HORIZONTAL;
     else {
-      if (FixedDiv(ld->dy, ld->dx) > 0)
+      if (FixedDiv(line.dy, line.dx) > 0)
           line.slopetype = ST_POSITIVE;
       else
           line.slopetype = ST_NEGATIVE;
@@ -362,12 +362,12 @@ void P_LoadLineDefs(int lump) {
     line.sidenum[1] = SHORT(mld->sidenum[1]);
 
     if ( line.sidenum[0] != -1)
-        line.frontsector = sides[ld->sidenum[0]].sector;
+        line.frontsector = sides[line.sidenum[0]].sector;
     else
         line.frontsector = 0;
 
-    if (ld->sidenum[1] != -1)
-        line.backsector = sides[ld->sidenum[1]].sector;
+    if (line.sidenum[1] != -1)
+        line.backsector = sides[line.sidenum[1]].sector;
     else
         line.backsector = 0;
     mld++;
@@ -431,8 +431,6 @@ void P_LoadBlockMap(int lump) {
 // Finds block bounding boxes for sectors.
 //
 void P_GroupLines(void) {
-  int j;
-  line_t *li;
   subsector_t *ss;
   seg_t *seg;
   fixed_t bbox[4];
@@ -448,12 +446,12 @@ void P_GroupLines(void) {
   // build line tables for each sector
   for (auto &sector : sectors) {
     M_ClearBox(bbox);
-    li = lines;
-    for (j = 0; j < numlines; j++, li++) {
-      if (li->frontsector == &sector || li->backsector == &sector) {
-        sector.lines.push_back(li);
-        M_AddToBox(bbox, li->v1->x, li->v1->y);
-        M_AddToBox(bbox, li->v2->x, li->v2->y);
+    for(auto& line : lines)
+    {
+      if (line.frontsector == &sector || line.backsector == &sector) {
+        sector.lines.push_back(&line);
+        M_AddToBox(bbox, line.v1->x, line.v1->y );
+        M_AddToBox( bbox, line.v2->x, line.v2->y);
       }
     }
 

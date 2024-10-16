@@ -462,8 +462,9 @@ bool P_TryMove(mobj_t *thing, fixed_t x, fixed_t y) {
       side = P_PointOnLineSide(thing->x, thing->y, ld);
       oldside = P_PointOnLineSide(oldx, oldy, ld);
       if (side != oldside) {
-        if (ld->special)
-          P_CrossSpecialLine(static_cast<int>(ld - lines), oldside, thing);
+          if ( ld->special )
+              I_Error( "TODO JONNY: not entirely sure how to handle this yet" );
+              //P_CrossSpecialLine(static_cast<int>(ld - lines), oldside, thing);
       }
     }
   }
