@@ -665,7 +665,6 @@ void R_Init(void) {
 // R_PointInSubsector
 //
 subsector_t *R_PointInSubsector(fixed_t x, fixed_t y) {
-  node_t *node;
   int side;
   int nodenum;
 
@@ -676,9 +675,9 @@ subsector_t *R_PointInSubsector(fixed_t x, fixed_t y) {
   nodenum = nodes.size() - 1;
 
   while (!(nodenum & NF_SUBSECTOR)) {
-    node = &nodes[nodenum];
+    auto& node = nodes[nodenum];
     side = R_PointOnSide(x, y, node);
-    nodenum = node->children[side];
+    nodenum = node.children[side];
   }
 
   return &subsectors[nodenum & ~NF_SUBSECTOR];
