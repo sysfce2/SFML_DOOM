@@ -46,6 +46,7 @@ import video;
 import status_bar;
 import hud;
 import sound;
+import event;
 
 // List of wad files we populate on start up
 std::vector<std::string> wadfilenames;
@@ -287,7 +288,7 @@ export void D_DoAdvanceDemo(void) {
   advancedemo = false;
   usergame = false; // no save / end game here
   paused = false;
-  gameaction = ga_nothing;
+  gameaction = gameaction_t::ga_nothing;
 
   if (gamemode == retail)
     demosequence = (demosequence + 1) % 7;
@@ -413,7 +414,7 @@ export void D_PageTicker(void) {
 // D_StartTitle
 //
 export void D_StartTitle(void) {
-  gameaction = ga_nothing;
+  gameaction = gameaction_t::ga_nothing;
   demosequence = -1;
   D_AdvanceDemo();
 }
@@ -835,7 +836,7 @@ export void D_DoomMain(void) {
     G_LoadGame(file);
   }
 
-  if (gameaction != ga_loadgame) {
+  if (gameaction != gameaction_t::ga_loadgame) {
     if (autostart || netgame)
       G_InitNew(startskill, startepisode, startmap);
     else

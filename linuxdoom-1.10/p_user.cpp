@@ -23,14 +23,15 @@
 //
 //-----------------------------------------------------------------------------
 
-#include "d_event.h"
-
 #include "p_local.h"
 #include "r_main.h"
 
 import tick;
 import doomstat;
 import tables;
+import event;
+
+using enum buttoncode_t;
 
 
 // Index of the special effects (INVUL inverse) map.

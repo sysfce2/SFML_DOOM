@@ -22,7 +22,6 @@
 //
 //-----------------------------------------------------------------------------
 
-#include "d_event.h"
 
 #include "m_random.h"
 #include "p_local.h"
@@ -36,11 +35,14 @@
 
 #include "p_pspr.h"
 
+import event;
 import items;
 import tick;
 import doomstat;
 import tables;
 import sound;
+
+using enum buttoncode_t;
 
 #define LOWERSPEED FRACUNIT * 6
 #define RAISESPEED FRACUNIT * 6

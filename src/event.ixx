@@ -18,13 +18,9 @@
 //
 //
 //-----------------------------------------------------------------------------
+export module event;
 
-#pragma once
-
-
-#include <cstddef>
-
-typedef enum {
+export enum class gameaction_t{
   ga_nothing,
   ga_loadlevel,
   ga_newgame,
@@ -35,12 +31,14 @@ typedef enum {
   ga_victory,
   ga_worlddone,
   ga_screenshot
-} gameaction_t;
+};
+
+export gameaction_t gameaction;
 
 //
 // Button/action code definitions.
 //
-enum buttoncode_t : unsigned char{
+export enum buttoncode_t : unsigned char{
   // Press "Fire".
   BT_ATTACK = 1,
   // Use button, to open doors, activate switches.
@@ -66,15 +64,12 @@ enum buttoncode_t : unsigned char{
   //  occupy the second byte of buttons.
   BTS_SAVEMASK = (4 + 8 + 16),
   BTS_SAVESHIFT = 2,
-
 };
 
 //
 // GLOBAL VARIABLES
 //
-#define MAXEVENTS 64
-
-extern gameaction_t gameaction;
+export constexpr auto MAXEVENTS = 64;
 
 //-----------------------------------------------------------------------------
 //

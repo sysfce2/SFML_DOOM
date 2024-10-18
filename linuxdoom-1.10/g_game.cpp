@@ -66,6 +66,9 @@ import tables;
 import status_bar;
 import sound;
 import hud;
+import event;
+
+using enum gameaction_t;
 
 #define SAVEGAMESIZE 0x2c000
 #define SAVESTRINGSIZE 24
@@ -98,7 +101,6 @@ void G_DoWorldDone(void);
 
 void G_DoSaveGame(void);
 
-gameaction_t gameaction;
 bool sendpause; // send a pause event next tic
 bool sendsave;  // send a save event next tic
 

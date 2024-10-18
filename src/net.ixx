@@ -31,6 +31,7 @@ export module net;
 import argv;
 import system;
 import menu;
+import event;
 
 // For some odd reason...
 #ifndef ntohl
@@ -983,7 +984,7 @@ export void TryRunTics(void) {
           cmd = &netcmds[j][buf];
           cmd->chatchar = 0;
           if (cmd->buttons & BT_SPECIAL)
-            cmd->buttons = buttoncode_t{0};
+            cmd->buttons = {};
         }
       }
     }

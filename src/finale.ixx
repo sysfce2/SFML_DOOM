@@ -31,10 +31,8 @@ module;
 
 // Data.
 
-#include "d_event.h"
 #include "g_game.h"
 #include "r_state.h"
-#include "g_game.h"
 
 #include <SFML/Window.hpp>
 
@@ -50,6 +48,7 @@ import doomstat;
 import video;
 import sound;
 import hud;
+import event;
 
 // ?
 // // 
@@ -105,7 +104,7 @@ void F_CastDrawer(void);
 // F_StartFinale
 //
 export void F_StartFinale(void) {
-  gameaction = ga_nothing;
+  gameaction = gameaction_t::ga_nothing;
   gamestate = GS_FINALE;
   viewactive = false;
   automapactive = false;
@@ -217,7 +216,7 @@ export void F_Ticker(void) {
       if (gamemap == 30)
         F_StartCast();
       else
-        gameaction = ga_worlddone;
+        gameaction = gameaction_t::ga_worlddone;
     }
   }
 

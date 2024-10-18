@@ -20,9 +20,6 @@
 //-----------------------------------------------------------------------------
 
 #pragma once
-
-#include "d_event.h"
-#include "d_ticcmd.h"
 #include "d_player.h"
 
 #include <SFML/Window.hpp>
