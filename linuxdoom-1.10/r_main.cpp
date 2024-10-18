@@ -670,10 +670,10 @@ subsector_t *R_PointInSubsector(fixed_t x, fixed_t y) {
   int nodenum;
 
   // single subsector is a special case
-  if (!numnodes)
-    return subsectors;
+  if (nodes.empty())
+    return subsectors.data();
 
-  nodenum = numnodes - 1;
+  nodenum = nodes.size() - 1;
 
   while (!(nodenum & NF_SUBSECTOR)) {
     node = &nodes[nodenum];
@@ -735,7 +735,7 @@ void R_RenderPlayerView(player_t *player) {
   NetUpdate();
 
   // The head node is the last node output.
-  R_RenderBSPNode(numnodes - 1);
+  R_RenderBSPNode(nodes.size() - 1);
 
   // Check for new console commands.
   NetUpdate();

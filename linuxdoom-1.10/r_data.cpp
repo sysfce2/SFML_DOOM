@@ -657,7 +657,7 @@ void R_PrecacheLevel(void) {
   texturepresent = static_cast<char *>(alloca(numtextures));
   memset(texturepresent, 0, numtextures);
 
-  for (i = 0; i < numsides; i++) {
+  for (i = 0; i < sides.size(); i++) {
     texturepresent[sides[i].toptexture] = 1;
     texturepresent[sides[i].midtexture] = 1;
     texturepresent[sides[i].bottomtexture] = 1;

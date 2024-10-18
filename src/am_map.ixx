@@ -988,7 +988,7 @@ void AM_drawWalls(void) {
   int i;
   static mline_t l;
 
-  for (i = 0; i < numlines; i++) {
+  for (i = 0; i < lines.size(); i++) {
     l.a.x = lines[i].v1->x;
     l.a.y = lines[i].v1->y;
     l.b.x = lines[i].v2->x;

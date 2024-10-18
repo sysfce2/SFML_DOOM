@@ -51,23 +51,12 @@ import sound;
 export int numvertexes;
 export vertex_t *vertexes;
 
-int numsegs;
-export seg_t *segs;
-
-int numsectors;
+export std::vector<seg_t> segs;
 export std::vector<sector_t> sectors;
-
-int numsubsectors;
-export subsector_t *subsectors;
-
-export int numnodes;
+export std::vector<subsector_t> subsectors;
 export std::vector<node_t> nodes;
-
-export int numlines;
 export std::vector<line_t> lines;
-
-export int numsides;
-export side_t *sides;
+export std::vector<side_t> sides;
 
 // BLOCKMAP
 // Created from axis aligned bounding box
@@ -146,29 +135,29 @@ void P_LoadSegs(int lump) {
   int linedef;
   int side;
 
-  numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
-  segs = static_cast<seg_t *>(malloc(numsegs * sizeof(seg_t)));
-  memset(segs, 0, numsegs * sizeof(seg_t));
+  auto numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
+  segs.resize(numsegs);
   data = static_cast<std::byte *>(W_CacheLumpNum(lump));
 
   ml = (mapseg_t *)data;
-  li = segs;
-  for (i = 0; i < numsegs; i++, li++, ml++) {
-    li->v1 = &vertexes[SHORT(ml->v1)];
-    li->v2 = &vertexes[SHORT(ml->v2)];
+  for (auto& seg : segs)
+  {
+    seg.v1 = &vertexes[SHORT(ml->v1)];
+    seg.v2 = &vertexes[SHORT(ml->v2)];
 
-    li->angle = (SHORT(ml->angle)) << 16;
-    li->offset = (SHORT(ml->offset)) << 16;
+    seg.angle = (SHORT(ml->angle)) << 16;
+    seg.offset = (SHORT(ml->offset)) << 16;
     linedef = SHORT(ml->linedef);
     ldef = &lines[linedef];
-    li->linedef = ldef;
+    seg.linedef = ldef;
     side = SHORT(ml->side);
-    li->sidedef = &sides[ldef->sidenum[side]];
-    li->frontsector = sides[ldef->sidenum[side]].sector;
+    seg.sidedef = &sides[ldef->sidenum[side]];
+    seg.frontsector = sides[ldef->sidenum[side]].sector;
     if (ldef->flags & ML_TWOSIDED)
-      li->backsector = sides[ldef->sidenum[side ^ 1]].sector;
+      seg.backsector = sides[ldef->sidenum[side ^ 1]].sector;
     else
-      li->backsector = 0;
+      seg.backsector = 0;
+    ml++;
   }
 
   free(data);
@@ -183,18 +172,17 @@ void P_LoadSubsectors(int lump) {
   mapsubsector_t *ms;
   subsector_t *ss;
 
-  numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_t);
-  subsectors =
-      static_cast<subsector_t *>(malloc(numsubsectors * sizeof(subsector_t)));
+  auto numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_t);
+  subsectors.resize(numsubsectors);
   data = static_cast<std::byte *>(W_CacheLumpNum(lump));
 
   ms = (mapsubsector_t *)data;
-  memset(subsectors, 0, numsubsectors * sizeof(subsector_t));
-  ss = subsectors;
 
-  for (i = 0; i < numsubsectors; i++, ss++, ms++) {
-    ss->numlines = SHORT(ms->numsegs);
-    ss->firstline = SHORT(ms->firstseg);
+  for(auto ss : subsectors)
+  {
+    ss.numlines = SHORT(ms->numsegs);
+    ss.firstline = SHORT(ms->firstseg);
+    ms++;
   }
 
   free(data);
@@ -209,7 +197,7 @@ void P_LoadSectors(int lump) {
   mapsector_t *ms;
   sector_t *ss;
 
-  numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
+  auto numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
   sectors.resize(numsectors);
   data = static_cast<std::byte *>(W_CacheLumpNum(lump));
 
@@ -236,7 +224,7 @@ void P_LoadNodes(int lump) {
   int k;
   mapnode_t *mn;
 
-  numnodes = W_LumpLength(lump) / sizeof(mapnode_t);
+  auto numnodes = W_LumpLength(lump) / sizeof(mapnode_t);
   nodes.resize( numnodes );
   data = static_cast<std::byte *>(W_CacheLumpNum(lump));
 
@@ -316,7 +304,7 @@ void P_LoadLineDefs(int lump) {
   vertex_t *v1;
   vertex_t *v2;
 
-  numlines = W_LumpLength(lump) / sizeof(maplinedef_t);
+  auto numlines = W_LumpLength(lump) / sizeof(maplinedef_t);
   lines.resize( numlines );
   data = static_cast<std::byte *>(W_CacheLumpNum(lump));
 
@@ -378,25 +366,20 @@ void P_LoadLineDefs(int lump) {
 // P_LoadSideDefs
 //
 void P_LoadSideDefs(int lump) {
-  std::byte *data;
-  int i;
-  mapsidedef_t *msd;
-  side_t *sd;
+  auto numsides = W_LumpLength(lump) / sizeof(mapsidedef_t);
+  sides.resize(numsides);
+  auto data = static_cast<std::byte *>(W_CacheLumpNum(lump));
 
-  numsides = W_LumpLength(lump) / sizeof(mapsidedef_t);
-  sides = static_cast<side_t *>(malloc(numsides * sizeof(side_t)));
-  memset(sides, 0, numsides * sizeof(side_t));
-  data = static_cast<std::byte *>(W_CacheLumpNum(lump));
-
-  msd = (mapsidedef_t *)data;
-  sd = sides;
-  for (i = 0; i < numsides; i++, msd++, sd++) {
-    sd->textureoffset = SHORT(msd->textureoffset) << FRACBITS;
-    sd->rowoffset = SHORT(msd->rowoffset) << FRACBITS;
-    sd->toptexture = R_TextureNumForName(msd->toptexture);
-    sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
-    sd->midtexture = R_TextureNumForName(msd->midtexture);
-    sd->sector = &sectors[SHORT(msd->sector)];
+  auto msd = (mapsidedef_t *)data;
+  for(auto& sd : sides)
+  {
+    sd.textureoffset = SHORT(msd->textureoffset) << FRACBITS;
+    sd.rowoffset = SHORT(msd->rowoffset) << FRACBITS;
+    sd.toptexture = R_TextureNumForName(msd->toptexture);
+    sd.bottomtexture = R_TextureNumForName(msd->bottomtexture);
+    sd.midtexture = R_TextureNumForName(msd->midtexture);
+    sd.sector = &sectors[SHORT(msd->sector)];
+    msd++;
   }
 }
 
@@ -437,10 +420,9 @@ void P_GroupLines(void) {
   int block;
 
   // look up sector number for each subsector
-  ss = subsectors;
-  for (auto i = 0; i < numsubsectors; i++, ss++) {
-    seg = &segs[ss->firstline];
-    ss->sector = seg->sidedef->sector;
+  for (auto i = 0; i < subsectors.size(); i++, ss++) {
+    seg = &segs[subsectors[i].firstline];
+    subsectors[i].sector = seg->sidedef->sector;
   }
 
   // build line tables for each sector

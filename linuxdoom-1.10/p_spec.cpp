@@ -1184,7 +1184,7 @@ void P_SpawnSpecials(void) {
 
   //	Init line EFFECTs
   numlinespecials = 0;
-  for (i = 0; i < numlines; i++) {
+  for (i = 0; i < lines.size(); i++) {
     switch (lines[i].special) {
     case 48:
       // EFFECT FIRSTCOL SCROLL+
