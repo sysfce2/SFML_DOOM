@@ -425,10 +425,8 @@ void R_Subsector(int num) {
   seg_t *line;
   subsector_t *sub;
 
-#ifdef RANGECHECK
-  if (num >= numsubsectors)
-    I_Error("R_Subsector: ss {} with numss = {}", num, numsubsectors);
-#endif
+  if (num >= subsectors.size())
+    I_Error("R_Subsector: ss {} with numss = {}", num, subsectors.size());
 
   sscount++;
   sub = &subsectors[num];

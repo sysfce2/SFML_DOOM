@@ -43,8 +43,8 @@ import wad;
 import doomstat;
 import tables;
 
-#define MINZ (FRACUNIT * 4)
-#define BASEYCENTER 100
+constexpr auto MINZ = (FRACUNIT * 4);
+constexpr auto BASEYCENTER = 100;
 
 // void R_DrawColumn (void);
 // void R_DrawFuzzColumn (void);
