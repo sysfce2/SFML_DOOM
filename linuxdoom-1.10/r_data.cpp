@@ -128,7 +128,7 @@ std::vector<fixed_t> textureheight; // needed for texture pegging
 std::vector<int> texturecompositesize;
 std::vector<std::vector<short>> texturecolumnlump;
 std::vector<std::vector<unsigned short>> texturecolumnofs;
-std::vector<std::byte *> texturecomposite;
+std::vector<std::vector<std::byte>> texturecomposite;
 
 // for global animation
 int *flattranslation;
@@ -187,8 +187,7 @@ void R_DrawColumnInCache(column_t *patch, std::byte *cache, int originy,
 //  the composite texture is created from the patches,
 //  and each column is cached.
 //
-void R_GenerateComposite(int texnum) {
-  std::byte *block;
+void  R_GenerateComposite(int texnum) {
   patch_t *realpatch;
   int x;
   int x1;
@@ -197,7 +196,7 @@ void R_GenerateComposite(int texnum) {
 
   const auto &texture = textures[texnum];
 
-  block = static_cast<std::byte *>(malloc(texturecompositesize[texnum]));
+  texturecomposite[texnum].resize(texturecompositesize[texnum]);
 
   const auto &collump = texturecolumnlump[texnum];
   const auto &colofs = texturecolumnofs[texnum];
@@ -223,8 +222,7 @@ void R_GenerateComposite(int texnum) {
 
       patchcol =
           (column_t *)((std::byte *)realpatch + realpatch->columnofs[x - x1]);
-      R_DrawColumnInCache(patchcol, block + colofs[x], patch.originy,
-                          texture.height);
+      R_DrawColumnInCache(patchcol, texturecomposite[texnum].data() + colofs[x], patch.originy, texture.height);
     }
   }
 }
@@ -242,7 +240,7 @@ void R_GenerateLookup(int texnum) {
   auto &texture = textures[texnum];
 
   // Composited texture not created yet.
-  texturecomposite[texnum] = 0;
+  texturecomposite[texnum] = {};
 
   texturecompositesize[texnum] = 0;
   auto &collump = texturecolumnlump[texnum];
@@ -283,7 +281,7 @@ void R_GenerateLookup(int texnum) {
     // I_Error ("R_GenerateLookup: column without a patch");
 
     if (static_cast<int>(patchcount[x]) > 1) {
-      // Use the cached block.
+      // Use the cached .
       collump[x] = -1;
       colofs[x] = texturecompositesize[texnum];
 
@@ -310,10 +308,10 @@ std::byte *R_GetColumn(int tex, int col) {
   if (lump > 0)
     return (std::byte *)W_CacheLumpNum(lump) + ofs;
 
-  if (!texturecomposite[tex])
+  if (texturecomposite[tex].empty())
     R_GenerateComposite(tex);
 
-  return texturecomposite[tex] + ofs;
+  return texturecomposite[tex].data() + ofs;
 }
 
 //

@@ -120,7 +120,9 @@ void R_DrawColumn(void) {
   do {
     // Re-map color indices from wall texture column
     //  using a lighting/special effects LUT.
-    *dest = dc_colormap[static_cast<int>(dc_source[(frac >> FRACBITS) & 127])];
+    auto index = (frac >> FRACBITS) & 127;
+    auto source = dc_source[index]; 
+    *dest = dc_colormap[static_cast<int>(source)];
 
     dest += SCREENWIDTH;
     frac += fracstep;
