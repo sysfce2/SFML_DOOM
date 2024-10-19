@@ -159,8 +159,6 @@ void P_LoadSegs(int lump) {
       seg.backsector = 0;
     ml++;
   }
-
-  free(data);
 }
 
 //
@@ -184,8 +182,6 @@ void P_LoadSubsectors(int lump) {
     ss.firstline = SHORT(ms->firstseg);
     ms++;
   }
-
-  free(data);
 }
 
 //
