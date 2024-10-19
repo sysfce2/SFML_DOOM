@@ -46,9 +46,7 @@ import sound;
 // MAP related Lookup tables.
 // Store VERTEXES, LINEDEFS, SIDEDEFS, etc.
 //
-export int numvertexes;
-export vertex_t *vertexes;
-
+export std::vector<vertex_t> vertexes;
 export std::vector<seg_t> segs;
 export std::vector<sector_t> sectors;
 export std::vector<subsector_t> subsectors;
@@ -96,28 +94,25 @@ export mapthing_t playerstarts[MAXPLAYERS];
 //
 void P_LoadVertexes(int lump) {
   std::byte *data;
-  int i;
   mapvertex_t *ml;
-  vertex_t *li;
 
   // Determine number of lumps:
   //  total lump length / vertex record length.
-  numvertexes = W_LumpLength(lump) / sizeof(mapvertex_t);
-
-  // Allocate zone memory for buffer.
-  vertexes = static_cast<vertex_t *>(malloc(numvertexes * sizeof(vertex_t)));
+  auto numvertexes = W_LumpLength(lump) / sizeof(mapvertex_t);
+  vertexes.resize(numvertexes);
 
   // Load data into cache.
   data = static_cast<std::byte *>(W_CacheLumpNum(lump));
 
   ml = (mapvertex_t *)data;
-  li = vertexes;
 
   // Copy and convert vertex coordinates,
   // internal representation as fixed.
-  for (i = 0; i < numvertexes; i++, li++, ml++) {
-    li->x = ml->x << FRACBITS;
-    li->y = ml->y << FRACBITS;
+  for(auto& vert : vertexes)
+  {
+    vert.x = ml->x << FRACBITS;
+    vert.y = ml->y << FRACBITS;
+    ml++;
   }
 }
 

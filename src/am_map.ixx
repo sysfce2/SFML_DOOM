@@ -361,7 +361,7 @@ void AM_findMinMaxBoundaries(void) {
   min_x = min_y = std::numeric_limits<int>::max();
   max_x = max_y = -std::numeric_limits<int>::max();
 
-  for (i = 0; i < numvertexes; i++) {
+  for (i = 0; i < vertexes.size(); i++) {
     if (vertexes[i].x < min_x)
       min_x = vertexes[i].x;
     else if (vertexes[i].x > max_x)
