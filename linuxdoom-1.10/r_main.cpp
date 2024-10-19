@@ -41,6 +41,7 @@ import net;
 import sky;
 import setup;
 import tables;
+import main;
 
 // Fineangles in the SCREENWIDTH wide window.
 #define FIELDOFVIEW 2048
@@ -542,7 +543,6 @@ void R_InitLightTables(void) {
 //  because it might be in the middle of a refresh.
 // The change will take effect next refresh.
 //
-bool setsizeneeded;
 int setblocks;
 int setdetail;
 

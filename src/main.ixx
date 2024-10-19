@@ -132,7 +132,7 @@ void D_PageDrawer(void) {
 
 // wipegamestate can be set to -1 to force a wipe on the next draw
 export gamestate_t wipegamestate = GS_DEMOSCREEN;
-bool setsizeneeded;
+export bool setsizeneeded;
 
 void D_Display(void) {
   static bool viewactivestate = false;

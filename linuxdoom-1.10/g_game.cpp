@@ -1021,7 +1021,6 @@ void G_DoWorldDone(void) {
 // G_InitFromSavegame
 // Can be called by the startup code or the menu task.
 //
-extern bool setsizeneeded;
 
 std::string savename;
 

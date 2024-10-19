@@ -464,7 +464,7 @@ void R_InitTextures(void) {
   }
 
   // Create translation table for global animation.
-  texturetranslation = static_cast<int *>(malloc((numtextures + 1) * 4));
+  texturetranslation.resize(numtextures);
 
   for (i = 0; i < numtextures; i++)
     texturetranslation[i] = i;
