@@ -464,7 +464,7 @@ void R_ProjectSprite(mobj_t *thing) {
     vis->colormap = fixedcolormap;
   } else if (thing->frame & FF_FULLBRIGHT) {
     // full bright
-    vis->colormap = colormaps;
+    vis->colormap = colormaps.data();
   } else {
     // diminished light
     index = xscale >> (LIGHTSCALESHIFT - detailshift);
@@ -586,7 +586,7 @@ void R_DrawPSprite(pspdef_t *psp) {
     vis->colormap = fixedcolormap;
   } else if (psp->state->frame & FF_FULLBRIGHT) {
     // full bright
-    vis->colormap = colormaps;
+    vis->colormap = colormaps.data();
   } else {
     // local light
     vis->colormap = spritelights[MAXLIGHTSCALE - 1];

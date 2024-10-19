@@ -138,8 +138,6 @@ fixed_t *spritewidth;
 fixed_t *spriteoffset;
 fixed_t *spritetopoffset;
 
-lighttable_t *colormaps;
-
 //
 // MAPTEXTURE_T CACHING
 // When a texture is first needed,
@@ -521,15 +519,14 @@ void R_InitSpriteLumps(void) {
 // R_InitColormaps
 //
 void R_InitColormaps(void) {
-  int lump, length;
-
   // Load in the light tables,
   //  256 byte align tables.
-  lump = W_GetNumForName("COLORMAP");
-  length = W_LumpLength(lump) + 255;
-  colormaps = static_cast<lighttable_t *>(malloc(length));
-  colormaps = (std::byte *)((reinterpret_cast<intptr_t>(colormaps) + 255) & ~0xff);
-  W_ReadLump(lump, colormaps);
+  auto lump = W_GetNumForName("COLORMAP");
+  auto length = W_LumpLength(lump) + 255;
+  colormaps.resize(length);
+  // TODO JONNY wtf
+  //colormaps = (std::byte *)((reinterpret_cast<intptr_t>(colormaps) + 255) & ~0xff);
+  W_ReadLump(lump, colormaps.data());
 }
 
 //

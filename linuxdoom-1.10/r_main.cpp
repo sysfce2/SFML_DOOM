@@ -532,7 +532,7 @@ void R_InitLightTables(void) {
       if (level >= NUMCOLORMAPS)
         level = NUMCOLORMAPS - 1;
 
-      zlight[i][j] = colormaps + level * 256;
+      zlight[i][j] = colormaps.data() + level * 256;
     }
   }
 }
@@ -631,7 +631,7 @@ void R_ExecuteSetViewSize(void) {
       if (level >= NUMCOLORMAPS)
         level = NUMCOLORMAPS - 1;
 
-      scalelight[i][j] = colormaps + level * 256;
+      scalelight[i][j] = colormaps.data() + level * 256;
     }
   }
 }
@@ -704,7 +704,7 @@ void R_SetupFrame(player_t *player) {
 
   if (player->fixedcolormap) {
     fixedcolormap =
-        colormaps + player->fixedcolormap * 256 * sizeof(lighttable_t);
+        colormaps.data() + player->fixedcolormap * 256 * sizeof(lighttable_t);
 
     walllights = scalelightfixed;
 

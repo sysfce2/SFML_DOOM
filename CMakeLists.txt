@@ -63,3 +63,6 @@ set_property(DIRECTORY . PROPERTY VS_STARTUP_PROJECT ${CMAKE_PROJECT_NAME})
 
 # VS working directory should be the output directory
 set_property(TARGET ${CMAKE_PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>)
+
+# Enable the legacy range checks, can probably be disabled once modernised
+target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE RANGE_CHECK)

@@ -41,7 +41,7 @@ extern fixed_t *spritewidth;
 extern fixed_t *spriteoffset;
 extern fixed_t *spritetopoffset;
 
-extern lighttable_t *colormaps;
+inline std::vector<lighttable_t> colormaps;
 
 extern int scaledviewwidth;
 
