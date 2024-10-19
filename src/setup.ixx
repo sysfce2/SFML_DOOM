@@ -174,7 +174,7 @@ void P_LoadSubsectors(int lump) {
 
   ms = (mapsubsector_t *)data;
 
-  for(auto ss : subsectors)
+  for(auto& ss : subsectors)
   {
     ss.numlines = ms->numsegs;
     ss.firstline = ms->firstseg;
