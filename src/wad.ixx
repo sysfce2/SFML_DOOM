@@ -22,9 +22,6 @@
 //-----------------------------------------------------------------------------
 module;
 
-#include "m_swap.h"
-
-
 #include <array>
 #include <cctype>
 #include <cstring>
@@ -185,8 +182,8 @@ void W_AddFile(const std::filesystem::path &filepath) {
 
       // ???modifiedgame = true;
     }
-    header.numlumps = LONG(header.numlumps);
-    header.infotableofs = LONG(header.infotableofs);
+    header.numlumps = header.numlumps;
+    header.infotableofs = header.infotableofs;
     length = header.numlumps * sizeof(filelump_t);
     fileinfo.resize(header.numlumps);
     wadfiles.back().seekg(header.infotableofs, std::ios::beg);
@@ -224,8 +221,8 @@ export void W_Reload(void) {
 
   // JONNY TODO
   // read (handle, &header, sizeof(header));
-  // lumpcount = LONG(header.numlumps);
-  // header.infotableofs = LONG(header.infotableofs);
+  // lumpcount = header.numlumps;
+  // header.infotableofs = header.infotableofs;
   // length = lumpcount*sizeof(filelump_t);
   // fileinfo = alloca (length);
   // lseek (handle, header.infotableofs, SEEK_SET);
@@ -239,8 +236,8 @@ export void W_Reload(void) {
     if (lumpcache[i])
       free(lumpcache[i]);
 
-    lump_p->position = LONG(fileinfo->filepos);
-    lump_p->size = LONG(fileinfo->size);
+    lump_p->position = fileinfo->filepos;
+    lump_p->size = fileinfo->size;
   }
 
   // JONNY TODO

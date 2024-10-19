@@ -23,13 +23,7 @@
 //
 //-----------------------------------------------------------------------------
 
-
-
-#include "m_swap.h"
-
 #include "p_local.h"
-
-
 
 #ifdef LINUX
 #include <alloca.h>
@@ -214,7 +208,7 @@ void R_GenerateComposite(int texnum) {
   for (const auto &patch : texture.patches) {
     realpatch = static_cast<patch_t *>(W_CacheLumpNum(patch.patch));
     x1 = patch.originx;
-    x2 = x1 + SHORT(realpatch->width);
+    x2 = x1 + realpatch->width;
 
     if (x1 < 0)
       x = 0;
@@ -230,7 +224,7 @@ void R_GenerateComposite(int texnum) {
         continue;
 
       patchcol =
-          (column_t *)((std::byte *)realpatch + LONG(realpatch->columnofs[x - x1]));
+          (column_t *)((std::byte *)realpatch + realpatch->columnofs[x - x1]);
       R_DrawColumnInCache(patchcol, block + colofs[x], patch.originy,
                           texture.height);
     }
@@ -266,7 +260,7 @@ void R_GenerateLookup(int texnum) {
   for (const auto &patch : texture.patches) {
     realpatch = static_cast<patch_t *>(W_CacheLumpNum(patch.patch));
     x1 = patch.originx;
-    x2 = x1 + SHORT(realpatch->width);
+    x2 = x1 + realpatch->width;
 
     if (x1 < 0)
       x = 0;
@@ -278,7 +272,7 @@ void R_GenerateLookup(int texnum) {
     for (; x < x2; x++) {
       patchcount[x] = static_cast<std::byte>(static_cast<int>(patchcount[x]) + 1);
       collump[x] = patch.patch;
-      colofs[x] = LONG(realpatch->columnofs[x - x1]) + 3;
+      colofs[x] = realpatch->columnofs[x - x1] + 3;
     }
   }
 
@@ -359,7 +353,7 @@ void R_InitTextures(void) {
 
   // Load the patch names from pnames.lmp.
   names = static_cast<char *>(W_CacheLumpName("PNAMES"));
-  nummappatches = LONG(*((int *)names));
+  nummappatches = *((int *)names);
   name_p = names + 4;
   std::vector<int> patchlookup(nummappatches);
 
@@ -377,13 +371,13 @@ void R_InitTextures(void) {
   // The data is contained in one or two lumps,
   //  TEXTURE1 for shareware, plus TEXTURE2 for commercial.
   maptex = maptex1 = static_cast<int *>(W_CacheLumpName("TEXTURE1"));
-  numtextures1 = LONG(*maptex);
+  numtextures1 = *maptex;
   maxoff = W_LumpLength(W_GetNumForName({"TEXTURE1"}));
   directory = maptex + 1;
 
   if (W_CheckNumForName("TEXTURE2") != -1) {
     maptex2 = static_cast<int *>(W_CacheLumpName("TEXTURE2"));
-    numtextures2 = LONG(*maptex2);
+    numtextures2 = *maptex2;
     maxoff2 = W_LumpLength(W_GetNumForName("TEXTURE2"));
   } else {
     maptex2 = NULL;
@@ -423,7 +417,7 @@ void R_InitTextures(void) {
       directory = maptex + 1;
     }
 
-    offset = LONG(*directory);
+    offset = *directory;
 
     if (offset > maxoff)
       I_Error("R_InitTextures: bad texture directory");
@@ -432,18 +426,18 @@ void R_InitTextures(void) {
 
     auto &texture = textures[i];
 
-    texture.width = SHORT(mtexture->width);
-    texture.height = SHORT(mtexture->height);
-    texture.patches.resize(SHORT(mtexture->patchcount));
+    texture.width = mtexture->width;
+    texture.height = mtexture->height;
+    texture.patches.resize(mtexture->patchcount);
 
     texture.name = mtexture->name;
     mpatch = &mtexture->patches[0];
     patch = &texture.patches[0];
 
     for (j = 0; j < texture.patches.size(); j++, mpatch++, patch++) {
-      patch->originx = SHORT(mpatch->originx);
-      patch->originy = SHORT(mpatch->originy);
-      patch->patch = patchlookup[SHORT(mpatch->patch)];
+      patch->originx = mpatch->originx;
+      patch->originy = mpatch->originy;
+      patch->patch = patchlookup[mpatch->patch];
       if (patch->patch == -1) {
         I_Error("R_InitTextures: Missing patch in texture %s",
                 texture.name.c_str());
@@ -517,9 +511,9 @@ void R_InitSpriteLumps(void) {
 
     patch =
         static_cast<patch_t *>(W_CacheLumpNum(firstspritelump + i));
-    spritewidth[i] = SHORT(patch->width) << FRACBITS;
-    spriteoffset[i] = SHORT(patch->leftoffset) << FRACBITS;
-    spritetopoffset[i] = SHORT(patch->topoffset) << FRACBITS;
+    spritewidth[i] = patch->width << FRACBITS;
+    spriteoffset[i] = patch->leftoffset << FRACBITS;
+    spritetopoffset[i] = patch->topoffset << FRACBITS;
   }
 }
 

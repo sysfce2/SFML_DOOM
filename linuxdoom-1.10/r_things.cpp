@@ -24,11 +24,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "m_swap.h"
-
-
-
-
 #include "g_game.h"
 #include "r_defs.h"
 #include "r_state.h"
@@ -327,11 +322,11 @@ void R_DrawVisSprite(vissprite_t *vis, int x1, int x2) {
   for (dc_x = vis->x1; dc_x <= vis->x2; dc_x++, frac += vis->xiscale) {
     texturecolumn = frac >> FRACBITS;
 #ifdef RANGECHECK
-    if (texturecolumn < 0 || texturecolumn >= SHORT(patch->width))
+    if (texturecolumn < 0 || texturecolumn >= patch->width)
       I_Error("R_DrawSpriteRange: bad texturecolumn");
 #endif
     column =
-        (column_t *)((std::byte *)patch + LONG(patch->columnofs[texturecolumn]));
+        (column_t *)((std::byte *)patch + patch->columnofs[texturecolumn]);
     R_DrawMaskedColumn(column);
   }
 

@@ -1135,8 +1135,8 @@ void AM_drawMarks(void) {
 
   for (i = 0; i < AM_NUMMARKPOINTS; i++) {
     if (markpoints[i].x != -1) {
-      //      w = SHORT(marknums[i]->width);
-      //      h = SHORT(marknums[i]->height);
+      //      w = marknums[i]->width;
+      //      h = marknums[i]->height;
       w = 5; // because something's wrong with the wad, i guess
       h = 6; // because something's wrong with the wad, i guess
       fx = CXMTOF(markpoints[i].x);

@@ -41,9 +41,6 @@ module;
 // State.
 #include "r_main.h"
 
-// Data.
-
-#include "m_swap.h"
 export module status_bar;
 import wad;
 import items;
@@ -1067,8 +1064,8 @@ void STlib_drawNum(st_number_t *n, bool refresh) {
   int numdigits = n->width;
   int num = *n->num;
 
-  int w = SHORT(n->p[0]->width);
-  int h = SHORT(n->p[0]->height);
+  int w = n->p[0]->width;
+  int h = n->p[0]->height;
   int x = n->x;
 
   int neg;
@@ -1138,10 +1135,10 @@ void STlib_updateBinIcon(st_binicon_t *bi, bool refresh) {
 
   if ( *bi->on && (bi->oldval != int{ *bi->val } || refresh) )
   {
-    x = bi->x - SHORT(bi->p->leftoffset);
-    y = bi->y - SHORT(bi->p->topoffset);
-    w = SHORT(bi->p->width);
-    h = SHORT(bi->p->height);
+    x = bi->x - bi->p->leftoffset;
+    y = bi->y - bi->p->topoffset;
+    w = bi->p->width;
+    h = bi->p->height;
 
     if (y - ST_Y < 0)
       I_Error("updateBinIcon: y - ST_Y < 0");
@@ -1159,10 +1156,10 @@ void STlib_updateMultIcon(st_multicon_t *mi, bool refresh) {
 
   if (*mi->on && (mi->oldinum != *mi->inum || refresh) && (*mi->inum != -1)) {
     if (mi->oldinum != -1) {
-      auto x = mi->x - SHORT(mi->p[mi->oldinum]->leftoffset);
-      auto y = mi->y - SHORT(mi->p[mi->oldinum]->topoffset);
-      auto w = SHORT(mi->p[mi->oldinum]->width);
-      auto h = SHORT(mi->p[mi->oldinum]->height);
+      auto x = mi->x - mi->p[mi->oldinum]->leftoffset;
+      auto y = mi->y - mi->p[mi->oldinum]->topoffset;
+      auto w = mi->p[mi->oldinum]->width;
+      auto h = mi->p[mi->oldinum]->height;
 
       if (y - ST_Y < 0)
         I_Error("updateMultIcon: y - ST_Y < 0");

@@ -27,8 +27,6 @@ module;
 
 
 #include "m_bbox.h"
-#include "m_swap.h"
-
 #include "g_game.h"
 #include "p_local.h"
 
@@ -118,8 +116,8 @@ void P_LoadVertexes(int lump) {
   // Copy and convert vertex coordinates,
   // internal representation as fixed.
   for (i = 0; i < numvertexes; i++, li++, ml++) {
-    li->x = SHORT(ml->x) << FRACBITS;
-    li->y = SHORT(ml->y) << FRACBITS;
+    li->x = ml->x << FRACBITS;
+    li->y = ml->y << FRACBITS;
   }
 }
 
@@ -142,15 +140,15 @@ void P_LoadSegs(int lump) {
   ml = (mapseg_t *)data;
   for (auto& seg : segs)
   {
-    seg.v1 = &vertexes[SHORT(ml->v1)];
-    seg.v2 = &vertexes[SHORT(ml->v2)];
+    seg.v1 = &vertexes[ml->v1];
+    seg.v2 = &vertexes[ml->v2];
 
-    seg.angle = (SHORT(ml->angle)) << 16;
-    seg.offset = (SHORT(ml->offset)) << 16;
-    linedef = SHORT(ml->linedef);
+    seg.angle = (ml->angle) << 16;
+    seg.offset = (ml->offset) << 16;
+    linedef = ml->linedef;
     ldef = &lines[linedef];
     seg.linedef = ldef;
-    side = SHORT(ml->side);
+    side = ml->side;
     seg.sidedef = &sides[ldef->sidenum[side]];
     seg.frontsector = sides[ldef->sidenum[side]].sector;
     if (ldef->flags & ML_TWOSIDED)
@@ -178,8 +176,8 @@ void P_LoadSubsectors(int lump) {
 
   for(auto ss : subsectors)
   {
-    ss.numlines = SHORT(ms->numsegs);
-    ss.firstline = SHORT(ms->firstseg);
+    ss.numlines = ms->numsegs;
+    ss.firstline = ms->firstseg;
     ms++;
   }
 }
@@ -200,13 +198,13 @@ void P_LoadSectors(int lump) {
   ms = (mapsector_t *)data;
   ss = sectors.data();
   for (i = 0; i < numsectors; i++, ss++, ms++) {
-    ss->floorheight = SHORT(ms->floorheight) << FRACBITS;
-    ss->ceilingheight = SHORT(ms->ceilingheight) << FRACBITS;
+    ss->floorheight = ms->floorheight << FRACBITS;
+    ss->ceilingheight = ms->ceilingheight << FRACBITS;
     ss->floorpic = R_FlatNumForName(ms->floorpic);
     ss->ceilingpic = R_FlatNumForName(ms->ceilingpic);
-    ss->lightlevel = SHORT(ms->lightlevel);
-    ss->special = SHORT(ms->special);
-    ss->tag = SHORT(ms->tag);
+    ss->lightlevel = ms->lightlevel;
+    ss->special = ms->special;
+    ss->tag = ms->tag;
     ss->thinglist = NULL;
   }
 }
@@ -228,15 +226,15 @@ void P_LoadNodes(int lump) {
 
   for ( auto& node : nodes )
   {
-      node.x = SHORT( mn->x ) << FRACBITS;
-      node.y = SHORT( mn->y ) << FRACBITS;
-      node.dx = SHORT( mn->dx ) << FRACBITS;
-      node.dy = SHORT( mn->dy ) << FRACBITS;
+      node.x =  mn->x  << FRACBITS;
+      node.y =  mn->y  << FRACBITS;
+      node.dx =  mn->dx  << FRACBITS;
+      node.dy =  mn->dy  << FRACBITS;
       for ( j = 0; j < 2; j++ )
       {
-          node.children[j] = SHORT( mn->children[j] );
+          node.children[j] =  mn->children[j] ;
           for ( k = 0; k < 4; k++ )
-              node.bbox[j][k] = SHORT( mn->bbox[j][k] ) << FRACBITS;
+              node.bbox[j][k] =  mn->bbox[j][k]  << FRACBITS;
       }
       mn++;
   }
@@ -280,11 +278,11 @@ void P_LoadThings(int lump) {
       break;
 
     // Do spawn all other stuff.
-    mt->x = SHORT(mt->x);
-    mt->y = SHORT(mt->y);
-    mt->angle = SHORT(mt->angle);
-    mt->type = SHORT(mt->type);
-    mt->options = SHORT(mt->options);
+    mt->x = mt->x;
+    mt->y = mt->y;
+    mt->angle = mt->angle;
+    mt->type = mt->type;
+    mt->options = mt->options;
 
     P_SpawnMapThing(mt);
   }
@@ -307,11 +305,11 @@ void P_LoadLineDefs(int lump) {
   mld = (maplinedef_t *)data;
   for ( auto& line : lines )
   {
-    line.flags = SHORT(mld->flags);
-    line.special = SHORT(mld->special);
-    line.tag = SHORT(mld->tag);
-    v1 = line.v1 = &vertexes[SHORT(mld->v1)];
-    v2 = line.v2 = &vertexes[SHORT(mld->v2)];
+    line.flags = mld->flags;
+    line.special = mld->special;
+    line.tag = mld->tag;
+    v1 = line.v1 = &vertexes[mld->v1];
+    v2 = line.v2 = &vertexes[mld->v2];
     line.dx = v2->x - v1->x;
     line.dy = v2->y - v1->y;
 
@@ -342,8 +340,8 @@ void P_LoadLineDefs(int lump) {
       line.bbox[BOXTOP] = v1->y;
     }
 
-    line.sidenum[0] = SHORT(mld->sidenum[0]);
-    line.sidenum[1] = SHORT(mld->sidenum[1]);
+    line.sidenum[0] = mld->sidenum[0];
+    line.sidenum[1] = mld->sidenum[1];
 
     if ( line.sidenum[0] != -1)
         line.frontsector = sides[line.sidenum[0]].sector;
@@ -369,12 +367,12 @@ void P_LoadSideDefs(int lump) {
   auto msd = (mapsidedef_t *)data;
   for(auto& sd : sides)
   {
-    sd.textureoffset = SHORT(msd->textureoffset) << FRACBITS;
-    sd.rowoffset = SHORT(msd->rowoffset) << FRACBITS;
+    sd.textureoffset = msd->textureoffset << FRACBITS;
+    sd.rowoffset = msd->rowoffset << FRACBITS;
     sd.toptexture = R_TextureNumForName(msd->toptexture);
     sd.bottomtexture = R_TextureNumForName(msd->bottomtexture);
     sd.midtexture = R_TextureNumForName(msd->midtexture);
-    sd.sector = &sectors[SHORT(msd->sector)];
+    sd.sector = &sectors[msd->sector];
     msd++;
   }
 }
@@ -391,7 +389,7 @@ void P_LoadBlockMap(int lump) {
   count = W_LumpLength(lump) / 2;
 
   for (i = 0; i < count; i++)
-    blockmaplump[i] = SHORT(blockmaplump[i]);
+    blockmaplump[i] = blockmaplump[i];
 
   bmaporgx = blockmaplump[0] << FRACBITS;
   bmaporgy = blockmaplump[1] << FRACBITS;

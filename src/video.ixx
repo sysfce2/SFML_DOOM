@@ -28,7 +28,6 @@ module;
 #include "doomdata.h"
 
 #include "m_bbox.h"
-#include "m_swap.h"
 #include <array>
 #include <string>
 #include "r_defs.h"
@@ -204,11 +203,11 @@ export void V_DrawPatch(int x, int y, int scrn, patch_t *patch) {
   std::byte *source;
   int w;
 
-  y -= SHORT(patch->topoffset);
-  x -= SHORT(patch->leftoffset);
+  y -= patch->topoffset;
+  x -= patch->leftoffset;
 #ifdef RANGECHECK
-  if (x < 0 || x + SHORT(patch->width) > SCREENWIDTH || y < 0 ||
-      y + SHORT(patch->height) > SCREENHEIGHT || (unsigned)scrn > 4) {
+  if (x < 0 || x + patch->width > SCREENWIDTH || y < 0 ||
+      y + patch->height > SCREENHEIGHT || (unsigned)scrn > 4) {
     fprintf(stderr, "Patch at %d,%d exceeds LFB\n", x, y);
     // No I_Error abort - what is up with TNT.WAD?
     fprintf(stderr, "V_DrawPatch: bad patch (ignored)\n");
@@ -217,15 +216,15 @@ export void V_DrawPatch(int x, int y, int scrn, patch_t *patch) {
 #endif
 
   if (!scrn)
-    V_MarkRect(x, y, SHORT(patch->width), SHORT(patch->height));
+    V_MarkRect(x, y, patch->width, patch->height);
 
   col = 0;
   desttop = screens[scrn].data() + y * SCREENWIDTH + x;
 
-  w = SHORT(patch->width);
+  w = patch->width;
 
   for (; col < w; x++, col++, desttop++) {
-    column = (column_t *)((std::byte *)patch + LONG(patch->columnofs[col]));
+    column = (column_t *)((std::byte *)patch + patch->columnofs[col]);
 
     // step through the posts in a column
     while (column->topdelta != std::byte{0xff}) {
@@ -257,26 +256,26 @@ void V_DrawPatchFlipped(int x, int y, int scrn, patch_t *patch) {
   std::byte *source;
   int w;
 
-  y -= SHORT(patch->topoffset);
-  x -= SHORT(patch->leftoffset);
+  y -= patch->topoffset;
+  x -= patch->leftoffset;
 #ifdef RANGECHECK
-  if (x < 0 || x + SHORT(patch->width) > SCREENWIDTH || y < 0 ||
-      y + SHORT(patch->height) > SCREENHEIGHT || (unsigned)scrn > 4) {
+  if (x < 0 || x + patch->width > SCREENWIDTH || y < 0 ||
+      y + patch->height > SCREENHEIGHT || (unsigned)scrn > 4) {
     fprintf(stderr, "Patch origin %d,%d exceeds LFB\n", x, y);
     I_Error("Bad V_DrawPatch in V_DrawPatchFlipped");
   }
 #endif
 
   if (!scrn)
-    V_MarkRect(x, y, SHORT(patch->width), SHORT(patch->height));
+    V_MarkRect(x, y, patch->width, patch->height);
 
   col = 0;
   desttop = screens[scrn].data() + y * SCREENWIDTH + x;
 
-  w = SHORT(patch->width);
+  w = patch->width;
 
   for (; col < w; x++, col++, desttop++) {
-    column = (column_t *)((std::byte *)patch + LONG(patch->columnofs[w - 1 - col]));
+    column = (column_t *)((std::byte *)patch + patch->columnofs[w - 1 - col]);
 
     // step through the posts in a column
     while (column->topdelta != std::byte{0xff}) {
@@ -309,28 +308,28 @@ export void V_DrawPatchDirect(int x, int y, int scrn, patch_t *patch) {
   byte*	source;
   int		w;
 
-  y -= SHORT(patch->topoffset);
-  x -= SHORT(patch->leftoffset);
+  y -= patch->topoffset;
+  x -= patch->leftoffset;
 
 #ifdef RANGECHECK
   if (x<0
-      ||x+SHORT(patch->width) >SCREENWIDTH
+      ||x+patch->width >SCREENWIDTH
       || y<0
-      || y+SHORT(patch->height)>SCREENHEIGHT
+      || y+patch->height>SCREENHEIGHT
       || (unsigned)scrn>4)
   {
       I_Error ("Bad V_DrawPatchDirect");
   }
 #endif
 
-  //	V_MarkRect (x, y, SHORT(patch->width), SHORT(patch->height));
+  //	V_MarkRect (x, y, patch->width, patch->height);
   desttop = destscreen + y*SCREENWIDTH/4 + (x>>2);
 
-  w = SHORT(patch->width);
+  w = patch->width;
   for ( col = 0 ; col<w ; col++)
   {
       outp (SC_INDEX+1,1<<(x&3));
-      column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+      column = (column_t *)((byte *)patch + patch->columnofs[col]);
 
       // step through the posts in a column
 

@@ -21,7 +21,6 @@
 //-----------------------------------------------------------------------------
 module;
 #include <ctype.h>
-#include "m_swap.h"
 #include "d_player.h"
 #include "g_game.h"
 #include "r_defs.h"
@@ -76,11 +75,11 @@ export constexpr auto HU_FONTSIZE = (HU_FONTEND - HU_FONTSTART + 1);
 #define HU_TITLET (mapnamest[gamemap - 1])
 #define HU_TITLEHEIGHT 1
 #define HU_TITLEX 0
-#define HU_TITLEY (167 - SHORT(hu_font[0]->height))
+#define HU_TITLEY (167 - hu_font[0]->height)
 
 #define HU_INPUTTOGGLE 't'
 #define HU_INPUTX HU_MSGX
-#define HU_INPUTY (HU_MSGY + HU_MSGHEIGHT * (SHORT(hu_font[0]->height) + 1))
+#define HU_INPUTY (HU_MSGY + HU_MSGHEIGHT * (hu_font[0]->height + 1))
 #define HU_INPUTWIDTH 64
 #define HU_INPUTHEIGHT 1
 
@@ -363,7 +362,7 @@ void HUlib_drawTextLine( hu_textline_t *l, bool drawcursor ) {
         c = toupper( l->l[i] );
         if ( c != ' ' && c >= l->sc && c <= '_' )
         {
-            w = SHORT( l->f[c - l->sc]->width );
+            w =  l->f[c - l->sc]->width ;
             if ( x + w > SCREENWIDTH )
                 break;
             V_DrawPatchDirect( x, l->y, FG, l->f[c - l->sc] );
@@ -378,7 +377,7 @@ void HUlib_drawTextLine( hu_textline_t *l, bool drawcursor ) {
     }
 
     // draw the cursor if requested
-    if ( drawcursor && x + SHORT( l->f['_' - l->sc]->width ) <= SCREENWIDTH )
+    if ( drawcursor && x +  l->f['_' - l->sc]->width  <= SCREENWIDTH )
     {
         V_DrawPatchDirect( x, l->y, FG, l->f['_' - l->sc] );
     }
@@ -396,7 +395,7 @@ void HUlib_eraseTextLine( hu_textline_t *l ) {
 
     if ( !automapactive && viewwindowx && l->needsupdate )
     {
-        lh = SHORT( l->f[0]->height ) + 1;
+        lh =  l->f[0]->height  + 1;
         for ( y = l->y, yoffset = y * SCREENWIDTH; y < l->y + lh;
               y++, yoffset += SCREENWIDTH )
         {
@@ -424,7 +423,7 @@ void HUlib_initSText( hu_stext_t *s, int x, int y, int h, patch_t **font,
     s->laston = true;
     s->cl = 0;
     for ( i = 0; i < h; i++ )
-        HUlib_initTextLine( &s->l[i], x, y - i * (SHORT( font[0]->height ) + 1), font,
+        HUlib_initTextLine( &s->l[i], x, y - i * ( font[0]->height  + 1), font,
                             startchar );
 }
 

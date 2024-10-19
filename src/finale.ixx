@@ -23,14 +23,6 @@
 module;
 #include <ctype.h>
 
-// Functions.
-#include "m_swap.h"
-
-
-
-
-// Data.
-
 #include "g_game.h"
 #include "r_state.h"
 
@@ -298,7 +290,7 @@ void F_TextWrite(void) {
       continue;
     }
 
-    w = SHORT(hu_font[c]->width);
+    w = hu_font[c]->width;
     if (cx + w > SCREENWIDTH)
       break;
     V_DrawPatch(cx, cy, 0, hu_font[c]);
@@ -535,7 +527,7 @@ void F_CastPrint(const char *text) {
       continue;
     }
 
-    w = SHORT(hu_font[c]->width);
+    w = hu_font[c]->width;
     width += w;
   }
 
@@ -552,7 +544,7 @@ void F_CastPrint(const char *text) {
       continue;
     }
 
-    w = SHORT(hu_font[c]->width);
+    w = hu_font[c]->width;
     V_DrawPatch(cx, 180, 0, hu_font[c]);
     cx += w;
   }
@@ -598,7 +590,7 @@ void F_DrawPatchCol(int x, patch_t *patch, int col) {
   std::byte *desttop;
   int count;
 
-  column = (column_t *)((std::byte *)patch + LONG(patch->columnofs[col]));
+  column = (column_t *)((std::byte *)patch + patch->columnofs[col]);
   desttop = screens[0].data() + x;
 
   // step through the posts in a column
