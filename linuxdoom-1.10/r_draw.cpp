@@ -406,9 +406,8 @@ void R_DrawTranslatedColumn(void) {
 void R_InitTranslationTables(void) {
   int i;
 
-  translationtables = static_cast<std::byte *>(malloc(256 * 3 + 255));
-  translationtables =
-      (std::byte *)((reinterpret_cast<intptr_t>(translationtables) + 255) & ~255);
+  static auto translationtables = static_cast<std::byte *>(malloc(256 * 3 + 255));
+  translationtables = (std::byte *)(( (intptr_t)translationtables + 255 )& ~255);
 
   // translate just the 16 green colors
   for (i = 0; i < 256; i++) {

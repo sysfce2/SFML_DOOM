@@ -125,16 +125,16 @@ std::byte *savebuffer;
 //
 // controls (have defaults)
 //
-auto key_right = static_cast<int>(sf::Keyboard::Key::Right);
-auto key_left = static_cast<int>(sf::Keyboard::Key::Left);
-auto key_up = static_cast<int>(sf::Keyboard::Key::Up);
-auto key_down = static_cast<int>(sf::Keyboard::Key::Down);
-auto key_strafeleft = static_cast<int>(sf::Keyboard::Key::Comma);
-auto key_straferight = static_cast<int>(sf::Keyboard::Key::Period);
-auto key_fire = static_cast<int>(sf::Keyboard::Key::RControl);
-auto key_use = static_cast<int>(sf::Keyboard::Key::Space);
-auto key_strafe = static_cast<int>(sf::Keyboard::Key::RAlt);
-auto key_speed = static_cast<int>(sf::Keyboard::Key::RShift);
+auto key_right = static_cast<int>(sf::Keyboard::Scancode::Right);
+auto key_left = static_cast<int>(sf::Keyboard::Scancode::Left);
+auto key_up = static_cast<int>(sf::Keyboard::Scancode::Up);
+auto key_down = static_cast<int>(sf::Keyboard::Scancode::Down);
+auto key_strafeleft = static_cast<int>(sf::Keyboard::Scancode::Comma);
+auto key_straferight = static_cast<int>(sf::Keyboard::Scancode::Period);
+auto key_fire = static_cast<int>(sf::Keyboard::Scancode::LControl);
+auto key_use = static_cast<int>(sf::Keyboard::Scancode::Space);
+auto key_strafe = static_cast<int>(sf::Keyboard::Scancode::RAlt);
+auto key_speed = static_cast<int>(sf::Keyboard::Scancode::RShift);
 
 auto mousebfire = static_cast<int>(sf::Mouse::Button::Left);
 auto mousebstrafe = static_cast<int>(sf::Mouse::Button::Right);

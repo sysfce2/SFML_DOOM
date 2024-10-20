@@ -1143,7 +1143,7 @@ typedef enum {
   NUMSTATES
 } statenum_t;
 
-typedef struct {
+struct state_t {
   spritenum_t sprite;
   long frame;
   long tics;
@@ -1151,7 +1151,7 @@ typedef struct {
   actionf_t action;
   statenum_t nextstate;
   long misc1, misc2;
-} state_t;
+};
 
 extern state_t states[NUMSTATES];
 extern std::array<const std::string, NUMSPRITES> sprnames;
