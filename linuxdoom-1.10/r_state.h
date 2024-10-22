@@ -41,7 +41,8 @@ extern fixed_t *spritewidth;
 extern fixed_t *spriteoffset;
 extern fixed_t *spritetopoffset;
 
-inline std::vector<lighttable_t> colormaps;
+using colormap = std::array<lighttable_t,256>;
+inline std::array<colormap,34> colormaps;
 
 extern int scaledviewwidth;
 
