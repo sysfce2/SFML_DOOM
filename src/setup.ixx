@@ -403,13 +403,12 @@ void P_LoadBlockMap(int lump) {
 // Finds block bounding boxes for sectors.
 //
 void P_GroupLines(void) {
-  subsector_t *ss;
   seg_t *seg;
   fixed_t bbox[4];
   int block;
 
   // look up sector number for each subsector
-  for (auto i = 0; i < subsectors.size(); i++, ss++) {
+  for (auto i = 0; i < subsectors.size(); i++) {
     seg = &segs[subsectors[i].firstline];
     subsectors[i].sector = seg->sidedef->sector;
   }
