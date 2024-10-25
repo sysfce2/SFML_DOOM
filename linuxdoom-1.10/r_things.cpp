@@ -168,7 +168,7 @@ void R_InitSpriteDefs(
           const auto frame = lumpinfo[l].name[6] - 'A';
           const auto rotation = lumpinfo[l].name[7] - '0';
           if (frame >= sprites[i].size()) {
-            sprites.resize(frame + 1);
+            sprites[i].resize(frame + 1);
           }
           sprites[i][frame] = R_InstallSpriteLump(l, frame, rotation, true);
         }
