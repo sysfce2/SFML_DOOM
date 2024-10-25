@@ -520,6 +520,10 @@ void R_InitColormaps(void) {
   // Load in the light tables,
   //  256 byte align tables.
   auto lump = W_GetNumForName("COLORMAP");
+  auto length = W_LumpLength(lump) + 255;
+  colormaps.resize(length);
+  // TODO JONNY wtf
+  //colormaps = (std::byte *)((reinterpret_cast<intptr_t>(colormaps) + 255) & ~0xff);
   W_ReadLump(lump, colormaps.data());
 }
 
