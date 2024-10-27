@@ -684,7 +684,6 @@ void S_StopMusic( void ) {
 
 export void S_ChangeMusic( int musicnum, int looping ) {
 	musicinfo_t *music{};
-	char namebuf[9];
 
 	if ( (musicnum <= mus_None) || (musicnum >= NUMMUSIC) )
 	{
