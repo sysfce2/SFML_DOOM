@@ -38,7 +38,8 @@
 import event;
 import items;
 import tick;
-import doomstat;
+import doom.player;
+import doom.state;
 import tables;
 import sound;
 

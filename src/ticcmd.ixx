@@ -19,7 +19,7 @@
 //
 //-----------------------------------------------------------------------------
 
-export module ticcmd;
+export module doom.ticcmd;
 
 import event;
 

@@ -52,6 +52,7 @@ import argv;
 import tick;
 import setup;
 import sound;
+import doom.player;
 
 //
 // Animating textures and planes

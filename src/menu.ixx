@@ -47,10 +47,11 @@ import argv;
 import am_map;
 import sound;
 import strings;
-import doomstat;
+import doom.state;
 import video;
 import sound;
 import hud;
+import doom.player;
 
 //
 // M_DrawText

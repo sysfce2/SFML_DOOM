@@ -35,6 +35,7 @@
 #include <array>
 #include <string>
 
+import doom.player;
 import sound;
 
 std::array<const std::string, NUMSPRITES> sprnames = {

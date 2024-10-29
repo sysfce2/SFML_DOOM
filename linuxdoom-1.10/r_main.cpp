@@ -42,6 +42,7 @@ import sky;
 import setup;
 import tables;
 import main;
+import doom.state;
 
 // Fineangles in the SCREENWIDTH wide window.
 #define FIELDOFVIEW 2048
@@ -72,8 +73,6 @@ angle_t viewangle;
 
 fixed_t viewcos;
 fixed_t viewsin;
-
-player_t *viewplayer;
 
 // 0 = high, 1 = low
 int detailshift;

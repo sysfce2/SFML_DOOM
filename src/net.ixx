@@ -32,6 +32,8 @@ import argv;
 import system;
 import menu;
 import event;
+import doom.player;
+import doom.ticcmd;
 
 // For some odd reason...
 #ifndef ntohl

@@ -17,13 +17,14 @@
 // $Log:$
 //
 // DESCRIPTION:
-//	Put all global tate variables here.
+//	Put all global state variables here.
 //
 //-----------------------------------------------------------------------------
 
-export module doomstat;
+export module doom.state;
 
 import doomdef;
+import doom.player;
 
 // Game Mode - identify IWAD as shareware, retail etc.
 export GameMode_t gamemode = indetermined;
@@ -34,3 +35,5 @@ export Language_t language = english;
 
 // Set if homebrew PWAD stuff has been added.
 export bool modifiedgame;
+
+export player_t *viewplayer;

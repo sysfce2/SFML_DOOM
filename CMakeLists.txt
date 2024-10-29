@@ -12,7 +12,7 @@ file(GLOB SOURCE CONFIGURE_DEPENDS linuxdoom-1.10/*.c linuxdoom-1.10/*.cpp linux
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${SOURCE})
 
 # c++ modules source
-file(GLOB MODULE_SOURCE CONFIGURE_DEPENDS src/*.ixx)
+file(GLOB_RECURSE MODULE_SOURCE CONFIGURE_DEPENDS src/*.ixx)
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE FILE_SET CXX_MODULES FILES ${MODULE_SOURCE})
 
 # Include directories

@@ -35,7 +35,7 @@
 #include "r_state.h"
 
 import system;
-import doomstat;
+import doom.state;
 import setup;
 import sound;
 

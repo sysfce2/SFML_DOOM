@@ -30,6 +30,8 @@ module;
 #include <stdlib.h>
 export module tick;
 
+import doom.player;
+
 export int leveltime;
 
 //

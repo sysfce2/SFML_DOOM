@@ -58,7 +58,7 @@ import finale;
 import strings;
 import sky;
 import tick;
-import doomstat;
+import doom;
 import setup;
 import intermission;
 import video;

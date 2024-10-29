@@ -116,6 +116,7 @@ void R_AddPointToBox(int x, int y, fixed_t *box);
 // REFRESH - the actual rendering functions.
 //
 
+struct player_t;
 // Called by G_Drawer.
 void R_RenderPlayerView(player_t *player);
 

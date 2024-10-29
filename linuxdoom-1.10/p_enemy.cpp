@@ -43,7 +43,7 @@ import main;
 import system;
 import setup;
 import tick;
-import doomstat;
+import doom;
 import tables;
 import sound;
 

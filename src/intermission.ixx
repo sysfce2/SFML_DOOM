@@ -32,7 +32,8 @@ module;
 
 export module intermission;
 import wad;
-import doomstat;
+import doom.player;
+import doom.state;
 import video;
 import sound;
 
@@ -153,6 +154,52 @@ typedef struct {
   int state;
 
 } anim_t;
+
+//
+// INTERMISSION
+// Structure passed e.g. to WI_Start(wb)
+//
+typedef struct
+{
+    bool in; // whether the player is in game
+
+    // Player stats, kills, collected items etc.
+    int skills;
+    int sitems;
+    int ssecret;
+    int stime;
+    int frags[4];
+    int score; // current score on entry, modified on return
+
+} wbplayerstruct_t;
+
+typedef struct
+{
+    int epsd; // episode # (0-2)
+
+    // if true, splash the secret level
+    bool didsecret;
+
+    // previous and next levels, origin 0
+    int last;
+    int next;
+
+    int maxkills;
+    int maxitems;
+    int maxsecret;
+    int maxfrags;
+
+    // the par time
+    int partime;
+
+    // index of this player in game
+    int pnum;
+
+    wbplayerstruct_t plyr[MAXPLAYERS];
+
+} wbstartstruct_t;
+
+export wbstartstruct_t wminfo; // parms for world map / intermission
 
 static point_t lnodes[NUMEPISODES][NUMMAPS] = {
     // Episode 0 World Map

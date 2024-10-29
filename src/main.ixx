@@ -38,7 +38,7 @@ import net;
 import finale;
 import sound;
 import strings;
-import doomstat;
+import doom.state;
 import setup;
 import wipe;
 import intermission;
@@ -47,6 +47,7 @@ import status_bar;
 import hud;
 import sound;
 import event;
+import doom.player;
 
 // List of wad files we populate on start up
 std::vector<std::string> wadfilenames;

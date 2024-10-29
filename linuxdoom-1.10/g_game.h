@@ -31,7 +31,6 @@ inline int gamemap;
 inline int gametic;
 inline int gameepisode;
 inline bool playeringame[MAXPLAYERS];
-inline player_t players[MAXPLAYERS];
 inline uint8_t deathmatch; // only if started as net death
 inline bool netgame;    // only true if packets are broadcast
 inline int consoleplayer; // player taking events and displaying
@@ -39,7 +38,6 @@ inline bool viewactive;
 inline bool singledemo; // quit after playing a demo from cmdline
 inline skill_t gameskill;
 inline int totalkills, totalitems, totalsecret; // for intermission
-inline wbstartstruct_t wminfo; // parms for world map / intermission
 inline bool usergame;  // ok to save / end game
 inline bool demoplayback;
 inline gamestate_t gamestate;
@@ -96,6 +94,7 @@ bool G_Responder(const sf::Event &ev);
 
 void G_ScreenShot(void);
 
+class ticcmd_t;
 void G_BuildTiccmd(ticcmd_t *cmd);
 
 //-----------------------------------------------------------------------------

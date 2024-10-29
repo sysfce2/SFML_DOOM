@@ -31,7 +31,7 @@
 
 import system;
 import wad;
-import doomstat;
+import doom.state;
 import video;
 
 // ?

@@ -41,7 +41,8 @@ import am_map;
 import items;
 import doomdef;
 import strings;
-import doomstat;
+import doom.player;
+import doom.state;
 import tables;
 import sound;
 

@@ -36,6 +36,7 @@
 import system;
 import tick;
 import setup;
+import doom.player;
 
 std::byte *save_p;
 

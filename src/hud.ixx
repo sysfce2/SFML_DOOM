@@ -32,7 +32,8 @@ import system;
 import wad;
 import am_map;
 import strings;
-import doomstat;
+import doom.player;
+import doom.state;
 import video;
 
 //

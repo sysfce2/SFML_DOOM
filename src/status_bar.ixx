@@ -49,6 +49,7 @@ import strings;
 import video;
 import tables;
 import system;
+import doom.player;
 
 // Size of statusbar.
 // Now sensitive for scaling.

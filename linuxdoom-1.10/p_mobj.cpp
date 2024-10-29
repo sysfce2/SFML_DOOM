@@ -39,6 +39,7 @@ import tables;
 import status_bar;
 import sound;
 import hud;
+import doom.player;
 
 void G_PlayerReborn(int player);
 

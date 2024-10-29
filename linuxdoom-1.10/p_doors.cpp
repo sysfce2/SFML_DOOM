@@ -37,6 +37,7 @@ import strings;
 import tick;
 import setup;
 import sound;
+import doom.player;
 
 #if 0
 //

@@ -27,9 +27,10 @@
 #include "r_main.h"
 
 import tick;
-import doomstat;
+import doom.state;
 import tables;
 import event;
+import doom.player;
 
 using enum buttoncode_t;
 

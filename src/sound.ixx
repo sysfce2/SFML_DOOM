@@ -31,7 +31,7 @@ import system;
 import wad;
 import argv;
 import doomdef;
-import doomstat;
+import doom.state;
 import tables;
 
 //

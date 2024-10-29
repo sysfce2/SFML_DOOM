@@ -38,9 +38,11 @@ export module setup;
 
 import system;
 import wad;
-import doomstat;
+import doom.player;
+import doom.state;
 import tick;
 import sound;
+import intermission;
 
 //
 // MAP related Lookup tables.
