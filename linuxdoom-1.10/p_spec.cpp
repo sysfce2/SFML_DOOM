@@ -48,7 +48,7 @@
 
 import system;
 import wad;
-import argv;
+import engine;
 import tick;
 import setup;
 import sound;

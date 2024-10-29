@@ -12,7 +12,7 @@
 // for more details.
 //
 //
-// DESCRIPTION:
+// DESCRIPTION: Handles command line arguments
 //
 //-----------------------------------------------------------------------------
 module;
@@ -21,7 +21,7 @@ module;
 #include <string_view>
 #include <vector>
 
-export module argv;
+export module engine.arguments;
 
 export int myargc;
 export std::vector<std::string> myargv;
