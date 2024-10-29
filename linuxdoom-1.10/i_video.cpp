@@ -220,19 +220,19 @@ void I_InitGraphics(void) {
   height = SCREENHEIGHT;
 
   // check for command-line display name
-  if ((pnum = M_CheckParm("-disp"))) // suggest parentheses around assignment
-    displayname = myargv[pnum + 1].c_str();
+  if ((pnum = arguments::has("-disp"))) // suggest parentheses around assignment
+    displayname = arguments::at(pnum + 1).data();
   else
     displayname = 0;
 
   // check if the user wants to grab the mouse (quite unnice)
-  grabMouse = !!M_CheckParm("-grabmouse");
+  grabMouse = !!arguments::has("-grabmouse");
 
   // check for command-line geometry
-  if ((pnum = M_CheckParm("-geom"))) // suggest parentheses around assignment
+  if ((pnum = arguments::has("-geom"))) // suggest parentheses around assignment
   {
     // warning: char format, different type arg 3,5
-    n = sscanf(myargv[pnum + 1].c_str(), "%c%d%c%d", &xsign, &x, &ysign, &y);
+    n = sscanf(arguments::at(pnum + 1).data(), "%c%d%c%d", &xsign, &x, &ysign, &y);
 
     if (n == 2)
       x = y = 0;

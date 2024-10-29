@@ -16,6 +16,7 @@
 //
 //-----------------------------------------------------------------------------
 module;
+#include <algorithm>
 #include <ranges>
 #include <string>
 #include <string_view>
@@ -23,20 +24,46 @@ module;
 
 export module engine.arguments;
 
-export int myargc;
-export std::vector<std::string> myargv;
+namespace arguments
+{
+    export void parse( int argc, char** argv );
+    export bool has( std::string_view argument );
+    export uint8_t index_of( std::string_view argument );
+    export std::string_view at( uint8_t index );
+    export uint8_t count();
+}
 
-//
-// M_CheckParm
-// Checks for the given parameter
-// in the program's command line arguments.
-// Returns the argument number (1 to argc-1)
-// or 0 if not present
-export int M_CheckParm(std::string_view check) {
-  const auto found = std::ranges::find(myargv, check);
-  if (found != myargv.end()) {
-    return static_cast<int>(std::distance(myargv.begin(), found));
-  }
+module: private;
 
-  return 0;
+namespace arguments
+{
+    std::vector<std::string> arguments;
+
+    void parse( int argc, char** argv )
+    {
+        for ( auto i : std::views::iota( 0, argc ) )
+        {
+            arguments.emplace_back( argv[i] );
+        }
+    }
+
+    bool has( std::string_view argument )
+    {
+        return std::ranges::contains( arguments, argument );
+    }
+
+    uint8_t index_of( std::string_view argument )
+    {
+        return std::distance( arguments.begin(), std::ranges::find( arguments, argument ) );
+    }
+
+    std::string_view at( uint8_t index )
+    {
+        return arguments[index];
+    }
+
+    uint8_t count()
+    {
+        return arguments.size();
+    }
 }

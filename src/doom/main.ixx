@@ -452,7 +452,7 @@ void IdentifyVersion(void) {
   // French stuff.
   const auto doom2fwad = waddir + "/doom2f.wad";
 
-  if (M_CheckParm("-shdev")) {
+  if (arguments::has("-shdev")) {
     gamemode = shareware;
     wadfilenames.emplace_back( "doom1.wad");
     wadfilenames.emplace_back( "data_se/texture1.lmp");
@@ -460,7 +460,7 @@ void IdentifyVersion(void) {
     return;
   }
 
-  if (M_CheckParm("-regdev")) {
+  if (arguments::has("-regdev")) {
     gamemode = registered;
     wadfilenames.emplace_back( "doom.wad");
     wadfilenames.emplace_back( "data_se/texture1.lmp");
@@ -469,7 +469,7 @@ void IdentifyVersion(void) {
     return;
   }
 
-  if (M_CheckParm("-comdev")) {
+  if (arguments::has("-comdev")) {
     gamemode = commercial;
     /* I don't bother
     if(plutonia)
@@ -555,12 +555,12 @@ export void D_DoomMain(void) {
 
   modifiedgame = false;
 
-  nomonsters = M_CheckParm("-nomonsters");
-  respawnparm = M_CheckParm("-respawn");
-  fastparm = M_CheckParm("-fast");
-  if (M_CheckParm("-altdeath"))
+  nomonsters = arguments::has("-nomonsters");
+  respawnparm = arguments::has("-respawn");
+  fastparm = arguments::has("-fast");
+  if (arguments::has("-altdeath"))
     deathmatch = 2;
-  else if (M_CheckParm("-deathmatch"))
+  else if (arguments::has("-deathmatch"))
     deathmatch = 1;
 
   switch (gamemode) {
@@ -602,11 +602,11 @@ export void D_DoomMain(void) {
 #endif
 
   // turbo option
-  if ((p = M_CheckParm("-turbo"))) {
+  if ((p = arguments::has("-turbo"))) {
     int scale = 200;
 
-    if (p < myargc - 1)
-      scale = atoi(myargv[p + 1].c_str());
+    if (p < arguments::count() - 1)
+      scale = atoi(arguments::at(p + 1).data());
     if (scale < 10)
       scale = 10;
     if (scale > 400)
@@ -623,24 +623,25 @@ export void D_DoomMain(void) {
   //
   // convenience hack to allow -wart e m to add a wad file
   // prepend a tilde to the filename so wadfile will be reloadable
-  p = M_CheckParm("-wart");
+  p = arguments::has("-wart");
   if (p) {
-    myargv[p][4] = 'p'; // big hack, change to -warp
+      // @TODO JONNY
+      //arguments::at(p)[4] = 'p'; // big hack, change to -warp
 
     // Map name handling.
     switch (gamemode) {
     case shareware:
     case retail:
     case registered:
-      //snprintf(file, 256, "~/E%cM%c.wad", myargv[p + 1][0],
-        //       myargv[p + 2][0]);
-      //printf("Warping to Episode %s, Map %s.\n", myargv[p + 1].c_str(),
-        //     myargv[p + 2].c_str());
+      //snprintf(file, 256, "~/E%cM%c.wad", arguments::at(p + 1)[0],
+        //       arguments::at(p + 2)[0]);
+      //printf("Warping to Episode %s, Map %s.\n", arguments::at(p + 1).c_str(),
+        //     arguments::at(p + 2).c_str());
       break;
 
     case commercial:
     default:
-      p = atoi(myargv[p + 1].c_str());
+      p = atoi( arguments::at(p + 1).data());
       if (p < 10){}
         //snprintf(file, 256, "~/cdata/map0%i.wad", p);
       else{}
@@ -650,24 +651,24 @@ export void D_DoomMain(void) {
     wadfilenames.emplace_back(file);
   }
 
-  p = M_CheckParm("-file");
+  p = arguments::has("-file");
   if (p) {
     // the parms after p are wadfile/lump names,
     // until end of parms or another - preceded parm
     modifiedgame = true; // homebrew levels
-    while (++p != myargc && myargv[p][0] != '-')
-      wadfilenames.emplace_back(myargv[p].c_str());
+    while (++p != arguments::count() && arguments::at(p)[0] != '-')
+      wadfilenames.emplace_back( arguments::at(p).data());
   }
 
-  p = M_CheckParm("-playdemo");
+  p = arguments::has("-playdemo");
 
   if (!p)
-    p = M_CheckParm("-timedemo");
+    p = arguments::has("-timedemo");
 
-  if (p && p < myargc - 1) {
-    //snprintf(file, 256, "%s.lmp", myargv[p + 1].c_str());
+  if (p && p < arguments::count() - 1) {
+    //snprintf(file, 256, "%s.lmp", arguments::at(p + 1).c_str());
     wadfilenames.emplace_back(file);
-    printf("Playing demo %s.lmp.\n", myargv[p + 1].c_str());
+    printf("Playing demo %s.lmp.\n", arguments::at(p + 1).data());
   }
 
   // get skill / episode / map from parms
@@ -676,40 +677,40 @@ export void D_DoomMain(void) {
   startmap = 1;
   autostart = false;
 
-  p = M_CheckParm("-skill");
-  if (p && p < myargc - 1) {
-    startskill = static_cast<skill_t>(myargv[p + 1][0] - '1');
+  p = arguments::has("-skill");
+  if (p && p < arguments::count() - 1) {
+    startskill = static_cast<skill_t>(arguments::at(p + 1)[0] - '1');
     autostart = true;
   }
 
-  p = M_CheckParm("-episode");
-  if (p && p < myargc - 1) {
-    startepisode = myargv[p + 1][0] - '0';
+  p = arguments::has("-episode");
+  if (p && p < arguments::count() - 1) {
+    startepisode = arguments::at(p + 1)[0] - '0';
     startmap = 1;
     autostart = true;
   }
 
-  p = M_CheckParm("-timer");
-  if (p && p < myargc - 1 && deathmatch) {
+  p = arguments::has("-timer");
+  if (p && p < arguments::count() - 1 && deathmatch) {
     int time;
-    time = atoi(myargv[p + 1].c_str());
+    time = atoi(arguments::at(p + 1).data());
     printf("Levels will end after %d minute", time);
     if (time > 1)
       printf("s");
     printf(".\n");
   }
 
-  p = M_CheckParm("-avg");
-  if (p && p < myargc - 1 && deathmatch)
+  p = arguments::has("-avg");
+  if (p && p < arguments::count() - 1 && deathmatch)
     printf("Austin Virtual Gaming: Levels will end after 20 minutes\n");
 
-  p = M_CheckParm("-warp");
-  if (p && p < myargc - 1) {
+  p = arguments::has("-warp");
+  if (p && p < arguments::count() - 1) {
     if (gamemode == commercial)
-      startmap = atoi(myargv[p + 1].c_str());
+      startmap = atoi(arguments::at(p + 1).data());
     else {
-      startepisode = myargv[p + 1][0] - '0';
-      startmap = myargv[p + 2][0] - '0';
+      startepisode = arguments::at(p + 1)[0] - '0';
+      startmap = arguments::at(p + 2)[0] - '0';
     }
     autostart = true;
   }
@@ -811,29 +812,29 @@ export void D_DoomMain(void) {
   ST_Init();
 
   // start the apropriate game based on parms
-  p = M_CheckParm("-record");
+  p = arguments::has("-record");
 
-  if (p && p < myargc - 1) {
-    G_RecordDemo(myargv[p + 1]);
+  if (p && p < arguments::count() - 1) {
+    G_RecordDemo(arguments::at(p + 1));
     autostart = true;
   }
 
-  p = M_CheckParm("-playdemo");
-  if (p && p < myargc - 1) {
+  p = arguments::has("-playdemo");
+  if (p && p < arguments::count() - 1) {
     singledemo = true; // quit after one demo
-    G_DeferedPlayDemo(myargv[p + 1]);
+    G_DeferedPlayDemo(arguments::at(p + 1));
     D_DoomLoop(); // never returns
   }
 
-  p = M_CheckParm("-timedemo");
-  if (p && p < myargc - 1) {
-    G_TimeDemo(myargv[p + 1]);
+  p = arguments::has("-timedemo");
+  if (p && p < arguments::count() - 1) {
+    G_TimeDemo(arguments::at(p + 1));
     D_DoomLoop(); // never returns
   }
 
-  p = M_CheckParm("-loadgame");
-  if (p && p < myargc - 1) {
-    file = std::format("{}{}.dsg",SAVEGAMENAME,myargv[p+1][0]);
+  p = arguments::has("-loadgame");
+  if (p && p < arguments::count() - 1) {
+    file = std::format("{}{}.dsg",SAVEGAMENAME,arguments::at(p+1)[0]);
     G_LoadGame(file);
   }
 
@@ -849,10 +850,7 @@ export void D_DoomMain(void) {
 
 // Main entry point, read arguments and call doom main
 export int main(int argc, char **argv) {
-  myargc = argc;
-  while (*argv) {
-    myargv.emplace_back(*(argv++));
-  }
+    arguments::parse( argc, argv );
 
   D_DoomMain();
 

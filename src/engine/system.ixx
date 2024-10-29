@@ -204,10 +204,9 @@ extern std::byte scantokey[128];
 export void M_LoadDefaults( void ) {
 
 	// check for a custom default file
-	const auto config_index = M_CheckParm( "-config" );
-	if ( config_index )
+	if ( constexpr auto arg = "-config"; arguments::has(arg) )
 	{
-		defaults_file_path = myargv[config_index + 1];
+		defaults_file_path = arguments::at(arguments::index_of(arg) + 1);
 		spdlog::info( "Defaults config set on command line: {}", defaults_file_path.string() );
 	}
 	else if ( const auto home_var = getenv( "HOME" ); home_var )

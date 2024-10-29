@@ -111,7 +111,7 @@ int starttime;      // for comparative timing purposes
 
 int levelstarttic;                       // gametic at level start
 
-char demoname[32];
+std::filesystem::path demoname;
 bool netdemo;
 std::byte *demobuffer;
 std::byte *demo_p;
@@ -1304,17 +1304,17 @@ void G_WriteDemoTiccmd(ticcmd_t *cmd) {
 //
 // G_RecordDemo
 //
-void G_RecordDemo(const std::string &name) {
+void G_RecordDemo(std::string_view name) {
   int i;
   int maxsize;
 
   usergame = false;
-  strcpy(demoname, name.c_str());
-  strcat(demoname, ".lmp");
+  demoname.replace_filename( name );
+  demoname.replace_extension(".lmp" );
   maxsize = 0x20000;
-  i = M_CheckParm("-maxdemo");
-  if (i && i < myargc - 1)
-    maxsize = atoi(myargv[i].c_str() + 1) * 1024;
+  i = arguments::has("-maxdemo");
+  if (i && i < arguments::count() - 1)
+    maxsize = atoi(arguments::at(i).data() + 1) * 1024;
   demobuffer = static_cast<std::byte *>(malloc(maxsize));
   demoend = demobuffer + maxsize;
 
@@ -1346,7 +1346,7 @@ void G_BeginRecording(void) {
 
 std::string defdemoname;
 
-void G_DeferedPlayDemo(const std::string &name) {
+void G_DeferedPlayDemo(std::string_view name) {
   defdemoname = name;
   gameaction = ga_playdemo;
 }
@@ -1392,13 +1392,13 @@ void G_DoPlayDemo(void) {
 //
 // G_TimeDemo
 //
-void G_TimeDemo(const std::string &name) {
-  nodrawers = M_CheckParm("-nodraw");
-  noblit = M_CheckParm("-noblit");
+void G_TimeDemo(std::string_view name) {
+  nodrawers = arguments::has("-nodraw");
+  noblit = arguments::has("-noblit");
   timingdemo = true;
   singletics = true;
 
-  defdemoname = name.c_str();
+  defdemoname = name;
   gameaction = ga_playdemo;
 }
 
@@ -1443,7 +1443,7 @@ bool G_CheckDemoStatus(void) {
     // demobuffer));
     free(demobuffer);
     demorecording = false;
-    I_Error("Demo %s recorded", demoname);
+    I_Error("Demo %s recorded", demoname.string());
   }
 
   return false;

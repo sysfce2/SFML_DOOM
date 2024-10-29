@@ -1107,16 +1107,16 @@ void P_SpawnSpecials(void) {
   // See if -TIMER needs to be used.
   levelTimer = false;
 
-  i = M_CheckParm("-avg");
+  i = arguments::has("-avg");
   if (i && deathmatch) {
     levelTimer = true;
     levelTimeCount = 20 * 60 * 35;
   }
 
-  i = M_CheckParm("-timer");
+  i = arguments::has("-timer");
   if (i && deathmatch) {
     int time;
-    time = atoi(myargv[i + 1].c_str()) * 60 * 35;
+    time = atoi(arguments::at(i + 1).data()) * 60 * 35;
     levelTimer = true;
     levelTimeCount = time;
   }
