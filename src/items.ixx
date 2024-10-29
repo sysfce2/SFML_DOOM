@@ -25,7 +25,7 @@ module;
 
 export module items;
 
-import doomdef;
+import doom;
 
 typedef struct {
   ammotype_t ammo;

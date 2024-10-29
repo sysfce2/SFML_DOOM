@@ -34,7 +34,7 @@ module;
 
 export module video;
 import system;
-import doomdef;
+import doom;
 
 //
 // VIDEO

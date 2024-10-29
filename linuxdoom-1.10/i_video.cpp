@@ -40,7 +40,7 @@ import main;
 import system;
 import argv;
 import video;
-import doomdef;
+import doom;
 
 #define POINTER_WARP_COUNTDOWN 1
 

@@ -24,7 +24,7 @@
 
 #include <SFML/Window.hpp>
 
-import doomdef;
+import doom;
 
 // previously externs in doomstat.h
 inline int gamemap;

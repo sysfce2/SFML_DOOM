@@ -27,7 +27,7 @@
 #include "r_state.h"
 #include "r_main.h"
 
-import doomdef;
+import doom;
 import system;
 import setup;
 

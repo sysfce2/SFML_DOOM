@@ -37,7 +37,7 @@
 #include <stdlib.h>
 
 import system;
-import doomdef;
+import doom;
 import tick;
 import setup;
 import sound;

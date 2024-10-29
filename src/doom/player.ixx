@@ -4,7 +4,7 @@ module;
 export module doom.player;
 
 import doom.ticcmd;
-import doomdef;
+import doom.definitions;
 
 //
 // Player states.

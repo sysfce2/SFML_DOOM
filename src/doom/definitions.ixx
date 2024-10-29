@@ -1,8 +1,4 @@
-// Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
-//
-// $Id:$
-//
 // Copyright (C) 1993-1996 by id Software, Inc.
 //
 // This source is available for distribution and/or modification
@@ -25,7 +21,7 @@ module;
 #include <stdio.h>
 #include <string.h>
 
-export module doomdef;
+export module doom.definitions;
 
 //
 // Global parameters/defines.

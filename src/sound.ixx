@@ -30,7 +30,7 @@ export module sound;
 import system;
 import wad;
 import argv;
-import doomdef;
+import doom;
 import doom.state;
 import tables;
 

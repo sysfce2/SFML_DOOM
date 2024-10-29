@@ -39,7 +39,7 @@
 import system;
 import am_map;
 import items;
-import doomdef;
+import doom;
 import strings;
 import doom.player;
 import doom.state;

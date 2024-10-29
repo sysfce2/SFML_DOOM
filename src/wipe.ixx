@@ -26,7 +26,7 @@ module;
 #include <memory>
 #include <stdlib.h>
 export module wipe;
-import doomdef;
+import doom;
 import video;
 
 //

@@ -38,7 +38,7 @@
 // Data.
 
 import system;
-import doomdef;
+import doom;
 import sky;
 import tick;
 import setup;

@@ -33,7 +33,7 @@
 
 #include <vector>
 
-import doomdef;
+import doom;
 
 // Silhouette, needed for clipping Segs (mainly)
 // and sprites representing things.
