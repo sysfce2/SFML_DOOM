@@ -52,7 +52,7 @@ import system;
 import menu;
 import engine;
 import wad;
-import am_map;
+import doom.map;
 import net;
 import finale;
 import strings;

@@ -33,7 +33,7 @@ import system;
 import menu;
 import wad;
 import engine;
-import am_map;
+import doom.map;
 import net;
 import finale;
 import sound;

@@ -34,7 +34,7 @@ export module finale;
 
 import menu;
 import wad;
-import am_map;
+import doom.map;
 import strings;
 import doom.player;
 import doom.state;

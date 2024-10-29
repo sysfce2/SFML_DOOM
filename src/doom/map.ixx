@@ -43,7 +43,7 @@ module;
 #define AM_MSGENTERED (AM_MSGHEADER | ('e' << 8))
 #define AM_MSGEXITED (AM_MSGHEADER | ('x' << 8))
 
-export module am_map;
+export module doom.map;
 
 import wad;
 import strings;

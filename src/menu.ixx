@@ -44,7 +44,7 @@ export module menu;
 import system;
 import wad;
 import engine;
-import am_map;
+import doom.map;
 import sound;
 import strings;
 import doom.state;

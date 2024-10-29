@@ -37,7 +37,7 @@
 #include "r_main.h"
 
 import system;
-import am_map;
+import doom.map;
 import items;
 import doom;
 import strings;
