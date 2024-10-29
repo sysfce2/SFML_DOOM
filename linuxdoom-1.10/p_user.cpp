@@ -29,7 +29,7 @@
 import tick;
 import doom.state;
 import tables;
-import event;
+import doom.event;
 import doom.player;
 
 using enum buttoncode_t;

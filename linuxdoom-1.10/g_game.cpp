@@ -66,7 +66,7 @@ import tables;
 import status_bar;
 import sound;
 import hud;
-import event;
+import doom.event;
 
 using enum gameaction_t;
 

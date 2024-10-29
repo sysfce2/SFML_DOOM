@@ -41,7 +41,7 @@ import doom.state;
 import video;
 import sound;
 import hud;
-import event;
+import doom.event;
 
 // ?
 // // 

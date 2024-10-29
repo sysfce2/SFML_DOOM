@@ -46,7 +46,7 @@ import video;
 import status_bar;
 import hud;
 import sound;
-import event;
+import doom.event;
 import doom.player;
 
 // List of wad files we populate on start up

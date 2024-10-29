@@ -21,7 +21,7 @@
 
 export module doom.ticcmd;
 
-import event;
+import doom.event;
 
 // The data sampled per tick (single player)
 // and transmitted to other peers (multiplayer).

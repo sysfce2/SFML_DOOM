@@ -31,7 +31,7 @@ export module net;
 import engine;
 import system;
 import menu;
-import event;
+import doom.event;
 import doom.player;
 import doom.ticcmd;
 
