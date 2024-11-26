@@ -38,7 +38,6 @@ export module setup;
 
 import system;
 import wad;
-import doom.player;
 import doom;
 import tick;
 import sound;

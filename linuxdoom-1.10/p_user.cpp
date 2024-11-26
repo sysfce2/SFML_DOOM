@@ -30,7 +30,6 @@ import tick;
 import doom;
 import tables;
 import doom.event;
-import doom.player;
 
 using enum buttoncode_t;
 

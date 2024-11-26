@@ -44,7 +44,6 @@ import tick;
 import setup;
 import tables;
 import sound;
-import doom.player;
 
 fixed_t tmbbox[4];
 mobj_t *tmthing;

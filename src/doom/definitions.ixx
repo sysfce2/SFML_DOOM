@@ -21,7 +21,7 @@ module;
 #include <stdio.h>
 #include <string.h>
 
-export module doom.definitions;
+export module doom:definitions;
 
 //
 // Global parameters/defines.

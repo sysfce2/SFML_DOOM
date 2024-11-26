@@ -41,7 +41,6 @@ import doom.map;
 import items;
 import doom;
 import strings;
-import doom.player;
 import doom;
 import tables;
 import sound;

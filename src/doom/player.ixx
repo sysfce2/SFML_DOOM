@@ -1,10 +1,10 @@
 module;
 #include "p_mobj.h"
 #include "p_pspr.h"
-export module doom.player;
+export module doom:player;
 
-import doom.ticcmd;
-import doom.definitions;
+import :ticcmd;
+import :definitions;
 
 //
 // Player states.

@@ -47,7 +47,6 @@ import status_bar;
 import hud;
 import sound;
 import doom.event;
-import doom.player;
 
 // List of wad files we populate on start up
 std::vector<std::string> wadfilenames;

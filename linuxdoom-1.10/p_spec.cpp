@@ -52,7 +52,7 @@ import engine;
 import tick;
 import setup;
 import sound;
-import doom.player;
+import doom;
 
 //
 // Animating textures and planes

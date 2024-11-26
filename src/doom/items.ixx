@@ -26,7 +26,7 @@ module;
 export module items;
 
 import doom.map;
-import doom.definitions;
+import doom;
 
 typedef struct {
   ammotype_t ammo;

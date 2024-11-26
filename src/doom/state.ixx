@@ -17,8 +17,8 @@
 
 export module doom:state;
 
-import doom.definitions;
-import doom.player;
+import :definitions;
+import :player;
 
 // Game Mode - identify IWAD as shareware, retail etc.
 export GameMode_t gamemode = indetermined;
