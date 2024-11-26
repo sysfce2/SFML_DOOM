@@ -21,6 +21,13 @@
 
 #pragma once
 
+// This could be wider for >8 bit display.
+// Indeed, true color support is posibble
+//  precalculating 24bpp lightmap/colormap LUT.
+//  from darkening PLAYPAL to all black.
+// Could even us emore than 32 levels.
+typedef std::byte lighttable_t;
+
 extern lighttable_t *dc_colormap;
 extern int dc_x;
 extern int dc_yl;

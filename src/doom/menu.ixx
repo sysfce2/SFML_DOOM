@@ -108,7 +108,8 @@ int messageLastMenuActive;
 // timed message = no input from user
 bool messageNeedsInput;
 
-std::function<void(int)> messageRoutine;
+using message_routine = std::function<void(sf::Keyboard::Key)>;
+message_routine messageRoutine;
 
 #define SAVESTRINGSIZE 24
 
@@ -258,7 +259,7 @@ int M_StringWidth(char *string);
 
 int M_StringHeight(char *string);
 
-void M_StartMessage(const std::string &string, std::function<void(int)> routine,
+void M_StartMessage(const std::string &string, message_routine routine,
                     bool input);
 
 void M_StopMessage(void);
@@ -591,9 +592,9 @@ void M_SaveGame(int choice)
 //
 char tempstring[80];
 
-void M_QuickSaveResponse(int ch)
+void M_QuickSaveResponse(sf::Keyboard::Key ch)
 {
-    if (ch == 'y')
+    if (ch == sf::Keyboard::Key::Y)
     {
         M_DoSave(quickSaveSlot);
         S_StartSound(NULL, sfx_swtchx);
@@ -637,9 +638,9 @@ void M_QuickSave(void)
 //
 // M_QuickLoad
 //
-void M_QuickLoadResponse(int ch)
+void M_QuickLoadResponse(sf::Keyboard::Key ch)
 {
-    if (ch == 'y')
+    if (ch == sf::Keyboard::Key::Y)
     {
         M_LoadSelect(quickSaveSlot);
         S_StartSound(NULL, sfx_swtchx);
@@ -809,9 +810,9 @@ void M_DrawEpisode(void)
                       static_cast<patch_t *>(W_CacheLumpName("M_EPISOD")));
 }
 
-void M_VerifyNightmare(int ch)
+void M_VerifyNightmare(sf::Keyboard::Key ch)
 {
-    if (ch != 'y')
+    if (ch != sf::Keyboard::Key::Y)
         return;
 
     G_DeferedInitNew(static_cast<skill_t>(nightmare), epi + 1, 1);
@@ -898,9 +899,9 @@ void M_ChangeMessages(int choice)
 //
 // M_EndGame
 //
-void M_EndGameResponse(int ch)
+void M_EndGameResponse(sf::Keyboard::Key ch)
 {
-    if (ch != 'y')
+    if (ch != sf::Keyboard::Key::Y)
         return;
 
     currentMenu->lastOn = itemOn;
@@ -957,9 +958,9 @@ int quitsounds[8] = {sfx_pldeth, sfx_dmpain, sfx_popain, sfx_slop,
 int quitsounds2[8] = {sfx_vilact, sfx_getpow, sfx_boscub, sfx_slop,
                       sfx_skeswg, sfx_kntdth, sfx_bspact, sfx_sgtatk};
 
-void M_QuitResponse(int ch)
+void M_QuitResponse(sf::Keyboard::Key ch)
 {
-    if (ch != 'y')
+    if (ch != sf::Keyboard::Key::Y)
         return;
     if (!netgame)
     {
@@ -1077,8 +1078,8 @@ void M_DrawSelCell(menu_t *menu, int item)
                       static_cast<patch_t *>(W_CacheLumpName("M_CELL2")));
 }
 
-void M_StartMessage(const std::string &message,
-                    std::function<void(int)> routine, bool input)
+void M_StartMessage(const std::string &message, message_routine routine,
+                    bool input)
 {
     messageLastMenuActive = menuactive;
     messageToPrint = 1;
@@ -1332,22 +1333,22 @@ export bool M_Responder(const sf::Event &ev)
     }
 
     // Take care of any messages that need input
-    // JONNY TODO
-    //    if (messageToPrint)
-    //    {
-    //	if (messageNeedsInput == true &&
-    //	    !(ch == ' ' || ch == 'n' || ch == 'y' || ch == KEY_ESCAPE))
-    //	    return false;
-    //
-    //	menuactive = messageLastMenuActive;
-    //	messageToPrint = 0;
-    //	if (messageRoutine)
-    //	    messageRoutine(ch);
-    //
-    //	menuactive = false;
-    //	S_StartSound(NULL,sfx_swtchx);
-    //	return true;
-    //    }
+    if (messageToPrint)
+    {
+        if (messageNeedsInput == true &&
+            !(key == sf::Keyboard::Key::Space || key == sf::Keyboard::Key::N ||
+              key == sf::Keyboard::Key::Y || key == sf::Keyboard::Key::Escape))
+            return false;
+
+        menuactive = messageLastMenuActive;
+        messageToPrint = 0;
+        if (messageRoutine)
+            messageRoutine(key);
+
+        menuactive = false;
+        S_StartSound(NULL, sfx_swtchx);
+        return true;
+    }
 
     // F-Keys
     if (!menuactive)
