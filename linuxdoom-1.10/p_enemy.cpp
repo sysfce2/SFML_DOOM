@@ -44,7 +44,6 @@ import system;
 import setup;
 import tick;
 import doom;
-import tables;
 import sound;
 
 typedef enum {

@@ -42,7 +42,6 @@ import doom;
 import sky;
 import tick;
 import setup;
-import tables;
 import sound;
 
 fixed_t tmbbox[4];

@@ -62,7 +62,6 @@ import doom;
 import setup;
 import intermission;
 import video;
-import tables;
 import status_bar;
 import sound;
 import hud;

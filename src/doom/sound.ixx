@@ -31,7 +31,6 @@ import system;
 import wad;
 import engine;
 import doom;
-import tables;
 
 //
 // SoundFX struct.

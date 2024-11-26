@@ -32,7 +32,6 @@
 
 import system;
 import sky;
-import tables;
 
 // OPTIMIZE: closed two sided lines as single sided
 

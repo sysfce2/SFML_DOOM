@@ -35,7 +35,6 @@
 import system;
 import wad;
 import sky;
-import tables;
 
 planefunction_t floorfunc;
 planefunction_t ceilingfunc;

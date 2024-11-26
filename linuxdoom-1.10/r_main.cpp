@@ -40,7 +40,6 @@ import system;
 import net;
 import sky;
 import setup;
-import tables;
 import main;
 import doom;
 

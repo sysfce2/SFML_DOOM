@@ -34,7 +34,6 @@
 
 import tick;
 import setup;
-import tables;
 import sound;
 import doom;
 

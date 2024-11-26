@@ -35,7 +35,6 @@ import system;
 import sky;
 import tick;
 import setup;
-import tables;
 import status_bar;
 import sound;
 import hud;

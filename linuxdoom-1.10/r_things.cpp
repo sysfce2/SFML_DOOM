@@ -36,7 +36,6 @@
 import system;
 import wad;
 import doom;
-import tables;
 
 constexpr auto MINZ = (FRACUNIT * 4);
 constexpr auto BASEYCENTER = 100;

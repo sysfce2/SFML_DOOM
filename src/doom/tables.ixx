@@ -36,7 +36,7 @@
 //-----------------------------------------------------------------------------
 module;
 #include "m_fixed.h"
-export module tables;
+export module doom:tables;
 
 // Binary Angle Measument, BAM.
 export constexpr auto ANG45 = 0x20000000;

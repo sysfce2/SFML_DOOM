@@ -49,7 +49,6 @@ import wad;
 import strings;
 import setup;
 import video;
-import tables;
 import doom;
 
 // For use if I do walls with outsides/insides
