@@ -26,8 +26,6 @@ module;
 #include "g_game.h"
 #include "r_state.h"
 
-#include <SFML/Window.hpp>
-
 #include <string>
 
 export module finale;
