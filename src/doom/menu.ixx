@@ -35,7 +35,7 @@ import engine;
 import doom.map;
 import sound;
 import strings;
-import doom.state;
+import doom;
 import video;
 import sound;
 import hud;

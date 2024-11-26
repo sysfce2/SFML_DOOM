@@ -42,7 +42,7 @@ import items;
 import doom;
 import strings;
 import doom.player;
-import doom.state;
+import doom;
 import tables;
 import sound;
 

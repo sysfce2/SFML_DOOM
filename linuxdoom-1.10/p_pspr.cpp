@@ -39,7 +39,7 @@ import doom.event;
 import items;
 import tick;
 import doom.player;
-import doom.state;
+import doom;
 import tables;
 import sound;
 

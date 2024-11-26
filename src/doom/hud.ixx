@@ -33,7 +33,7 @@ import wad;
 import doom.map;
 import strings;
 import doom.player;
-import doom.state;
+import doom;
 import video;
 
 //

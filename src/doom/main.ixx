@@ -38,7 +38,7 @@ import net;
 import finale;
 import sound;
 import strings;
-import doom.state;
+import doom;
 import setup;
 import wipe;
 import intermission;

@@ -35,7 +35,7 @@
 
 import system;
 import wad;
-import doom.state;
+import doom;
 import tables;
 
 constexpr auto MINZ = (FRACUNIT * 4);

@@ -33,7 +33,7 @@ module;
 export module intermission;
 import wad;
 import doom.player;
-import doom.state;
+import doom;
 import video;
 import sound;
 

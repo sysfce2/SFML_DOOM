@@ -27,7 +27,7 @@
 #include "r_main.h"
 
 import tick;
-import doom.state;
+import doom;
 import tables;
 import doom.event;
 import doom.player;

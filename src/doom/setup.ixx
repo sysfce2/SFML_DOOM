@@ -39,7 +39,7 @@ export module setup;
 import system;
 import wad;
 import doom.player;
-import doom.state;
+import doom;
 import tick;
 import sound;
 import intermission;

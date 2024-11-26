@@ -15,7 +15,7 @@
 //
 //-----------------------------------------------------------------------------
 
-export module doom.state;
+export module doom:state;
 
 import doom.definitions;
 import doom.player;

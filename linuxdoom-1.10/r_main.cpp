@@ -42,7 +42,7 @@ import sky;
 import setup;
 import tables;
 import main;
-import doom.state;
+import doom;
 
 // Fineangles in the SCREENWIDTH wide window.
 #define FIELDOFVIEW 2048
