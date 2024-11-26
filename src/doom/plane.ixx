@@ -22,19 +22,35 @@
 //	Moreover, the sky areas have to be determined.
 //
 //-----------------------------------------------------------------------------
-
+module;
 #include <stdlib.h>
-
-
-#include "r_plane.h"
 #include "r_draw.h"
 #include "r_main.h"
 #include "r_things.h"
-
+export module plane;
 
 import system;
 import wad;
 import sky;
+
+// Visplane related.
+export inline short *lastopening;
+
+typedef void (*planefunction_t)(int top, int bottom);
+
+extern planefunction_t floorfunc;
+extern planefunction_t ceilingfunc_t;
+
+//
+// Clip values are the solid pixel bounding the range.
+//  floorclip starts out SCREENHEIGHT
+//  ceilingclip starts out -1
+//
+export inline short floorclip[SCREENWIDTH];
+export inline short ceilingclip[SCREENWIDTH];
+
+export inline fixed_t yslope[SCREENHEIGHT];
+export inline fixed_t distscale[SCREENWIDTH];
 
 planefunction_t floorfunc;
 planefunction_t ceilingfunc;
@@ -47,21 +63,12 @@ planefunction_t ceilingfunc;
 #define MAXVISPLANES 128
 visplane_t visplanes[MAXVISPLANES];
 visplane_t *lastvisplane;
-visplane_t *floorplane;
-visplane_t *ceilingplane;
+export visplane_t *floorplane;
+export visplane_t *ceilingplane;
 
 // ?
 #define MAXOPENINGS SCREENWIDTH * 64
 short openings[MAXOPENINGS];
-short *lastopening;
-
-//
-// Clip values are the solid pixel bounding the range.
-//  floorclip starts out SCREENHEIGHT
-//  ceilingclip starts out -1
-//
-short floorclip[SCREENWIDTH];
-short ceilingclip[SCREENWIDTH];
 
 //
 // spanstart holds the start of a plane span
@@ -76,8 +83,6 @@ int spanstop[SCREENHEIGHT];
 lighttable_t **planezlight;
 fixed_t planeheight;
 
-fixed_t yslope[SCREENHEIGHT];
-fixed_t distscale[SCREENWIDTH];
 fixed_t basexscale;
 fixed_t baseyscale;
 
@@ -85,14 +90,6 @@ fixed_t cachedheight[SCREENHEIGHT];
 fixed_t cacheddistance[SCREENHEIGHT];
 fixed_t cachedxstep[SCREENHEIGHT];
 fixed_t cachedystep[SCREENHEIGHT];
-
-//
-// R_InitPlanes
-// Only at game startup.
-//
-void R_InitPlanes(void) {
-  // Doh!
-}
 
 //
 // R_MapPlane
@@ -158,7 +155,7 @@ void R_MapPlane(int y, int x1, int x2) {
 // R_ClearPlanes
 // At begining of frame.
 //
-void R_ClearPlanes(void) {
+export void R_ClearPlanes(void) {
   int i;
   angle_t angle;
 
@@ -185,7 +182,7 @@ void R_ClearPlanes(void) {
 //
 // R_FindPlane
 //
-visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel) {
+export visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel) {
   visplane_t *check;
 
   if (picnum == skyflatnum) {
@@ -222,7 +219,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel) {
 //
 // R_CheckPlane
 //
-visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop) {
+export visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop) {
   int intrl;
   int intrh;
   int unionl;
@@ -298,7 +295,7 @@ void R_MakeSpans(int x, int t1, int b1, int t2, int b2) {
 // R_DrawPlanes
 // At the end of each frame.
 //
-void R_DrawPlanes(void) {
+export void R_DrawPlanes(void) {
   visplane_t *pl;
   int light;
   int x;

@@ -21,6 +21,10 @@
 
 #pragma once
 
+#include <cstddef>
+
+#include "m_fixed.h"
+
 // This could be wider for >8 bit display.
 // Indeed, true color support is posibble
 //  precalculating 24bpp lightmap/colormap LUT.

@@ -28,10 +28,10 @@
 #include "r_main.h"
 #include "r_things.h"
 #include "r_draw.h"
-#include "r_plane.h"
 
 import system;
 import sky;
+import plane;
 
 // OPTIMIZE: closed two sided lines as single sided
 

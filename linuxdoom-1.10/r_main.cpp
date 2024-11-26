@@ -33,7 +33,6 @@
 #include "r_main.h"
 #include "r_draw.h"
 #include "r_things.h"
-#include "r_plane.h"
 #include "r_bsp.h"
 
 import system;
@@ -42,6 +41,7 @@ import sky;
 import setup;
 import main;
 import doom;
+import plane;
 
 // Fineangles in the SCREENWIDTH wide window.
 #define FIELDOFVIEW 2048
@@ -647,8 +647,6 @@ void R_Init(void) {
   printf("\nR_InitTables");
 
   R_SetViewSize(screenblocks, detailLevel);
-  R_InitPlanes();
-  printf("\nR_InitPlanes");
   R_InitLightTables();
   printf("\nR_InitLightTables");
   R_InitSkyMap();
