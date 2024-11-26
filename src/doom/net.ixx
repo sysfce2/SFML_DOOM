@@ -31,7 +31,6 @@ export module net;
 import engine;
 import system;
 import menu;
-import doom.event;
 import doom;
 
 // For some odd reason...

@@ -29,7 +29,6 @@
 import tick;
 import doom;
 import tables;
-import doom.event;
 
 using enum buttoncode_t;
 

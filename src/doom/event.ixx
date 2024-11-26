@@ -18,7 +18,7 @@
 //
 //
 //-----------------------------------------------------------------------------
-export module doom.event;
+export module doom:event;
 
 export enum class gameaction_t{
   ga_nothing,

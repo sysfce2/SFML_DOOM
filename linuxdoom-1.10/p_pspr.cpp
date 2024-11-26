@@ -35,7 +35,6 @@
 
 #include "p_pspr.h"
 
-import doom.event;
 import items;
 import tick;
 import doom;

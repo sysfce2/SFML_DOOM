@@ -40,7 +40,6 @@ import doom;
 import video;
 import sound;
 import hud;
-import doom.event;
 
 // ?
 // // 
