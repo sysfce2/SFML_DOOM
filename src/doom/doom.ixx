@@ -7,3 +7,4 @@ export import :ticcmd;
 export import :player;
 export import :event;
 export import :tables;
+export import :strings;

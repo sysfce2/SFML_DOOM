@@ -23,7 +23,7 @@
 module;
 #include <SFML/Window/Keyboard.hpp>
 #include <format>
-export module strings;
+export module doom:strings;
 
 // Misc. other strings.
 export const auto SAVEGAMENAME = "doomsav";

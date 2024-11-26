@@ -55,7 +55,6 @@ import wad;
 import doom.map;
 import net;
 import finale;
-import strings;
 import sky;
 import tick;
 import doom;

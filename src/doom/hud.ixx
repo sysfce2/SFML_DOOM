@@ -31,7 +31,6 @@ export module hud;
 import system;
 import wad;
 import doom.map;
-import strings;
 import doom;
 import video;
 

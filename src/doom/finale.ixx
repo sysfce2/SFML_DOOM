@@ -35,7 +35,6 @@ export module finale;
 import menu;
 import wad;
 import doom.map;
-import strings;
 import doom;
 import video;
 import sound;

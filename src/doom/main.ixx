@@ -37,7 +37,6 @@ import doom.map;
 import net;
 import finale;
 import sound;
-import strings;
 import doom;
 import setup;
 import wipe;

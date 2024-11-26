@@ -45,7 +45,6 @@ export module status_bar;
 import wad;
 import items;
 import doom.map;
-import strings;
 import video;
 import system;
 import doom;

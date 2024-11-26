@@ -33,7 +33,6 @@
 
 #include <stdlib.h>
 
-import strings;
 import tick;
 import setup;
 import sound;

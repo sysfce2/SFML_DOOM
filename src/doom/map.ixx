@@ -46,7 +46,6 @@ module;
 export module doom.map;
 
 import wad;
-import strings;
 import setup;
 import video;
 import doom;

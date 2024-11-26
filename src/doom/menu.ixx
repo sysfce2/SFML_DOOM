@@ -34,7 +34,6 @@ import wad;
 import engine;
 import doom.map;
 import sound;
-import strings;
 import doom;
 import video;
 import sound;

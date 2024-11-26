@@ -40,7 +40,6 @@ import system;
 import doom.map;
 import items;
 import doom;
-import strings;
 import doom;
 import sound;
 
