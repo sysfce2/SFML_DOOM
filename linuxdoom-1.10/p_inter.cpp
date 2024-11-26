@@ -80,7 +80,8 @@ bool P_GiveAmmo(player_t *player, ammotype_t ammo, int num) {
   else
     num = clipammo[ammo] / 2;
 
-  if (gameskill == sk_baby || gameskill == sk_nightmare) {
+  if (gameskill == skill_t::sk_baby || gameskill == skill_t::sk_nightmare)
+  {
     // give double ammo in trainer mode,
     // you'll need in nightmare
     num <<= 1;
@@ -693,7 +694,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source,
   }
 
   player = target->player;
-  if (player && gameskill == sk_baby)
+  if (player && gameskill == skill_t::sk_baby)
     damage >>= 1; // take half damage in trainer mode
 
   // Some close combat weapons should not

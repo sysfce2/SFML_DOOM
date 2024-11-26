@@ -605,7 +605,7 @@ export bool ST_Responder(const sf::Event &ev) {
     if (!netgame)
     {
       // b. - enabled for more debug fun.
-      // if (gameskill != sk_nightmare) {
+      // if (gameskill != skill_t::sk_nightmare) {
 
       // 'dqd' cheat for toggleable god mode
       if (cht_CheckCheat(&cheat_god, ev->data1))

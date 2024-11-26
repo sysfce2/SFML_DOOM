@@ -421,7 +421,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type) {
   mobj->flags = info->flags;
   mobj->health = info->spawnhealth;
 
-  if (gameskill != sk_nightmare)
+  if (gameskill != skill_t::sk_nightmare)
     mobj->reactiontime = info->reactiontime;
 
   mobj->lastlook = P_Random() % MAXPLAYERS;
@@ -640,12 +640,12 @@ void P_SpawnMapThing(mapthing_t *mthing) {
   if (!netgame && (mthing->options & 16))
     return;
 
-  if (gameskill == sk_baby)
+  if (gameskill == skill_t::sk_baby)
     bit = 1;
-  else if (gameskill == sk_nightmare)
+  else if (gameskill == skill_t::sk_nightmare)
     bit = 4;
   else
-    bit = 1 << (gameskill - 1);
+    bit = 1 << (static_cast<int>(gameskill) - 1);
 
   if (!(mthing->options & bit))
     return;

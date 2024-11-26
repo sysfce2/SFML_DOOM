@@ -1178,8 +1178,8 @@ void G_InitNew(skill_t skill, int episode, int map) {
     S_ResumeSound();
   }
 
-  if (skill > sk_nightmare)
-    skill = sk_nightmare;
+  if (skill > skill_t::sk_nightmare)
+      skill = skill_t::sk_nightmare;
 
   // This was quite messy with SPECIAL and commented parts.
   // Supposedly hacks to make the latest edition work.
@@ -1206,18 +1206,22 @@ void G_InitNew(skill_t skill, int episode, int map) {
 
   M_ClearRandom();
 
-  if (skill == sk_nightmare || respawnparm)
+  if (skill == skill_t::sk_nightmare || respawnparm)
     respawnmonsters = true;
   else
     respawnmonsters = false;
 
-  if (fastparm || (skill == sk_nightmare && gameskill != sk_nightmare)) {
+  if (fastparm ||
+      (skill == skill_t::sk_nightmare && gameskill != skill_t::sk_nightmare))
+  {
     for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
       states[i].tics >>= 1;
     mobjinfo[MT_BRUISERSHOT].speed = 20 * FRACUNIT;
     mobjinfo[MT_HEADSHOT].speed = 20 * FRACUNIT;
     mobjinfo[MT_TROOPSHOT].speed = 20 * FRACUNIT;
-  } else if (skill != sk_nightmare && gameskill == sk_nightmare) {
+  }
+  else if (skill != skill_t::sk_nightmare && gameskill == skill_t::sk_nightmare)
+  {
     for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
       states[i].tics <<= 1;
     mobjinfo[MT_BRUISERSHOT].speed = 15 * FRACUNIT;

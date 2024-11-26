@@ -431,7 +431,7 @@ void I_NetCmd( void ) {
 
 ticcmd_t localcmds[BACKUPTICS];
 
-export ticcmd_t netcmds[MAXPLAYERS][BACKUPTICS];
+export inline ticcmd_t netcmds[MAXPLAYERS][BACKUPTICS];
 int nettics[MAXNETNODES];
 bool nodeingame[MAXNETNODES];   // set false as nodes leave game
 bool remoteresend[MAXNETNODES]; // set when local needs tics

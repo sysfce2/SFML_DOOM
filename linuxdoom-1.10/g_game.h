@@ -24,29 +24,7 @@
 
 #include <SFML/Window.hpp>
 
-import doom;
-
-// previously externs in doomstat.h
-inline int gamemap;
-inline int gametic;
-inline int gameepisode;
-inline bool playeringame[MAXPLAYERS];
-inline uint8_t deathmatch; // only if started as net death
-inline bool netgame;    // only true if packets are broadcast
-inline int consoleplayer; // player taking events and displaying
-inline bool viewactive;
-inline bool singledemo; // quit after playing a demo from cmdline
-inline skill_t gameskill;
-inline int totalkills, totalitems, totalsecret; // for intermission
-inline bool usergame;  // ok to save / end game
-inline bool demoplayback;
-inline gamestate_t gamestate;
-inline bool paused;
-inline int displayplayer; // view being displayed
-inline int bodyqueslot;
-inline bool precache = true; // if true, load all graphics at start
-inline bool nodrawers;  // for comparative timing purposes
-inline bool respawnmonsters;
+enum class skill_t;
 
 //
 // GAME
@@ -94,7 +72,7 @@ bool G_Responder(const sf::Event &ev);
 
 void G_ScreenShot(void);
 
-class ticcmd_t;
+struct ticcmd_t;
 void G_BuildTiccmd(ticcmd_t *cmd);
 
 //-----------------------------------------------------------------------------

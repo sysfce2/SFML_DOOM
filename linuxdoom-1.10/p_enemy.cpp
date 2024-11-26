@@ -595,7 +595,7 @@ void A_Chase(mobj_t *actor) {
   // do not attack twice in a row
   if (actor->flags & MF_JUSTATTACKED) {
     actor->flags &= ~MF_JUSTATTACKED;
-    if (gameskill != sk_nightmare && !fastparm)
+      if (gameskill != skill_t::sk_nightmare && !fastparm)
       P_NewChaseDir(actor);
     return;
   }
@@ -611,7 +611,8 @@ void A_Chase(mobj_t *actor) {
 
   // check for missile attack
   if (actor->info->missilestate) {
-    if (gameskill < sk_nightmare && !fastparm && actor->movecount) {
+      if (gameskill < skill_t::sk_nightmare && !fastparm && actor->movecount)
+      {
       goto nomissile;
     }
 
@@ -1592,7 +1593,7 @@ void A_BrainSpit(mobj_t *mo) {
   static int easy = 0;
 
   easy ^= 1;
-  if (gameskill <= sk_easy && (!easy))
+  if (gameskill <= skill_t::sk_easy && (!easy))
     return;
 
   // shoot a cube at current target

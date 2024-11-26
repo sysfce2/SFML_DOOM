@@ -14,7 +14,8 @@
 //	Put all global state variables here.
 //
 //-----------------------------------------------------------------------------
-
+module;
+#include <cstdint>
 export module doom:state;
 
 import :definitions;
@@ -31,3 +32,25 @@ export Language_t language = english;
 export bool modifiedgame;
 
 export player_t *viewplayer;
+
+// previously externs in doomstat.h
+export inline int gamemap;
+export inline int gametic;
+export inline int gameepisode;
+export inline bool playeringame[MAXPLAYERS];
+export inline uint8_t deathmatch; // only if started as net death
+export inline bool netgame;       // only true if packets are broadcast
+export inline int consoleplayer;  // player taking events and displaying
+export inline bool viewactive;
+export inline bool singledemo; // quit after playing a demo from cmdline
+export inline skill_t gameskill;
+export inline int totalkills, totalitems, totalsecret; // for intermission
+export inline bool usergame;                           // ok to save / end game
+export inline bool demoplayback;
+export inline gamestate_t gamestate;
+export inline bool paused;
+export inline int displayplayer; // view being displayed
+export inline int bodyqueslot;
+export inline bool precache = true; // if true, load all graphics at start
+export inline bool nodrawers;       // for comparative timing purposes
+export inline bool respawnmonsters;

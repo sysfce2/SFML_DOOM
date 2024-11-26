@@ -113,7 +113,7 @@ export enum gamestate_t { GS_LEVEL, GS_INTERMISSION, GS_FINALE, GS_DEMOSCREEN };
 // Deaf monsters/do not react to sound.
 export constexpr auto MTF_AMBUSH = 8;
 
-export enum skill_t { sk_baby, sk_easy, sk_medium, sk_hard, sk_nightmare };
+export enum class skill_t { sk_baby, sk_easy, sk_medium, sk_hard, sk_nightmare };
 
 //
 // Key cards.
