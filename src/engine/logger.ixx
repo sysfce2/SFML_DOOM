@@ -28,9 +28,10 @@ export module engine:logger;
 
 namespace logger
 {
-//
-// logger::error
-//
+//! Log an error message
+//! @param fmt Format string to use
+//! @param args Arguments for the format string
+//! @warning This will exit the app and break in the debugger, if attached
 export template <typename... Args>
 void error(spdlog::format_string_t<Args...> fmt, Args &&...args)
 {
@@ -45,18 +46,18 @@ void error(spdlog::format_string_t<Args...> fmt, Args &&...args)
     exit(-1);
 }
 
-//
-// I_Debug
-//
+//! Log an info message
+//! @param fmt Format string to use
+//! @param args Arguments for the format string
 export template <typename... Args>
 void info(spdlog::format_string_t<Args...> fmt, Args &&...args)
 {
     spdlog::info(fmt, std::forward<Args>(args)...);
 }
 
-//
-// I_Debug
-//
+//! Log a debug message
+//! @param fmt Format string to use
+//! @param args Arguments for the format string
 export template <typename... Args>
 void debug(spdlog::format_string_t<Args...> fmt, Args &&...args)
 {

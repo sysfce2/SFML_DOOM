@@ -63,23 +63,14 @@ export void I_Quit(void)
 //
 // DEFAULTS
 //
-export int viewwidth;
-export int viewheight;
-
-export int mouseSensitivity = 5;
-
-// Show messages has default, 0 = off, 1 = on
-export int showMessages = 1;
-
-// Blocky mode, has default, 0 = high, 1 = normal
-export int detailLevel = 0;
-
-export int screenblocks = 9;
-
-// machine-independent sound params
-export int numChannels = 3;
-
-extern char *chat_macros[];
+export int viewwidth;            //!< Default view width
+export int viewheight;           //!< Default view height
+export int mouseSensitivity = 5; //!< Default mouse sensivity
+export int showMessages = 1;     //!< Show messages has default, 0 = off, 1 = on
+export int detailLevel = 0;  //!< Blocky mode, has default, 0 = high, 1 = normal
+export int screenblocks = 9; //!< Number of screen blocks (?)
+export int numChannels = 3;  //!< machine-independent sound params
+extern char *chat_macros[];  //!< Default chat macros
 
 std::map<std::string, int &> defaults = {
     {"mouse_sensitivity", mouseSensitivity},
@@ -143,7 +134,7 @@ constexpr auto defaults_file_name = ".doomrc";
 std::filesystem::path defaults_file_path;
 
 //
-// M_SaveDefaults
+//! M_SaveDefaults
 //
 export void M_SaveDefaults(void)
 {
@@ -157,11 +148,10 @@ export void M_SaveDefaults(void)
     }
 }
 
-//
-// M_LoadDefaults
-//
 extern std::byte scantokey[128];
-
+//
+//! M_LoadDefaults
+//
 export void M_LoadDefaults(void)
 {
 
