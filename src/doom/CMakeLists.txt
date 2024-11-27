@@ -15,9 +15,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE ../../linuxdoom-1.10)
 
 # Sym link the wads folder into the build output
 if(APPLE)
-    set(WADS_DEST $<TARGET_BUNDLE_DIR:${CMAKE_PROJECT_NAME}>/Contents/MacOS/wads)
+    set(WADS_DEST $<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/MacOS/wads)
 else()
-    set(WADS_DEST $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/wads)
+    set(WADS_DEST $<TARGET_FILE_DIR:${PROJECT_NAME}>/wads)
 endif()
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/wads ${WADS_DEST})
