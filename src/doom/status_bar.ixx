@@ -1086,7 +1086,7 @@ void ST_doPaletteStuff( void )
     if ( palette != st_palette )
     {
         st_palette = palette;
-        pal = (std::byte *)W_CacheLumpNum( lu_palette ) + palette * 768;
+        pal = (std::byte *)wad::get( lu_palette ) + palette * 768;
         I_SetPalette( pal );
     }
 }
@@ -1304,25 +1304,25 @@ void ST_loadGraphics( void )
     for ( i = 0; i < 10; i++ )
     {
         snprintf( namebuf, 9, "STTNUM%d", i );
-        tallnum[i] = (patch_t *)W_CacheLumpName( namebuf );
+        tallnum[i] = (patch_t *)wad::get( namebuf );
 
         snprintf( namebuf, 9, "STYSNUM%d", i );
-        shortnum[i] = (patch_t *)W_CacheLumpName( namebuf );
+        shortnum[i] = (patch_t *)wad::get( namebuf );
     }
 
     // Load percent key.
     // Note: why not load STMINUS here, too?
-    tallpercent = (patch_t *)W_CacheLumpName( "STTPRCNT" );
+    tallpercent = (patch_t *)wad::get( "STTPRCNT" );
 
     // key cards
     for ( i = 0; i < NUMCARDS; i++ )
     {
         snprintf( namebuf, 9, "STKEYS%d", i );
-        keys[i] = (patch_t *)W_CacheLumpName( namebuf );
+        keys[i] = (patch_t *)wad::get( namebuf );
     }
 
     // arms background
-    armsbg = (patch_t *)W_CacheLumpName( "STARMS" );
+    armsbg = (patch_t *)wad::get( "STARMS" );
 
     // arms ownership widgets
     for ( i = 0; i < 6; i++ )
@@ -1330,7 +1330,7 @@ void ST_loadGraphics( void )
         snprintf( namebuf, 9, "STGNUM%d", i + 2 );
 
         // gray #
-        arms[i][0] = (patch_t *)W_CacheLumpName( namebuf );
+        arms[i][0] = (patch_t *)wad::get( namebuf );
 
         // yellow #
         arms[i][1] = shortnum[i + 2];
@@ -1338,10 +1338,10 @@ void ST_loadGraphics( void )
 
     // face backgrounds for different color players
     snprintf( namebuf, 9, "STFB%d", consoleplayer );
-    faceback = (patch_t *)W_CacheLumpName( namebuf );
+    faceback = (patch_t *)wad::get( namebuf );
 
     // status bar background bits
-    sbar = (patch_t *)W_CacheLumpName( "STBAR" );
+    sbar = (patch_t *)wad::get( "STBAR" );
 
     // face states
     facenum = 0;
@@ -1350,30 +1350,30 @@ void ST_loadGraphics( void )
         for ( j = 0; j < ST_NUMSTRAIGHTFACES; j++ )
         {
             snprintf( namebuf, 9, "STFST%d%d", i, j );
-            faces[facenum++] = static_cast<patch_t *>( W_CacheLumpName( namebuf ) );
+            faces[facenum++] = static_cast<patch_t *>( wad::get( namebuf ) );
         }
         snprintf( namebuf, 9, "STFTR%d0", i ); // turn right
-        faces[facenum++] = static_cast<patch_t *>( W_CacheLumpName( namebuf ) );
+        faces[facenum++] = static_cast<patch_t *>( wad::get( namebuf ) );
         snprintf( namebuf, 9, "STFTL%d0", i ); // turn left
-        faces[facenum++] = static_cast<patch_t *>( W_CacheLumpName( namebuf ) );
+        faces[facenum++] = static_cast<patch_t *>( wad::get( namebuf ) );
         snprintf( namebuf, 9, "STFOUCH%d", i ); // ouch!
-        faces[facenum++] = static_cast<patch_t *>( W_CacheLumpName( namebuf ) );
+        faces[facenum++] = static_cast<patch_t *>( wad::get( namebuf ) );
         snprintf( namebuf, 9, "STFEVL%d", i ); // evil grin ;)
-        faces[facenum++] = static_cast<patch_t *>( W_CacheLumpName( namebuf ) );
+        faces[facenum++] = static_cast<patch_t *>( wad::get( namebuf ) );
         snprintf( namebuf, 9, "STFKILL%d", i ); // pissed off
-        faces[facenum++] = static_cast<patch_t *>( W_CacheLumpName( namebuf ) );
+        faces[facenum++] = static_cast<patch_t *>( wad::get( namebuf ) );
     }
-    faces[facenum++] = static_cast<patch_t *>( W_CacheLumpName( "STFGOD0" ) );
-    faces[facenum++] = static_cast<patch_t *>( W_CacheLumpName( "STFDEAD0" ) );
+    faces[facenum++] = static_cast<patch_t *>( wad::get( "STFGOD0" ) );
+    faces[facenum++] = static_cast<patch_t *>( wad::get( "STFDEAD0" ) );
 }
 
 void ST_loadData( void )
 {
-    lu_palette = W_GetNumForName( "PLAYPAL" );
+    lu_palette = wad::index_of( "PLAYPAL" );
     ST_loadGraphics();
 }
 
-void STlib_init( void ) { sttminus = (patch_t *)W_CacheLumpName( "STTMINUS" ); }
+void STlib_init( void ) { sttminus = (patch_t *)wad::get( "STTMINUS" ); }
 
 void ST_initData( void )
 {
@@ -1521,7 +1521,7 @@ void ST_Stop( void )
     if ( st_stopped )
         return;
 
-    I_SetPalette( static_cast<std::byte *>( W_CacheLumpNum( lu_palette ) ) );
+    I_SetPalette( static_cast<std::byte *>( wad::get( lu_palette ) ) );
 
     st_stopped = true;
 }

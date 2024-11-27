@@ -448,14 +448,14 @@ export int I_GetSfxLumpNum( const std::string &name )
     // I do not do runtime patches to that
     //  variable. Instead, we will use a
     //  default sound for replacement.
-    if ( W_CheckNumForName( lump_name ) == -1 )
+    if ( wad::index_of( lump_name ) == -1 )
     {
         logger::info( "{} sound not found, using pistol placeholder", name );
-        return W_GetNumForName( "dspistol" );
+        return wad::index_of( "dspistol" );
     }
     else
     {
-        return W_GetNumForName( lump_name );
+        return wad::index_of( lump_name );
     }
 }
 
@@ -695,11 +695,11 @@ export void S_ChangeMusic( int musicnum, int looping )
     // get lumpnum if neccessary
     if ( !music->lumpnum )
     {
-        music->lumpnum = W_GetNumForName( music->name );
+        music->lumpnum = wad::index_of( music->name );
     }
 
     // load & register it
-    music->data = (void *)W_CacheLumpNum( music->lumpnum );
+    music->data = (void *)wad::get( music->lumpnum );
     music->handle = I_RegisterSong( music->data );
 
     // play it
@@ -941,8 +941,8 @@ void I_InitSound()
         {
             // Load data from WAD file.
             auto sfxlump = I_GetSfxLumpNum( sound.name );
-            auto sfx = W_CacheLumpNum( sfxlump );
-            auto length = W_LumpLength( sfxlump );
+            auto sfx = wad::get( sfxlump );
+            auto length = wad::lump_length( sfxlump );
 
             // Sound lumps are stored in some format with a small header and
             // samples

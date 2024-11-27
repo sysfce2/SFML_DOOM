@@ -260,7 +260,7 @@ void init( void )
         // but w/o all the lumps of the registered version.
         if ( gamemode == registered )
             for ( i = 0; i < 23; i++ )
-                if ( W_CheckNumForName( name[i] ) < 0 )
+                if ( wad::index_of( name[i] ) < 0 )
                     logger::error( "\nThis is not the registered version." );
     }
 
@@ -318,7 +318,8 @@ void init( void )
 
     logger::info( "Initialising subsystems" );
     M_LoadDefaults(); // load before initing other systems
-    W_InitMultipleFiles( wadfilenames );
+
+    wad::add( wadfilenames );
 
     M_Init();
 

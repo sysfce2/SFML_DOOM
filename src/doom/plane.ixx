@@ -371,7 +371,7 @@ export void R_DrawPlanes( void )
         }
 
         // regular flat
-        ds_source = static_cast<std::byte *>( W_CacheLumpNum( firstflat + flattranslation[pl->picnum] ) );
+        ds_source = static_cast<std::byte *>( wad::get( firstflat + flattranslation[pl->picnum] ) );
 
         planeheight = abs( pl->height - viewz );
         light = ( pl->lightlevel >> LIGHTSEGSHIFT ) + extralight;

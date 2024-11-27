@@ -30,97 +30,46 @@ module;
 #include <string>
 #include <vector>
 
-#include <spdlog/spdlog.h>
-
 export module wad;
 
 import engine;
 
-//
-// TYPES
-//
-struct wadinfo_t
+namespace wad
 {
-    // Should be "IWAD" or "PWAD".
-    char identification[4];
-    int32_t numlumps;
-    int32_t infotableofs;
+
+//! Represents the header of a WAD file
+struct header
+{
+    std::array<char, 4> identification; //!< WAD type, should be "IWAD" or "PWAD"
+    int32_t numlumps;                   //!< Number of lumps in the wad
+    int32_t infotableofs;               //!< Offset of the info table
 };
-
-typedef struct
-{
-    int32_t filepos;
-    int32_t size;
-    std::array<char, 8> name;
-
-} filelump_t;
+static_assert( sizeof( header ) == 12 );
 
 //
 // WADFILE I/O related stuff.
 //
-struct lumpinfo_t
+struct lump_info
 {
-    char name[8] = {};
-    int32_t handle = {};
-    int32_t position = {};
-    int32_t size = {};
+    int32_t position = {};    //!< Position of the lump in it's file
+    int32_t size = {};        //!< Size of the lump
+    std::array<char, 8> name; //!< Name of the lump
 };
 
-typedef struct memblock_s
-{
-    int size;    // including the header and possibly tiny fragments
-    void **user; // NULL if a free block
-    int tag;     // purgelevel
-    int id;      // should be ZONEID
-    struct memblock_s *next;
-    struct memblock_s *prev;
-} memblock_t;
+static_assert( sizeof( lump_info ) == 16 );
 
-//
-// GLOBALS
-//
+// Info about the loaded lumps
+export std::vector<lump_info> lumpinfo;
 
-// Location of each lump on disk.
-export std::vector<lumpinfo_t> lumpinfo;
+// Cache of the loaded lump data
+using lump = std::vector<std::byte>;
+std::vector<lump> lumpcache;
 
-std::vector<void *> lumpcache;
+size_t reloadlump;
+std::filesystem::path reloadpath;
 
-std::vector<std::ifstream> wadfiles;
 
-#define strcmpi strcasecmp
-
-void ExtractFileBase( const char *path, char *dest )
-{
-    int length;
-
-    const char *src = path + strlen( path ) - 1;
-
-    // back up until a \ or the start
-    while ( src != path && *( src - 1 ) != '\\' && *( src - 1 ) != '/' )
-    {
-        src--;
-    }
-
-    // copy up to eight characters
-    memset( dest, 0, 8 );
-    length = 0;
-
-    while ( *src && *src != '.' )
-    {
-        if ( ++length == 9 )
-            logger::error( "Filename base of %s >8 chars", path );
-
-        *dest++ = toupper( (int)*src++ );
-    }
-}
-
-//
-// LUMP BASED ROUTINES.
-//
-
-//
-// W_AddFile
-// All files are optional, but at least one file must be
+//! All files are optional, but at least one file must be
 //  found (PWAD, if all required lumps are present).
 // Files with a .wad extension are wadlink files
 //  with multiple lumps.
@@ -130,32 +79,21 @@ void ExtractFileBase( const char *path, char *dest )
 // If filename starts with a tilde, the file is handled
 //  specially to allow map reloads.
 // But: the reload feature is a fragile hack...
-
-size_t reloadlump;
-std::filesystem::path reloadpath;
-
-void W_AddFile( const std::filesystem::path &filepath )
+void add( const std::filesystem::path &filepath )
 {
     if ( filepath.empty() )
     {
-        printf( "Cannot add empty file path\n" );
+        logger::error( "Cannot add empty file path" );
         return;
     }
 
     if ( !std::filesystem::exists( filepath ) )
     {
-        printf( "File not found: %s\n", filepath.string().c_str() );
+        logger::error( "File not found: {}", filepath.string() );
         return;
     }
 
     auto filename = filepath.filename();
-
-    wadinfo_t header;
-    int length;
-    std::vector<filelump_t> fileinfo;
-    filelump_t singleinfo{};
-
-    // open the file and add to directory
 
     // handle reload indicator.
     if ( filename.string()[0] == '~' )
@@ -165,56 +103,52 @@ void W_AddFile( const std::filesystem::path &filepath )
         reloadlump = lumpinfo.size();
     }
 
-    wadfiles.emplace_back( filepath.string(), std::ios::binary );
-    if ( !wadfiles.back().is_open() )
+    std::ifstream file( filepath.string(), std::ios::binary );
+    if ( !file.is_open() )
     {
-        spdlog::error( " couldn't open {}", filepath.string() );
-        wadfiles.pop_back();
+        logger::error( " couldn't open {}", filepath.string() );
         return;
     }
 
-    spdlog::info( " adding {}", filename.string() );
+    logger::info( "Adding wad file from {}", filename.string() );
 
     if ( filename.extension() != ".wad" )
     {
-        // single lump file
-        fileinfo = { singleinfo };
-        singleinfo.filepos = 0;
-        singleinfo.size = static_cast<int>( std::filesystem::file_size( filepath ) );
-        std::copy( filename.string().begin(), filename.string().end(), singleinfo.name.begin() );
-        lumpinfo.emplace_back();
+        // single lump file, just add it to the file lump info
+        lump_info lump{
+            .position = 0,
+            .size = static_cast<int32_t>( std::filesystem::file_size( filepath ) ),
+        };
+        std::copy_n( filename.string().begin(), 8, lump.name.begin() );
+        lumpinfo.emplace_back( lump );
     }
     else
     {
-        // WAD file
-        wadfiles.back().read( reinterpret_cast<char *>( &header ), sizeof( header ) );
-        if ( strncmp( header.identification, "IWAD", 4 ) )
+        // WAD file containing multiple lumps
+        header header;
+        file.read( reinterpret_cast<char *>( &header ), sizeof( header ) );
+        if ( std::ranges::equal( header.identification, "IWAD" ) )
         {
-            // Homebrew levels?
-            if ( strncmp( header.identification, "PWAD", 4 ) )
+            if ( std::ranges::equal( header.identification, "PWAD" ) )
             {
-                logger::error( "Wad file {} doesn't have or PWAD id\n", filename.string() );
+                logger::error( "Wad file {} doesn't have or PWAD id", filename.string() );
             }
-
-            // ???modifiedgame = true;
         }
-        header.numlumps = header.numlumps;
-        header.infotableofs = header.infotableofs;
-        length = header.numlumps * sizeof( filelump_t );
-        fileinfo.resize( header.numlumps );
-        wadfiles.back().seekg( header.infotableofs, std::ios::beg );
-        wadfiles.back().read( reinterpret_cast<char *>( fileinfo.data() ), length );
-        lumpinfo.reserve( lumpinfo.size() + header.numlumps );
+
+        logger::info( "WAD has {} lumps at offset {}", header.numlumps, header.infotableofs );
+
+        auto length = header.numlumps * sizeof( lump_info );
+        lumpinfo.resize( header.numlumps );
+        file.seekg( header.infotableofs, std::ios::beg );
+        file.read( reinterpret_cast<char *>( lumpinfo.data() ), length );
     }
 
-    for ( auto i = 0; i < header.numlumps; ++i )
+    // Then cache the actual lumps
+    for ( const auto info : lumpinfo )
     {
-        const auto fileIndex = reloadpath.empty() ? wadfiles.size() - 1 : -1;
-        lumpinfo.emplace_back();
-        std::copy( fileinfo[i].name.begin(), fileinfo[i].name.end(), lumpinfo.back().name );
-        lumpinfo.back().handle = static_cast<int>( fileIndex );
-        lumpinfo.back().position = fileinfo[i].filepos;
-        lumpinfo.back().size = fileinfo[i].size;
+        lumpcache.emplace_back( info.size );
+        file.seekg( info.position, std::ios::beg);
+        file.read( reinterpret_cast<char *>(lumpcache.back().data()), info.size );
     }
 }
 
@@ -225,10 +159,6 @@ void W_AddFile( const std::filesystem::path &filepath )
 //
 export void W_Reload( void )
 {
-    int lumpcount{};
-    lumpinfo_t *lump_p;
-    filelump_t *fileinfo{};
-
     if ( reloadpath.empty() )
         return;
 
@@ -246,16 +176,16 @@ export void W_Reload( void )
     // read (handle, fileinfo, length);
 
     // Fill in lumpinfo
-    lump_p = &lumpinfo[reloadlump];
+    // lump_p = &lumpinfo[reloadlump];
 
-    for ( auto i = reloadlump; i < reloadlump + lumpcount; i++, lump_p++, fileinfo++ )
-    {
-        if ( lumpcache[i] )
-            free( lumpcache[i] );
-
-        lump_p->position = fileinfo->filepos;
-        lump_p->size = fileinfo->size;
-    }
+    // for ( auto i = reloadlump; i < reloadlump + lumpcount; i++, lump_p++, fileinfo++ )
+    //{
+    //     if ( lumpcache[i] )
+    //         free( lumpcache[i] );
+    //
+    //     lump_p->position = fileinfo->filepos;
+    //     lump_p->size = fileinfo->size;
+    // }
 
     // JONNY TODO
     // close (handle);
@@ -274,14 +204,14 @@ export void W_Reload( void )
 // The name searcher looks backwards, so a later file
 //  does override all earlier ones.
 //
-export void W_InitMultipleFiles( std::vector<std::string> &filenames )
+export void add( std::vector<std::string> &filenames )
 {
     // Clear existing lump infop
     lumpinfo.clear();
 
     for ( const auto &name : filenames )
     {
-        W_AddFile( name );
+        add( name );
     }
 
     if ( lumpinfo.empty() )
@@ -300,138 +230,68 @@ export void W_InitMultipleFiles( std::vector<std::string> &filenames )
 void W_InitFile( std::string filename )
 {
     std::vector names{ filename };
-    W_InitMultipleFiles( names );
+    wad::add( names );
 }
 
-//
-// W_CheckNumForName
-// Returns -1 if name not found.
-//
 
-export int W_CheckNumForName( const std::string &name )
+//
+// wad::index_of
+// Calls W_CheckNumForName, but bombs out if not found.
+//
+export int index_of( const std::string &name )
 {
+    // name must be 8 characters and upper case
+    std::string upper_name( 8, 0 );
+    std::transform( std::begin( name ), std::end( name ), std::begin( upper_name ), toupper );
+
     // scan backwards so patch lump files take precedence
-    auto upper_name = name;
-    std::transform( std::begin( upper_name ), std::end( upper_name ), std::begin( upper_name ), toupper );
     for ( auto lump = lumpinfo.rbegin(); lump != lumpinfo.rend(); ++lump )
     {
-        if ( lump->name == upper_name )
+        if ( std::ranges::equal( lump->name, upper_name ) )
         {
             return static_cast<int>( std::distance( lumpinfo.begin(), lump.base() ) - 1 );
         }
     }
 
-    // TFB. Not found.
+    logger::warn( "wad::index_of: {} not found!", name );
+
     return -1;
 }
 
 //
-// W_GetNumForName
-// Calls W_CheckNumForName, but bombs out if not found.
-//
-export int W_GetNumForName( const std::string &name )
-{
-    int i;
-
-    i = W_CheckNumForName( name );
-
-    if ( i == -1 )
-        logger::error( "W_GetNumForName: {} not found!", name );
-
-    return i;
-}
-
-//
-// W_LumpLength
+// wad::lump_length
 // Returns the buffer size needed to load the given lump.
 //
-export int W_LumpLength( int lump )
+export int lump_length( int lump )
 {
     if ( lump >= lumpinfo.size() )
     {
-        logger::error( "W_LumpLength: {} out of bounds", lump );
+        logger::error( "wad::lump_length: {} out of bounds", lump );
     }
 
     return lumpinfo[lump].size;
 }
 
-//
-// W_ReadLump
-// Loads the lump into the given buffer,
-//  which must be >= W_LumpLength().
-//
-export void W_ReadLump( int lump, void *dest )
-{
-
-    if ( lump >= lumpinfo.size() )
-    {
-        logger::error( "W_ReadLump: {} out of bounds", lump );
-    }
-
-    const auto &l = lumpinfo[lump];
-
-    // ??? I_BeginRead ();
-
-    if ( l.handle == -1 )
-    {
-        // reloadable file, so use open / read / close
-        if ( std::ifstream file{ reloadpath.c_str(), std::ios::binary }; !file.is_open() )
-        {
-            logger::error( "W_ReadLump: couldn't open {}", reloadpath.string() );
-        }
-        else
-        {
-            file.seekg( l.position, std::ios::beg );
-            file.read( reinterpret_cast<char *>( dest ), l.size );
-
-            if ( !file )
-            {
-                logger::error( "W_ReadLump: only read {} of {} on lump {}", file.gcount(), l.size, lump );
-            }
-        }
-    }
-    else
-    {
-        auto &file = wadfiles[l.handle];
-
-        file.seekg( l.position, std::ios::beg );
-        file.read( reinterpret_cast<char *>( dest ), l.size );
-
-        if ( !file )
-        {
-            logger::error( "W_ReadLump: only read {} of {} on lump {}", file.gcount(), l.size, lump );
-        }
-    }
-}
-
-//
-// W_CacheLumpNum
-//
-export void *W_CacheLumpNum( uint32_t lump )
+//! Get the data for a lump
+export void* get( uint32_t lump )
 {
     if ( lump >= lumpinfo.size() )
     {
-        logger::error( "W_CacheLumpNum: {} out of bounds", lump );
+        logger::error( "wad::get: {} out of bounds", lump );
     }
 
-    if ( !lumpcache[lump] )
-    {
-        // read the lump in
-
-        // printf ("cache miss on lump {}\n",lump);
-        const auto size = W_LumpLength( lump );
-        lumpcache[lump] = static_cast<void *>( malloc( size ) );
-        W_ReadLump( lump, lumpcache[lump] );
-    }
-    else
-    {
-        // printf ("cache hit on lump {}\n",lump);
-    }
-
-    return lumpcache[lump];
+    return lumpcache[lump].data();
 }
 
-//
-// W_CacheLumpName
-//
-export void *W_CacheLumpName( const std::string &name ) { return W_CacheLumpNum( W_GetNumForName( name ) ); }
+//! Get the data for a lump
+export void* get( const std::string& name )
+{
+    const auto lump = wad::index_of( name ); 
+    if ( lump >= lumpinfo.size() )
+    {
+        logger::error( "wad::get: {} out of bounds", lump );
+    }
+
+    return lumpcache[lump].data();
+}
+} // namespace wad

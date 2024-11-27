@@ -665,7 +665,7 @@ void R_FillBackScreen(void) {
   else
     name = name1;
 
-  src = static_cast<std::byte *>(W_CacheLumpName(name));
+  src = static_cast<std::byte *>(wad::get(name));
   dest = screens[1].data();
 
   for (y = 0; y < SCREENHEIGHT - SBARHEIGHT; y++) {
@@ -680,35 +680,35 @@ void R_FillBackScreen(void) {
     }
   }
 
-  patch = static_cast<patch_t *>(W_CacheLumpName("brdr_t"));
+  patch = static_cast<patch_t *>(wad::get("brdr_t"));
 
   for (x = 0; x < scaledviewwidth; x += 8)
     V_DrawPatch(viewwindowx + x, viewwindowy - 8, 1, patch);
-  patch = static_cast<patch_t *>(W_CacheLumpName("brdr_b"));
+  patch = static_cast<patch_t *>(wad::get("brdr_b"));
 
   for (x = 0; x < scaledviewwidth; x += 8)
     V_DrawPatch(viewwindowx + x, viewwindowy + viewheight, 1, patch);
-  patch = static_cast<patch_t *>(W_CacheLumpName("brdr_l"));
+  patch = static_cast<patch_t *>(wad::get("brdr_l"));
 
   for (y = 0; y < viewheight; y += 8)
     V_DrawPatch(viewwindowx - 8, viewwindowy + y, 1, patch);
-  patch = static_cast<patch_t *>(W_CacheLumpName("brdr_r"));
+  patch = static_cast<patch_t *>(wad::get("brdr_r"));
 
   for (y = 0; y < viewheight; y += 8)
     V_DrawPatch(viewwindowx + scaledviewwidth, viewwindowy + y, 1, patch);
 
   // Draw beveled edge.
   V_DrawPatch(viewwindowx - 8, viewwindowy - 8, 1,
-              static_cast<patch_t *>(W_CacheLumpName("brdr_tl")));
+              static_cast<patch_t *>(wad::get("brdr_tl")));
 
   V_DrawPatch(viewwindowx + scaledviewwidth, viewwindowy - 8, 1,
-              static_cast<patch_t *>(W_CacheLumpName("brdr_tr")));
+              static_cast<patch_t *>(wad::get("brdr_tr")));
 
   V_DrawPatch(viewwindowx - 8, viewwindowy + viewheight, 1,
-              static_cast<patch_t *>(W_CacheLumpName("brdr_bl")));
+              static_cast<patch_t *>(wad::get("brdr_bl")));
 
   V_DrawPatch(viewwindowx + scaledviewwidth, viewwindowy + viewheight, 1,
-              static_cast<patch_t *>(W_CacheLumpName("brdr_br")));
+              static_cast<patch_t *>(wad::get("brdr_br")));
 }
 
 //

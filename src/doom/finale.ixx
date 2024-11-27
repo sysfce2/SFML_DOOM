@@ -259,7 +259,7 @@ void F_TextWrite( void )
     int cy;
 
     // erase the entire screen to a tiled background
-    src = static_cast<std::byte *>( W_CacheLumpName( finaleflat ) );
+    src = static_cast<std::byte *>( wad::get( finaleflat ) );
     dest = screens[0].data();
 
     for ( y = 0; y < SCREENHEIGHT; y++ )
@@ -592,7 +592,7 @@ void F_CastDrawer( void )
     patch_t *patch;
 
     // erase the entire screen to a background
-    V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( W_CacheLumpName( "BOSSBACK" ) ) );
+    V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( wad::get( "BOSSBACK" ) ) );
 
     F_CastPrint( castorder[castnum].name );
 
@@ -602,7 +602,7 @@ void F_CastDrawer( void )
     lump = sprframe.lump[0];
     flip = (bool)sprframe.flip[0];
 
-    patch = static_cast<patch_t *>( W_CacheLumpNum( lump + firstspritelump ) );
+    patch = static_cast<patch_t *>( wad::get( lump + firstspritelump ) );
     if ( flip )
     {
     }
@@ -655,8 +655,8 @@ void F_BunnyScroll( void )
     int stage;
     static int laststage;
 
-    p1 = static_cast<patch_t *>( W_CacheLumpName( "PFUB2" ) );
-    p2 = static_cast<patch_t *>( W_CacheLumpName( "PFUB1" ) );
+    p1 = static_cast<patch_t *>( wad::get( "PFUB2" ) );
+    p2 = static_cast<patch_t *>( wad::get( "PFUB1" ) );
 
     V_MarkRect( 0, 0, SCREENWIDTH, SCREENHEIGHT );
 
@@ -678,7 +678,7 @@ void F_BunnyScroll( void )
         return;
     if ( finalecount < 1180 )
     {
-        V_DrawPatch( ( SCREENWIDTH - 13 * 8 ) / 2, ( SCREENHEIGHT - 8 * 8 ) / 2, 0, static_cast<patch_t *>( W_CacheLumpName( "END0" ) ) );
+        V_DrawPatch( ( SCREENWIDTH - 13 * 8 ) / 2, ( SCREENHEIGHT - 8 * 8 ) / 2, 0, static_cast<patch_t *>( wad::get( "END0" ) ) );
         laststage = 0;
         return;
     }
@@ -693,7 +693,7 @@ void F_BunnyScroll( void )
     }
 
     snprintf( name, 10, "END%i", stage );
-    V_DrawPatch( ( SCREENWIDTH - 13 * 8 ) / 2, ( SCREENHEIGHT - 8 * 8 ) / 2, 0, static_cast<patch_t *>( W_CacheLumpName( name ) ) );
+    V_DrawPatch( ( SCREENWIDTH - 13 * 8 ) / 2, ( SCREENHEIGHT - 8 * 8 ) / 2, 0, static_cast<patch_t *>( wad::get( name ) ) );
 }
 
 //
@@ -715,18 +715,18 @@ export void F_Drawer( void )
         {
         case 1:
             if ( gamemode == retail )
-                V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( W_CacheLumpName( "CREDIT" ) ) );
+                V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( wad::get( "CREDIT" ) ) );
             else
-                V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( W_CacheLumpName( "HELP2" ) ) );
+                V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( wad::get( "HELP2" ) ) );
             break;
         case 2:
-            V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( W_CacheLumpName( "VICTORY2" ) ) );
+            V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( wad::get( "VICTORY2" ) ) );
             break;
         case 3:
             F_BunnyScroll();
             break;
         case 4:
-            V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( W_CacheLumpName( "ENDPIC" ) ) );
+            V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( wad::get( "ENDPIC" ) ) );
             break;
         }
     }

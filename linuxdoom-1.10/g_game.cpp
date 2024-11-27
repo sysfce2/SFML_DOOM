@@ -860,7 +860,7 @@ void G_ExitLevel(void) {
 // Here's for the german edition.
 void G_SecretExitLevel(void) {
   // IF NO WOLF3D LEVELS, NO SECRET EXIT!
-  if ((gamemode == commercial) && (W_CheckNumForName("map31") < 0))
+    if ( ( gamemode == commercial ) && ( wad::index_of( "map31" ) < 0 ) )
     secretexit = false;
   else
     secretexit = true;
@@ -1358,7 +1358,7 @@ void G_DoPlayDemo(void) {
 
   gameaction = ga_nothing;
   demobuffer = demo_p =
-      static_cast<std::byte *>(W_CacheLumpName(defdemoname.c_str()));
+      static_cast<std::byte *>(wad::get(defdemoname.c_str()));
   if (*demo_p++ != std::byte{VERSION}) {
     fprintf(stderr, "Demo is from a different game version!\n");
     gameaction = ga_nothing;

@@ -148,7 +148,7 @@ void P_InitPicAnims(void) {
       lastanim->picnum = R_TextureNumForName(animdef.endname);
       lastanim->basepic = R_TextureNumForName(animdef.startname);
     } else {
-      if (W_CheckNumForName(animdef.startname) == -1) {
+      if (wad::index_of(animdef.startname) == -1) {
         continue;
       }
 

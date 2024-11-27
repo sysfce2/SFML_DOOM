@@ -1462,7 +1462,7 @@ void WI_loadData( void )
     }
 
     // background
-    bg = static_cast<patch_t *>( W_CacheLumpName( name ) );
+    bg = static_cast<patch_t *>( wad::get( name ) );
     V_DrawPatch( 0, 0, 1, bg );
 
     // UNUSED unsigned char *pic = screens[1];
@@ -1483,7 +1483,7 @@ void WI_loadData( void )
         for ( i = 0; i < NUMCMAPS; i++ )
         {
             snprintf( name, 9, "CWILV%2.2d", i );
-            lnames[i] = static_cast<patch_t *>( W_CacheLumpName( name ) );
+            lnames[i] = static_cast<patch_t *>( wad::get( name ) );
         }
     }
     else
@@ -1492,17 +1492,17 @@ void WI_loadData( void )
         for ( i = 0; i < NUMMAPS; i++ )
         {
             snprintf( name, 9, "WILV%d%d", wbs->epsd, i );
-            lnames[i] = static_cast<patch_t *>( W_CacheLumpName( name ) );
+            lnames[i] = static_cast<patch_t *>( wad::get( name ) );
         }
 
         // you are here
-        yah[0] = static_cast<patch_t *>( W_CacheLumpName( "WIURH0" ) );
+        yah[0] = static_cast<patch_t *>( wad::get( "WIURH0" ) );
 
         // you are here (alt.)
-        yah[1] = static_cast<patch_t *>( W_CacheLumpName( "WIURH1" ) );
+        yah[1] = static_cast<patch_t *>( wad::get( "WIURH1" ) );
 
         // splat
-        splat = static_cast<patch_t *>( W_CacheLumpName( "WISPLAT" ) );
+        splat = static_cast<patch_t *>( wad::get( "WISPLAT" ) );
 
         if ( wbs->epsd < 3 )
         {
@@ -1516,7 +1516,7 @@ void WI_loadData( void )
                     {
                         // animations
                         snprintf( name, 9, "WIA%d%.2d%.2d", wbs->epsd, j, i );
-                        a->p[i] = static_cast<patch_t *>( W_CacheLumpName( name ) );
+                        a->p[i] = static_cast<patch_t *>( wad::get( name ) );
                     }
                     else
                     {
@@ -1529,85 +1529,85 @@ void WI_loadData( void )
     }
 
     // More hacks on minus sign.
-    wiminus = static_cast<patch_t *>( W_CacheLumpName( "WIMINUS" ) );
+    wiminus = static_cast<patch_t *>( wad::get( "WIMINUS" ) );
 
     for ( i = 0; i < 10; i++ )
     {
         // numbers 0-9
         snprintf( name, 9, "WINUM%d", i );
-        num[i] = static_cast<patch_t *>( W_CacheLumpName( name ) );
+        num[i] = static_cast<patch_t *>( wad::get( name ) );
     }
 
     // percent sign
-    percent = static_cast<patch_t *>( W_CacheLumpName( "WIPCNT" ) );
+    percent = static_cast<patch_t *>( wad::get( "WIPCNT" ) );
 
     // "finished"
-    finished = static_cast<patch_t *>( W_CacheLumpName( "WIF" ) );
+    finished = static_cast<patch_t *>( wad::get( "WIF" ) );
 
     // "entering"
-    entering = static_cast<patch_t *>( W_CacheLumpName( "WIENTER" ) );
+    entering = static_cast<patch_t *>( wad::get( "WIENTER" ) );
 
     // "kills"
-    kills = static_cast<patch_t *>( W_CacheLumpName( "WIOSTK" ) );
+    kills = static_cast<patch_t *>( wad::get( "WIOSTK" ) );
 
     // "scrt"
-    secret = static_cast<patch_t *>( W_CacheLumpName( "WIOSTS" ) );
+    secret = static_cast<patch_t *>( wad::get( "WIOSTS" ) );
 
     // "secret"
-    sp_secret = static_cast<patch_t *>( W_CacheLumpName( "WISCRT2" ) );
+    sp_secret = static_cast<patch_t *>( wad::get( "WISCRT2" ) );
 
     // Yuck.
     if ( french )
     {
         // "items"
         if ( netgame && !deathmatch )
-            items = static_cast<patch_t *>( W_CacheLumpName( "WIOBJ" ) );
+            items = static_cast<patch_t *>( wad::get( "WIOBJ" ) );
         else
-            items = static_cast<patch_t *>( W_CacheLumpName( "WIOSTI" ) );
+            items = static_cast<patch_t *>( wad::get( "WIOSTI" ) );
     }
     else
-        items = static_cast<patch_t *>( W_CacheLumpName( "WIOSTI" ) );
+        items = static_cast<patch_t *>( wad::get( "WIOSTI" ) );
 
     // "frgs"
-    frags = static_cast<patch_t *>( W_CacheLumpName( "WIFRGS" ) );
+    frags = static_cast<patch_t *>( wad::get( "WIFRGS" ) );
 
     // ":"
-    colon = static_cast<patch_t *>( W_CacheLumpName( "WICOLON" ) );
+    colon = static_cast<patch_t *>( wad::get( "WICOLON" ) );
 
     // "time"
     // JONNY TODO
-    // time = W_CacheLumpName("WITIME");
+    // time = wad::get("WITIME");
 
     // "sucks"
-    sucks = static_cast<patch_t *>( W_CacheLumpName( "WISUCKS" ) );
+    sucks = static_cast<patch_t *>( wad::get( "WISUCKS" ) );
 
     // "par"
-    par = static_cast<patch_t *>( W_CacheLumpName( "WIPAR" ) );
+    par = static_cast<patch_t *>( wad::get( "WIPAR" ) );
 
     // "killers" (vertical)
-    killers = static_cast<patch_t *>( W_CacheLumpName( "WIKILRS" ) );
+    killers = static_cast<patch_t *>( wad::get( "WIKILRS" ) );
 
     // "victims" (horiz)
-    victims = static_cast<patch_t *>( W_CacheLumpName( "WIVCTMS" ) );
+    victims = static_cast<patch_t *>( wad::get( "WIVCTMS" ) );
 
     // "total"
-    total = static_cast<patch_t *>( W_CacheLumpName( "WIMSTT" ) );
+    total = static_cast<patch_t *>( wad::get( "WIMSTT" ) );
 
     // your face
-    star = static_cast<patch_t *>( W_CacheLumpName( "STFST01" ) );
+    star = static_cast<patch_t *>( wad::get( "STFST01" ) );
 
     // dead face
-    bstar = static_cast<patch_t *>( W_CacheLumpName( "STFDEAD0" ) );
+    bstar = static_cast<patch_t *>( wad::get( "STFDEAD0" ) );
 
     for ( i = 0; i < MAXPLAYERS; i++ )
     {
         // "1,2,3,4"
         snprintf( name, 9, "STPB%d", i );
-        p[i] = static_cast<patch_t *>( W_CacheLumpName( name ) );
+        p[i] = static_cast<patch_t *>( wad::get( name ) );
 
         // "1,2,3,4"
         snprintf( name, 9, "WIBP%d", i + 1 );
-        bp[i] = static_cast<patch_t *>( W_CacheLumpName( name ) );
+        bp[i] = static_cast<patch_t *>( wad::get( name ) );
     }
 }
 

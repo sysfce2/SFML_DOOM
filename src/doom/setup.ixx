@@ -95,11 +95,11 @@ void P_LoadVertexes( int lump )
 
     // Determine number of lumps:
     //  total lump length / vertex record length.
-    auto numvertexes = W_LumpLength( lump ) / sizeof( mapvertex_t );
+    auto numvertexes = wad::lump_length( lump ) / sizeof( mapvertex_t );
     vertexes.resize( numvertexes );
 
     // Load data into cache.
-    data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
+    data = static_cast<std::byte *>( wad::get( lump ) );
 
     ml = (mapvertex_t *)data;
 
@@ -126,9 +126,9 @@ void P_LoadSegs( int lump )
     int linedef;
     int side;
 
-    auto numsegs = W_LumpLength( lump ) / sizeof( mapseg_t );
+    auto numsegs = wad::lump_length( lump ) / sizeof( mapseg_t );
     segs.resize( numsegs );
-    data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
+    data = static_cast<std::byte *>( wad::get( lump ) );
 
     ml = (mapseg_t *)data;
     for ( auto &seg : segs )
@@ -162,9 +162,9 @@ void P_LoadSubsectors( int lump )
     mapsubsector_t *ms;
     subsector_t *ss;
 
-    auto numsubsectors = W_LumpLength( lump ) / sizeof( mapsubsector_t );
+    auto numsubsectors = wad::lump_length( lump ) / sizeof( mapsubsector_t );
     subsectors.resize( numsubsectors );
-    data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
+    data = static_cast<std::byte *>( wad::get( lump ) );
 
     ms = (mapsubsector_t *)data;
 
@@ -186,9 +186,9 @@ void P_LoadSectors( int lump )
     mapsector_t *ms;
     sector_t *ss;
 
-    auto numsectors = W_LumpLength( lump ) / sizeof( mapsector_t );
+    auto numsectors = wad::lump_length( lump ) / sizeof( mapsector_t );
     sectors.resize( numsectors );
-    data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
+    data = static_cast<std::byte *>( wad::get( lump ) );
 
     ms = (mapsector_t *)data;
     ss = sectors.data();
@@ -215,9 +215,9 @@ void P_LoadNodes( int lump )
     int k;
     mapnode_t *mn;
 
-    auto numnodes = W_LumpLength( lump ) / sizeof( mapnode_t );
+    auto numnodes = wad::lump_length( lump ) / sizeof( mapnode_t );
     nodes.resize( numnodes );
-    data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
+    data = static_cast<std::byte *>( wad::get( lump ) );
 
     mn = (mapnode_t *)data;
 
@@ -248,8 +248,8 @@ void P_LoadThings( int lump )
     int numthings;
     bool spawn;
 
-    data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
-    numthings = W_LumpLength( lump ) / sizeof( mapthing_t );
+    data = static_cast<std::byte *>( wad::get( lump ) );
+    numthings = wad::lump_length( lump ) / sizeof( mapthing_t );
 
     mt = (mapthing_t *)data;
     for ( i = 0; i < numthings; i++, mt++ )
@@ -300,9 +300,9 @@ void P_LoadLineDefs( int lump )
     vertex_t *v1;
     vertex_t *v2;
 
-    auto numlines = W_LumpLength( lump ) / sizeof( maplinedef_t );
+    auto numlines = wad::lump_length( lump ) / sizeof( maplinedef_t );
     lines.resize( numlines );
-    data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
+    data = static_cast<std::byte *>( wad::get( lump ) );
 
     mld = (maplinedef_t *)data;
     for ( auto &line : lines )
@@ -370,9 +370,9 @@ void P_LoadLineDefs( int lump )
 //
 void P_LoadSideDefs( int lump )
 {
-    auto numsides = W_LumpLength( lump ) / sizeof( mapsidedef_t );
+    auto numsides = wad::lump_length( lump ) / sizeof( mapsidedef_t );
     sides.resize( numsides );
-    auto data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
+    auto data = static_cast<std::byte *>( wad::get( lump ) );
 
     auto msd = (mapsidedef_t *)data;
     for ( auto &sd : sides )
@@ -395,9 +395,9 @@ void P_LoadBlockMap( int lump )
     int i;
     int count;
 
-    blockmaplump = static_cast<short *>( W_CacheLumpNum( lump ) );
+    blockmaplump = static_cast<short *>( wad::get( lump ) );
     blockmap = blockmaplump + 4;
-    count = W_LumpLength( lump ) / 2;
+    count = wad::lump_length( lump ) / 2;
 
     for ( i = 0; i < count; i++ )
         blockmaplump[i] = blockmaplump[i];
@@ -494,7 +494,8 @@ export void P_SetupLevel( int episode, int map, int playermask, skill_t skill )
     P_InitThinkers();
 
     // if working with a devlopment map, reload it
-    W_Reload();
+    // JONNY TODO
+    //W_Reload();
 
     // find map name
     if ( gamemode == game_mode::commercial )
@@ -513,7 +514,7 @@ export void P_SetupLevel( int episode, int map, int playermask, skill_t skill )
         lumpname[4] = 0;
     }
 
-    lumpnum = W_GetNumForName( lumpname );
+    lumpnum = wad::index_of( lumpname );
 
     leveltime = 0;
 
@@ -528,7 +529,7 @@ export void P_SetupLevel( int episode, int map, int playermask, skill_t skill )
     P_LoadNodes( lumpnum + ML_NODES );
     P_LoadSegs( lumpnum + ML_SEGS );
 
-    rejectmatrix = static_cast<std::byte *>( W_CacheLumpNum( lumpnum + ML_REJECT ) );
+    rejectmatrix = static_cast<std::byte *>( wad::get( lumpnum + ML_REJECT ) );
     P_GroupLines();
 
     bodyqueslot = 0;

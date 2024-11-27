@@ -101,7 +101,7 @@ export void D_PostEvent( const sf::Event &ev )
 export void D_ProcessEvents( void )
 {
     // IF STORE DEMO, DO NOT ACCEPT INPUT
-    if ( ( gamemode == commercial ) && ( W_CheckNumForName( "map01" ) < 0 ) )
+    if ( ( gamemode == commercial ) && ( wad::index_of( "map01" ) < 0 ) )
         return;
 
     for ( ; eventtail != eventhead; eventtail = ( ++eventtail ) & ( MAXEVENTS - 1 ) )
@@ -118,7 +118,7 @@ std::string pagename;
 //
 // D_PageDrawer
 //
-void D_PageDrawer( void ) { V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( W_CacheLumpName( pagename ) ) ); }
+void D_PageDrawer( void ) { V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( wad::get( pagename ) ) ); }
 
 //
 // D_Display
@@ -211,7 +211,7 @@ export void D_Display( void )
 
     // clean up border stuff
     if ( gamestate != oldgamestate && gamestate != GS_LEVEL )
-        I_SetPalette( static_cast<std::byte *>( W_CacheLumpName( "PLAYPAL" ) ) );
+        I_SetPalette( static_cast<std::byte *>( wad::get( "PLAYPAL" ) ) );
 
     // see if the border needs to be initially drawn
     if ( gamestate == GS_LEVEL && oldgamestate != GS_LEVEL )
@@ -244,7 +244,7 @@ export void D_Display( void )
             y = 4;
         else
             y = viewwindowy + 4;
-        V_DrawPatchDirect( viewwindowx + ( scaledviewwidth - 68 ) / 2, y, 0, static_cast<patch_t *>( W_CacheLumpName( "M_PAUSE" ) ) );
+        V_DrawPatchDirect( viewwindowx + ( scaledviewwidth - 68 ) / 2, y, 0, static_cast<patch_t *>( wad::get( "M_PAUSE" ) ) );
     }
 
     // menus go directly to the screen

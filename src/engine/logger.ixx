@@ -45,6 +45,15 @@ export template <typename... Args> void error( spdlog::format_string_t<Args...> 
     exit( -1 );
 }
 
+//! Log an error message
+//! @param fmt Format string to use
+//! @param args Arguments for the format string
+//! @warning This will exit the app and break in the debugger, if attached
+export template <typename... Args> void warn( spdlog::format_string_t<Args...> fmt, Args &&...args )
+{
+    spdlog::warn( fmt, std::forward<Args>( args )... );
+}
+
 //! Log an info message
 //! @param fmt Format string to use
 //! @param args Arguments for the format string

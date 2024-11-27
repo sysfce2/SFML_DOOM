@@ -547,7 +547,7 @@ export void HU_Init( void )
     for ( i = 0; i < HU_FONTSIZE; i++ )
     {
         snprintf( buffer, 9, "STCFN%.3d", j++ );
-        hu_font[i] = (patch_t *)W_CacheLumpName( buffer );
+        hu_font[i] = (patch_t *)wad::get( buffer );
     }
 }
 

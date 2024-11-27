@@ -203,7 +203,7 @@ void  R_GenerateComposite(int texnum) {
 
   // Composite the columns together.
   for (const auto &patch : texture.patches) {
-    realpatch = static_cast<patch_t *>(W_CacheLumpNum(patch.patch));
+    realpatch = static_cast<patch_t *>(wad::get(patch.patch));
     x1 = patch.originx;
     x2 = x1 + realpatch->width;
 
@@ -254,7 +254,7 @@ void R_GenerateLookup(int texnum) {
   memset(patchcount, 0, texture.width);
 
   for (const auto &patch : texture.patches) {
-    realpatch = static_cast<patch_t *>(W_CacheLumpNum(patch.patch));
+    realpatch = static_cast<patch_t *>(wad::get(patch.patch));
     x1 = patch.originx;
     x2 = x1 + realpatch->width;
 
@@ -306,7 +306,7 @@ std::byte *R_GetColumn(int tex, int col) {
   ofs = texturecolumnofs[tex][col];
 
   if (lump > 0)
-    return (std::byte *)W_CacheLumpNum(lump) + ofs;
+    return (std::byte *)wad::get(lump) + ofs;
 
   if (texturecomposite[tex].empty())
     R_GenerateComposite(tex);
@@ -348,7 +348,7 @@ void R_InitTextures(void) {
   int temp3;
 
   // Load the patch names from pnames.lmp.
-  names = static_cast<char *>(W_CacheLumpName("PNAMES"));
+  names = static_cast<char *>(wad::get("PNAMES"));
   nummappatches = *((int *)names);
   name_p = names + 4;
   std::vector<int> patchlookup(nummappatches);
@@ -358,23 +358,23 @@ void R_InitTextures(void) {
     if (name.length() > 8) {
       name = name.substr(0, 8);
     }
-    patchlookup[i] = W_CheckNumForName(name);
+    patchlookup[i] = wad::index_of(name);
     patchlookup[i] = patchlookup[i];
   }
-  free(names);
 
   // Load the map texture definitions from textures.lmp.
   // The data is contained in one or two lumps,
   //  TEXTURE1 for shareware, plus TEXTURE2 for commercial.
-  maptex = maptex1 = static_cast<int *>(W_CacheLumpName("TEXTURE1"));
+  maptex = maptex1 = static_cast<int *>(wad::get("TEXTURE1"));
   numtextures1 = *maptex;
-  maxoff = W_LumpLength(W_GetNumForName({"TEXTURE1"}));
+  maxoff = wad::lump_length(wad::index_of({"TEXTURE1"}));
   directory = maptex + 1;
 
-  if (W_CheckNumForName("TEXTURE2") != -1) {
-    maptex2 = static_cast<int *>(W_CacheLumpName("TEXTURE2"));
+  if ( wad::index_of( "TEXTURE2" ) != -1 )
+  {
+    maptex2 = static_cast<int *>(wad::get("TEXTURE2"));
     numtextures2 = *maptex2;
-    maxoff2 = W_LumpLength(W_GetNumForName("TEXTURE2"));
+    maxoff2 = wad::lump_length(wad::index_of("TEXTURE2"));
   } else {
     maptex2 = NULL;
     numtextures2 = 0;
@@ -391,8 +391,8 @@ void R_InitTextures(void) {
   textureheight.resize(numtextures);
 
   //	Really complex printing shit...
-  temp1 = W_GetNumForName("S_START"); // P_???????
-  temp2 = W_GetNumForName("S_END") - 1;
+  temp1 = wad::index_of("S_START"); // P_???????
+  temp2 = wad::index_of("S_END") - 1;
   temp3 = ((temp2 - temp1 + 63) / 64) + ((numtextures + 63) / 64);
   printf("[");
   for (i = 0; i < temp3; i++)
@@ -450,10 +450,6 @@ void R_InitTextures(void) {
     textureheight[i] = texture.height << FRACBITS;
   }
 
-  free(maptex1);
-  if (maptex2)
-    free(maptex2);
-
   // Precalculate whatever possible.
   for (i = 0; i < numtextures; i++) {
     R_GenerateLookup(i);
@@ -472,8 +468,8 @@ void R_InitTextures(void) {
 void R_InitFlats(void) {
   int i;
 
-  firstflat = W_GetNumForName("F_START") + 1;
-  lastflat = W_GetNumForName("F_END") - 1;
+  firstflat = wad::index_of("F_START") + 1;
+  lastflat = wad::index_of("F_END") - 1;
   numflats = lastflat - firstflat + 1;
 
   // Create translation table for global animation.
@@ -493,8 +489,8 @@ void R_InitSpriteLumps(void) {
   int i;
   patch_t *patch;
 
-  firstspritelump = W_GetNumForName("S_START") + 1;
-  lastspritelump = W_GetNumForName("S_END") - 1;
+  firstspritelump = wad::index_of("S_START") + 1;
+  lastspritelump = wad::index_of("S_END") - 1;
 
   numspritelumps = lastspritelump - firstspritelump + 1;
   spritewidth = static_cast<fixed_t *>(malloc(numspritelumps * 4));
@@ -506,7 +502,7 @@ void R_InitSpriteLumps(void) {
       printf(".");
 
     patch =
-        static_cast<patch_t *>(W_CacheLumpNum(firstspritelump + i));
+        static_cast<patch_t *>(wad::get(firstspritelump + i));
     spritewidth[i] = patch->width << FRACBITS;
     spriteoffset[i] = patch->leftoffset << FRACBITS;
     spritetopoffset[i] = patch->topoffset << FRACBITS;
@@ -519,12 +515,12 @@ void R_InitSpriteLumps(void) {
 void R_InitColormaps(void) {
   // Load in the light tables,
   //  256 byte align tables.
-  auto lump = W_GetNumForName("COLORMAP");
-  auto length = W_LumpLength(lump) + 255;
+  auto lump = wad::index_of("COLORMAP");
+  auto length = wad::lump_length(lump) + 255;
   colormaps.resize(length);
   // TODO JONNY wtf
   //colormaps = (std::byte *)((reinterpret_cast<intptr_t>(colormaps) + 255) & ~0xff);
-  W_ReadLump(lump, colormaps.data());
+  //W_ReadLump(lump, colormaps.data());
 }
 
 //
@@ -549,7 +545,7 @@ void R_InitData(void) {
 // Retrieval, get a flat number for a flat name.
 //
 int R_FlatNumForName(const std::string &name) {
-  const auto i = W_CheckNumForName(name.substr(0, 8));
+    const auto i = wad::index_of( name.substr( 0, 8 ) );
 
   if (i == -1) {
     logger::error("R_FlatNumForName: %s not found", name.c_str());
@@ -637,8 +633,8 @@ void R_PrecacheLevel(void) {
   for (i = 0; i < numflats; i++) {
     if (flatpresent[i]) {
       lump = firstflat + i;
-      flatmemory += lumpinfo[lump].size;
-      W_CacheLumpNum(lump);
+      flatmemory += wad::lumpinfo[lump].size;
+      wad::get(lump);
     }
   }
 
@@ -669,8 +665,8 @@ void R_PrecacheLevel(void) {
 
     for (const auto &patch : texture.patches) {
       lump = patch.patch;
-      texturememory += lumpinfo[lump].size;
-      W_CacheLumpNum(lump);
+        texturememory += wad::lumpinfo[lump].size;
+      wad::get(lump);
     }
   }
 
@@ -692,8 +688,8 @@ void R_PrecacheLevel(void) {
       sf = &sprites[i][j];
       for (k = 0; k < 8; k++) {
         lump = firstspritelump + sf->lump[k];
-        spritememory += lumpinfo[lump].size;
-        W_CacheLumpNum(lump);
+          spritememory += wad::lumpinfo[lump].size;
+        wad::get(lump);
       }
     }
   }
