@@ -28,13 +28,14 @@ export module items;
 import doom.map;
 import doom;
 
-typedef struct {
-  ammotype_t ammo;
-  int upstate;
-  int downstate;
-  int readystate;
-  int atkstate;
-  int flashstate;
+typedef struct
+{
+    ammotype_t ammo;
+    int upstate;
+    int downstate;
+    int readystate;
+    int atkstate;
+    int flashstate;
 
 } weaponinfo_t;
 

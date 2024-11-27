@@ -23,14 +23,13 @@
 //
 //-----------------------------------------------------------------------------
 
-
 module;
 #include "doomdata.h"
 
 #include "m_bbox.h"
+#include "r_defs.h"
 #include <array>
 #include <string>
-#include "r_defs.h"
 
 export module video;
 import engine;
@@ -150,94 +149,103 @@ export unsigned char gammatable[5][256] = {
      247, 248, 248, 249, 249, 250, 250, 251, 251, 252, 252, 253, 254, 254, 255,
      255}};
 
-
 //
 // V_MarkRect
 //
-export void V_MarkRect(int x, int y, int width, int height) {
-  M_AddToBox(dirtybox, x, y);
-  M_AddToBox(dirtybox, x + width - 1, y + height - 1);
+export void V_MarkRect(int x, int y, int width, int height)
+{
+    M_AddToBox(dirtybox, x, y);
+    M_AddToBox(dirtybox, x + width - 1, y + height - 1);
 }
 
 //
 // V_CopyRect
 //
 export void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height,
-                int destx, int desty, int destscrn) {
-  std::byte *src;
-  std::byte *dest;
+                       int destx, int desty, int destscrn)
+{
+    std::byte *src;
+    std::byte *dest;
 
 #ifdef RANGECHECK
-  if (srcx < 0 || srcx + width > SCREENWIDTH || srcy < 0 ||
-      srcy + height > SCREENHEIGHT || destx < 0 ||
-      destx + width > SCREENWIDTH || desty < 0 ||
-      desty + height > SCREENHEIGHT || (unsigned)srcscrn > 4 ||
-      (unsigned)destscrn > 4) {
-    logger::error("Bad V_CopyRect");
-  }
+    if (srcx < 0 || srcx + width > SCREENWIDTH || srcy < 0 ||
+        srcy + height > SCREENHEIGHT || destx < 0 ||
+        destx + width > SCREENWIDTH || desty < 0 ||
+        desty + height > SCREENHEIGHT || (unsigned)srcscrn > 4 ||
+        (unsigned)destscrn > 4)
+    {
+        logger::error("Bad V_CopyRect");
+    }
 #endif
-  V_MarkRect(destx, desty, width, height);
+    V_MarkRect(destx, desty, width, height);
 
-  src = screens[srcscrn].data() + SCREENWIDTH * srcy + srcx;
-  dest = screens[destscrn].data() + SCREENWIDTH * desty + destx;
+    src = screens[srcscrn].data() + SCREENWIDTH * srcy + srcx;
+    dest = screens[destscrn].data() + SCREENWIDTH * desty + destx;
 
-  for (; height > 0; height--) {
-    memcpy(dest, src, width);
-    src += SCREENWIDTH;
-    dest += SCREENWIDTH;
-  }
+    for (; height > 0; height--)
+    {
+        memcpy(dest, src, width);
+        src += SCREENWIDTH;
+        dest += SCREENWIDTH;
+    }
 }
 
 //
 // V_DrawPatch
 // Masks a column based masked pic to the screen.
 //
-export void V_DrawPatch(int x, int y, int scrn, patch_t *patch) {
+export void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
+{
 
-  int count;
-  int col;
-  column_t *column;
-  std::byte *desttop;
-  std::byte *dest;
-  std::byte *source;
-  int w;
+    int count;
+    int col;
+    column_t *column;
+    std::byte *desttop;
+    std::byte *dest;
+    std::byte *source;
+    int w;
 
-  y -= patch->topoffset;
-  x -= patch->leftoffset;
+    y -= patch->topoffset;
+    x -= patch->leftoffset;
 #ifdef RANGECHECK
-  if (x < 0 || x + patch->width > SCREENWIDTH || y < 0 ||
-      y + patch->height > SCREENHEIGHT || (unsigned)scrn > 4) {
-    fprintf(stderr, "Patch at %d,%d exceeds LFB\n", x, y);
-    // No logger::error abort - what is up with TNT.WAD?
-    fprintf(stderr, "V_DrawPatch: bad patch (ignored)\n");
-    return;
-  }
+    if (x < 0 || x + patch->width > SCREENWIDTH || y < 0 ||
+        y + patch->height > SCREENHEIGHT || (unsigned)scrn > 4)
+    {
+        fprintf(stderr, "Patch at %d,%d exceeds LFB\n", x, y);
+        // No logger::error abort - what is up with TNT.WAD?
+        fprintf(stderr, "V_DrawPatch: bad patch (ignored)\n");
+        return;
+    }
 #endif
 
-  if (!scrn)
-    V_MarkRect(x, y, patch->width, patch->height);
+    if (!scrn)
+        V_MarkRect(x, y, patch->width, patch->height);
 
-  col = 0;
-  desttop = screens[scrn].data() + y * SCREENWIDTH + x;
+    col = 0;
+    desttop = screens[scrn].data() + y * SCREENWIDTH + x;
 
-  w = patch->width;
+    w = patch->width;
 
-  for (; col < w; x++, col++, desttop++) {
-    column = (column_t *)((std::byte *)patch + patch->columnofs[col]);
+    for (; col < w; x++, col++, desttop++)
+    {
+        column = (column_t *)((std::byte *)patch + patch->columnofs[col]);
 
-    // step through the posts in a column
-    while (column->topdelta != std::byte{0xff}) {
-      source = (std::byte *)column + 3;
-      dest = desttop + static_cast<int>(column->topdelta) * SCREENWIDTH;
-      count = static_cast<int>(column->length);
+        // step through the posts in a column
+        while (column->topdelta != std::byte{0xff})
+        {
+            source = (std::byte *)column + 3;
+            dest = desttop + static_cast<int>(column->topdelta) * SCREENWIDTH;
+            count = static_cast<int>(column->length);
 
-      while (count--) {
-        *dest = *source++;
-        dest += SCREENWIDTH;
-      }
-      column = (column_t *)((std::byte *)column + static_cast<int>(column->length) + 4);
+            while (count--)
+            {
+                *dest = *source++;
+                dest += SCREENWIDTH;
+            }
+            column = (column_t *)((std::byte *)column +
+                                  static_cast<int>(column->length) + 4);
+        }
     }
-  }
 }
 
 //
@@ -245,156 +253,171 @@ export void V_DrawPatch(int x, int y, int scrn, patch_t *patch) {
 // Masks a column based masked pic to the screen.
 // Flips horizontally, e.g. to mirror face.
 //
-void V_DrawPatchFlipped(int x, int y, int scrn, patch_t *patch) {
+void V_DrawPatchFlipped(int x, int y, int scrn, patch_t *patch)
+{
 
-  int count;
-  int col;
-  column_t *column;
-  std::byte *desttop;
-  std::byte *dest;
-  std::byte *source;
-  int w;
+    int count;
+    int col;
+    column_t *column;
+    std::byte *desttop;
+    std::byte *dest;
+    std::byte *source;
+    int w;
 
-  y -= patch->topoffset;
-  x -= patch->leftoffset;
+    y -= patch->topoffset;
+    x -= patch->leftoffset;
 #ifdef RANGECHECK
-  if (x < 0 || x + patch->width > SCREENWIDTH || y < 0 ||
-      y + patch->height > SCREENHEIGHT || (unsigned)scrn > 4) {
-    fprintf(stderr, "Patch origin %d,%d exceeds LFB\n", x, y);
-    logger::error("Bad V_DrawPatch in V_DrawPatchFlipped");
-  }
+    if (x < 0 || x + patch->width > SCREENWIDTH || y < 0 ||
+        y + patch->height > SCREENHEIGHT || (unsigned)scrn > 4)
+    {
+        fprintf(stderr, "Patch origin %d,%d exceeds LFB\n", x, y);
+        logger::error("Bad V_DrawPatch in V_DrawPatchFlipped");
+    }
 #endif
 
-  if (!scrn)
-    V_MarkRect(x, y, patch->width, patch->height);
+    if (!scrn)
+        V_MarkRect(x, y, patch->width, patch->height);
 
-  col = 0;
-  desttop = screens[scrn].data() + y * SCREENWIDTH + x;
+    col = 0;
+    desttop = screens[scrn].data() + y * SCREENWIDTH + x;
 
-  w = patch->width;
+    w = patch->width;
 
-  for (; col < w; x++, col++, desttop++) {
-    column = (column_t *)((std::byte *)patch + patch->columnofs[w - 1 - col]);
+    for (; col < w; x++, col++, desttop++)
+    {
+        column =
+            (column_t *)((std::byte *)patch + patch->columnofs[w - 1 - col]);
 
-    // step through the posts in a column
-    while (column->topdelta != std::byte{0xff}) {
-      source = (std::byte *)column + 3;
-      dest = desttop + static_cast<int>(column->topdelta) * SCREENWIDTH;
-      count = static_cast<int>(column->length);
+        // step through the posts in a column
+        while (column->topdelta != std::byte{0xff})
+        {
+            source = (std::byte *)column + 3;
+            dest = desttop + static_cast<int>(column->topdelta) * SCREENWIDTH;
+            count = static_cast<int>(column->length);
 
-      while (count--) {
-        *dest = *source++;
-        dest += SCREENWIDTH;
-      }
-      column = (column_t *)((std::byte *)column + static_cast<int>(column->length) + 4);
+            while (count--)
+            {
+                *dest = *source++;
+                dest += SCREENWIDTH;
+            }
+            column = (column_t *)((std::byte *)column +
+                                  static_cast<int>(column->length) + 4);
+        }
     }
-  }
 }
 
 //
 // V_DrawPatchDirect
 // Draws directly to the screen on the pc.
 //
-export void V_DrawPatchDirect(int x, int y, int scrn, patch_t *patch) {
-  V_DrawPatch(x, y, scrn, patch);
+export void V_DrawPatchDirect(int x, int y, int scrn, patch_t *patch)
+{
+    V_DrawPatch(x, y, scrn, patch);
 
-  /*
-  int		count;
-  int		col;
-  column_t*	column;
-  byte*	desttop;
-  byte*	dest;
-  byte*	source;
-  int		w;
+    /*
+    int		count;
+    int		col;
+    column_t*	column;
+    byte*	desttop;
+    byte*	dest;
+    byte*	source;
+    int		w;
 
-  y -= patch->topoffset;
-  x -= patch->leftoffset;
+    y -= patch->topoffset;
+    x -= patch->leftoffset;
 
-#ifdef RANGECHECK
-  if (x<0
-      ||x+patch->width >SCREENWIDTH
-      || y<0
-      || y+patch->height>SCREENHEIGHT
-      || (unsigned)scrn>4)
-  {
-      logger::error ("Bad V_DrawPatchDirect");
-  }
-#endif
+  #ifdef RANGECHECK
+    if (x<0
+        ||x+patch->width >SCREENWIDTH
+        || y<0
+        || y+patch->height>SCREENHEIGHT
+        || (unsigned)scrn>4)
+    {
+        logger::error ("Bad V_DrawPatchDirect");
+    }
+  #endif
 
-  //	V_MarkRect (x, y, patch->width, patch->height);
-  desttop = destscreen + y*SCREENWIDTH/4 + (x>>2);
+    //	V_MarkRect (x, y, patch->width, patch->height);
+    desttop = destscreen + y*SCREENWIDTH/4 + (x>>2);
 
-  w = patch->width;
-  for ( col = 0 ; col<w ; col++)
-  {
-      outp (SC_INDEX+1,1<<(x&3));
-      column = (column_t *)((byte *)patch + patch->columnofs[col]);
+    w = patch->width;
+    for ( col = 0 ; col<w ; col++)
+    {
+        outp (SC_INDEX+1,1<<(x&3));
+        column = (column_t *)((byte *)patch + patch->columnofs[col]);
 
-      // step through the posts in a column
+        // step through the posts in a column
 
-      while (column->topdelta != 0xff )
-      {
-          source = (byte *)column + 3;
-          dest = desttop + column->topdelta*SCREENWIDTH/4;
-          count = column->length;
+        while (column->topdelta != 0xff )
+        {
+            source = (byte *)column + 3;
+            dest = desttop + column->topdelta*SCREENWIDTH/4;
+            count = column->length;
 
-          while (count--)
-          {
-              *dest = *source++;
-              dest += SCREENWIDTH/4;
-          }
-          column = (column_t *)(  (byte *)column + column->length
-                                  + 4 );
-      }
-      if ( ((++x)&3) == 0 )
-          desttop++;	// go to next byte, not next plane
-  }*/
+            while (count--)
+            {
+                *dest = *source++;
+                dest += SCREENWIDTH/4;
+            }
+            column = (column_t *)(  (byte *)column + column->length
+                                    + 4 );
+        }
+        if ( ((++x)&3) == 0 )
+            desttop++;	// go to next byte, not next plane
+    }*/
 }
 
 //
 // V_DrawBlock
 // Draw a linear block of pixels into the view buffer.
 //
-export void V_DrawBlock(int x, int y, int scrn, int width, int height, std::byte *src) {
-  std::byte *dest;
+export void V_DrawBlock(int x, int y, int scrn, int width, int height,
+                        std::byte *src)
+{
+    std::byte *dest;
 
 #ifdef RANGECHECK
-  if (x < 0 || x + width > SCREENWIDTH || y < 0 || y + height > SCREENHEIGHT ||
-      (unsigned)scrn > 4) {
-    logger::error("Bad V_DrawBlock");
-  }
+    if (x < 0 || x + width > SCREENWIDTH || y < 0 ||
+        y + height > SCREENHEIGHT || (unsigned)scrn > 4)
+    {
+        logger::error("Bad V_DrawBlock");
+    }
 #endif
 
-  V_MarkRect(x, y, width, height);
+    V_MarkRect(x, y, width, height);
 
-  dest = screens[scrn].data() + y * SCREENWIDTH + x;
+    dest = screens[scrn].data() + y * SCREENWIDTH + x;
 
-  while (height--) {
-    memcpy(dest, src, width);
-    src += width;
-    dest += SCREENWIDTH;
-  }
+    while (height--)
+    {
+        memcpy(dest, src, width);
+        src += width;
+        dest += SCREENWIDTH;
+    }
 }
 
 //
 // V_GetBlock
 // Gets a linear block of pixels from the view buffer.
 //
-void V_GetBlock(int x, int y, int scrn, int width, int height, std::byte *dest) {
-  std::byte *src;
+void V_GetBlock(int x, int y, int scrn, int width, int height, std::byte *dest)
+{
+    std::byte *src;
 
 #ifdef RANGECHECK
-  if (x < 0 || x + width > SCREENWIDTH || y < 0 || y + height > SCREENHEIGHT ||
-      (unsigned)scrn > 4) {
-    logger::error("Bad V_DrawBlock");
-  }
+    if (x < 0 || x + width > SCREENWIDTH || y < 0 ||
+        y + height > SCREENHEIGHT || (unsigned)scrn > 4)
+    {
+        logger::error("Bad V_DrawBlock");
+    }
 #endif
 
-  src = screens[scrn].data() + y * SCREENWIDTH + x;
+    src = screens[scrn].data() + y * SCREENWIDTH + x;
 
-  while (height--) {
-    memcpy(dest, src, width);
-    src += SCREENWIDTH;
-    dest += width;
-  }
+    while (height--)
+    {
+        memcpy(dest, src, width);
+        src += SCREENWIDTH;
+        dest += width;
+    }
 }

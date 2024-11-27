@@ -56,15 +56,16 @@ export constexpr auto FINEMASK = (FINEANGLES - 1);
 // 0x100000000 to 0x2000
 export constexpr auto ANGLETOFINESHIFT = 19;
 
-export int SlopeDiv(unsigned num, unsigned den) {
-  unsigned ans;
+export int SlopeDiv(unsigned num, unsigned den)
+{
+    unsigned ans;
 
-  if (den < 512)
-    return SLOPERANGE;
+    if (den < 512)
+        return SLOPERANGE;
 
-  ans = (num << 3) / (den >> 8);
+    ans = (num << 3) / (den >> 8);
 
-  return ans <= SLOPERANGE ? ans : SLOPERANGE;
+    return ans <= SLOPERANGE ? ans : SLOPERANGE;
 }
 
 export int finetangent[4096] = {

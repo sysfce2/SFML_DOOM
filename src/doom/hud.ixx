@@ -20,11 +20,11 @@
 //
 //-----------------------------------------------------------------------------
 module;
-#include <ctype.h>
 #include "g_game.h"
 #include "r_defs.h"
-#include "r_main.h"
 #include "r_draw.h"
+#include "r_main.h"
+#include <ctype.h>
 export module hud;
 
 import engine;
@@ -51,7 +51,6 @@ export constexpr auto HU_FONTSIZE = (HU_FONTEND - HU_FONTSTART + 1);
 #define HU_MSGHEIGHT 1 // in lines
 
 #define HU_MSGTIMEOUT (4 * TICRATE)
-
 
 // background and foreground screen numbers
 // different from other modules.
@@ -137,8 +136,8 @@ std::array chat_macros = {HUSTR_CHATMACRO0, HUSTR_CHATMACRO1, HUSTR_CHATMACRO2,
                           HUSTR_CHATMACRO6, HUSTR_CHATMACRO7, HUSTR_CHATMACRO8,
                           HUSTR_CHATMACRO9};
 
-export std::array player_names = {HUSTR_PLRGREEN, HUSTR_PLRINDIGO, HUSTR_PLRBROWN,
-                           HUSTR_PLRRED};
+export std::array player_names = {HUSTR_PLRGREEN, HUSTR_PLRINDIGO,
+                                  HUSTR_PLRBROWN, HUSTR_PLRRED};
 
 char chat_char; // remove later.
 inline player_t *plr;
@@ -298,32 +297,36 @@ char frenchKeyMap[128] = {
     'I', 'J', 'K',  'L', ',',  'N', 'O', 'P', 'A', 'R', 'S', 'T', 'U', 'V', 'Z',
     'X', 'Y', 'W',  '^', '\\', '$', '^', 127};
 
-char ForeignTranslation(unsigned char ch) {
-  return ch < 128 ? frenchKeyMap[ch] : ch;
+char ForeignTranslation(unsigned char ch)
+{
+    return ch < 128 ? frenchKeyMap[ch] : ch;
 }
 
 // bool : whether the screen is always erased
 #define noterased viewwindowx
 
-void HUlib_init( void ) {}
+void HUlib_init(void) {}
 
-void HUlib_clearTextLine( hu_textline_t *t ) {
+void HUlib_clearTextLine(hu_textline_t *t)
+{
     t->len = 0;
     t->l[0] = 0;
     t->needsupdate = true;
 }
 
-void HUlib_initTextLine( hu_textline_t *t, int x, int y, patch_t **f, int sc ) {
+void HUlib_initTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc)
+{
     t->x = x;
     t->y = y;
     t->f = f;
     t->sc = sc;
-    HUlib_clearTextLine( t );
+    HUlib_clearTextLine(t);
 }
 
-bool HUlib_addCharToTextLine( hu_textline_t *t, char ch ) {
+bool HUlib_addCharToTextLine(hu_textline_t *t, char ch)
+{
 
-    if ( t->len == HU_MAXLINELENGTH )
+    if (t->len == HU_MAXLINELENGTH)
         return false;
     else
     {
@@ -334,9 +337,10 @@ bool HUlib_addCharToTextLine( hu_textline_t *t, char ch ) {
     }
 }
 
-bool HUlib_delCharFromTextLine( hu_textline_t *t ) {
+bool HUlib_delCharFromTextLine(hu_textline_t *t)
+{
 
-    if ( !t->len )
+    if (!t->len)
         return false;
     else
     {
@@ -346,7 +350,8 @@ bool HUlib_delCharFromTextLine( hu_textline_t *t ) {
     }
 }
 
-void HUlib_drawTextLine( hu_textline_t *l, bool drawcursor ) {
+void HUlib_drawTextLine(hu_textline_t *l, bool drawcursor)
+{
 
     int i;
     int w;
@@ -355,34 +360,35 @@ void HUlib_drawTextLine( hu_textline_t *l, bool drawcursor ) {
 
     // draw the new stuff
     x = l->x;
-    for ( i = 0; i < l->len; i++ )
+    for (i = 0; i < l->len; i++)
     {
-        c = toupper( l->l[i] );
-        if ( c != ' ' && c >= l->sc && c <= '_' )
+        c = toupper(l->l[i]);
+        if (c != ' ' && c >= l->sc && c <= '_')
         {
-            w =  l->f[c - l->sc]->width ;
-            if ( x + w > SCREENWIDTH )
+            w = l->f[c - l->sc]->width;
+            if (x + w > SCREENWIDTH)
                 break;
-            V_DrawPatchDirect( x, l->y, FG, l->f[c - l->sc] );
+            V_DrawPatchDirect(x, l->y, FG, l->f[c - l->sc]);
             x += w;
         }
         else
         {
             x += 4;
-            if ( x >= SCREENWIDTH )
+            if (x >= SCREENWIDTH)
                 break;
         }
     }
 
     // draw the cursor if requested
-    if ( drawcursor && x +  l->f['_' - l->sc]->width  <= SCREENWIDTH )
+    if (drawcursor && x + l->f['_' - l->sc]->width <= SCREENWIDTH)
     {
-        V_DrawPatchDirect( x, l->y, FG, l->f['_' - l->sc] );
+        V_DrawPatchDirect(x, l->y, FG, l->f['_' - l->sc]);
     }
 }
 
 // sorta called by HU_Erase and just better darn get things straight
-void HUlib_eraseTextLine( hu_textline_t *l ) {
+void HUlib_eraseTextLine(hu_textline_t *l)
+{
     int lh;
     int y;
     int yoffset;
@@ -391,28 +397,29 @@ void HUlib_eraseTextLine( hu_textline_t *l ) {
     // and the text must either need updating or refreshing
     // (because of a recent change back from the automap)
 
-    if ( !automapactive && viewwindowx && l->needsupdate )
+    if (!automapactive && viewwindowx && l->needsupdate)
     {
-        lh =  l->f[0]->height  + 1;
-        for ( y = l->y, yoffset = y * SCREENWIDTH; y < l->y + lh;
-              y++, yoffset += SCREENWIDTH )
+        lh = l->f[0]->height + 1;
+        for (y = l->y, yoffset = y * SCREENWIDTH; y < l->y + lh;
+             y++, yoffset += SCREENWIDTH)
         {
-            if ( y < viewwindowy || y >= viewwindowy + viewheight )
-                R_VideoErase( yoffset, SCREENWIDTH ); // erase entire line
+            if (y < viewwindowy || y >= viewwindowy + viewheight)
+                R_VideoErase(yoffset, SCREENWIDTH); // erase entire line
             else
             {
-                R_VideoErase( yoffset, viewwindowx ); // erase left border
-                R_VideoErase( yoffset + viewwindowx + viewwidth, viewwindowx );
+                R_VideoErase(yoffset, viewwindowx); // erase left border
+                R_VideoErase(yoffset + viewwindowx + viewwidth, viewwindowx);
                 // erase right border
             }
         }
     }
-    if ( l->needsupdate )
+    if (l->needsupdate)
         l->needsupdate--;
 }
 
-void HUlib_initSText( hu_stext_t *s, int x, int y, int h, patch_t **font,
-                      int startchar, bool *on ) {
+void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font,
+                     int startchar, bool *on)
+{
 
     int i;
 
@@ -420,103 +427,113 @@ void HUlib_initSText( hu_stext_t *s, int x, int y, int h, patch_t **font,
     s->on = on;
     s->laston = true;
     s->cl = 0;
-    for ( i = 0; i < h; i++ )
-        HUlib_initTextLine( &s->l[i], x, y - i * ( font[0]->height  + 1), font,
-                            startchar );
+    for (i = 0; i < h; i++)
+        HUlib_initTextLine(&s->l[i], x, y - i * (font[0]->height + 1), font,
+                           startchar);
 }
 
-void HUlib_addLineToSText( hu_stext_t *s ) {
+void HUlib_addLineToSText(hu_stext_t *s)
+{
 
     int i;
 
     // add a clear line
-    if ( ++s->cl == s->h )
+    if (++s->cl == s->h)
         s->cl = 0;
-    HUlib_clearTextLine( &s->l[s->cl] );
+    HUlib_clearTextLine(&s->l[s->cl]);
 
     // everything needs updating
-    for ( i = 0; i < s->h; i++ )
+    for (i = 0; i < s->h; i++)
         s->l[i].needsupdate = 4;
 }
 
-void HUlib_addMessageToSText( hu_stext_t *s, char *prefix, const char *msg ) {
-    HUlib_addLineToSText( s );
-    if ( prefix )
-        while ( *prefix )
-            HUlib_addCharToTextLine( &s->l[s->cl], *(prefix++) );
+void HUlib_addMessageToSText(hu_stext_t *s, char *prefix, const char *msg)
+{
+    HUlib_addLineToSText(s);
+    if (prefix)
+        while (*prefix)
+            HUlib_addCharToTextLine(&s->l[s->cl], *(prefix++));
 
-    while ( *msg )
-        HUlib_addCharToTextLine( &s->l[s->cl], *(msg++) );
+    while (*msg)
+        HUlib_addCharToTextLine(&s->l[s->cl], *(msg++));
 }
 
-void HUlib_drawSText( hu_stext_t *s ) {
+void HUlib_drawSText(hu_stext_t *s)
+{
     int i, idx;
     hu_textline_t *l;
 
-    if ( !*s->on )
+    if (!*s->on)
         return; // if not on, don't draw
 
     // draw everything
-    for ( i = 0; i < s->h; i++ )
+    for (i = 0; i < s->h; i++)
     {
         idx = s->cl - i;
-        if ( idx < 0 )
+        if (idx < 0)
             idx += s->h; // handle queue of lines
 
         l = &s->l[idx];
 
         // need a decision made here on whether to skip the draw
-        HUlib_drawTextLine( l, false ); // no cursor, please
+        HUlib_drawTextLine(l, false); // no cursor, please
     }
 }
 
-void HUlib_eraseSText( hu_stext_t *s ) {
+void HUlib_eraseSText(hu_stext_t *s)
+{
 
     int i;
 
-    for ( i = 0; i < s->h; i++ )
+    for (i = 0; i < s->h; i++)
     {
-        if ( s->laston && !*s->on )
+        if (s->laston && !*s->on)
             s->l[i].needsupdate = 4;
-        HUlib_eraseTextLine( &s->l[i] );
+        HUlib_eraseTextLine(&s->l[i]);
     }
     s->laston = *s->on;
 }
 
-void HUlib_initIText( hu_itext_t *it, int x, int y, patch_t **font,
-                      int startchar, bool *on ) {
+void HUlib_initIText(hu_itext_t *it, int x, int y, patch_t **font,
+                     int startchar, bool *on)
+{
     it->lm = 0; // default left margin is start of text
     it->on = on;
     it->laston = true;
-    HUlib_initTextLine( &it->l, x, y, font, startchar );
+    HUlib_initTextLine(&it->l, x, y, font, startchar);
 }
 
 // The following deletion routines adhere to the left margin restriction
-void HUlib_delCharFromIText( hu_itext_t *it ) {
-    if ( it->l.len != it->lm )
-        HUlib_delCharFromTextLine( &it->l );
+void HUlib_delCharFromIText(hu_itext_t *it)
+{
+    if (it->l.len != it->lm)
+        HUlib_delCharFromTextLine(&it->l);
 }
 
-void HUlib_eraseLineFromIText( hu_itext_t *it ) {
-    while ( it->lm != it->l.len )
-        HUlib_delCharFromTextLine( &it->l );
+void HUlib_eraseLineFromIText(hu_itext_t *it)
+{
+    while (it->lm != it->l.len)
+        HUlib_delCharFromTextLine(&it->l);
 }
 
 // Resets left margin as well
-void HUlib_resetIText( hu_itext_t *it ) {
+void HUlib_resetIText(hu_itext_t *it)
+{
     it->lm = 0;
-    HUlib_clearTextLine( &it->l );
+    HUlib_clearTextLine(&it->l);
 }
 
-void HUlib_addPrefixToIText( hu_itext_t *it, char *str ) {
-    while ( *str )
-        HUlib_addCharToTextLine( &it->l, *(str++) );
+void HUlib_addPrefixToIText(hu_itext_t *it, char *str)
+{
+    while (*str)
+        HUlib_addCharToTextLine(&it->l, *(str++));
     it->lm = it->l.len;
 }
 
 // wrapper function for handling general keyed input.
 // returns true if it ate the key
-bool HUlib_keyInIText( hu_itext_t *it, unsigned char ch ) {
+bool HUlib_keyInIText(hu_itext_t *it, unsigned char ch)
+{
     // JONNY TODO
     //    if (ch >= ' ' && ch <= '_')
     //  	HUlib_addCharToTextLine(&it->l, (char) ch);
@@ -530,183 +547,199 @@ bool HUlib_keyInIText( hu_itext_t *it, unsigned char ch ) {
     return true; // ate the key
 }
 
-void HUlib_drawIText( hu_itext_t *it ) {
+void HUlib_drawIText(hu_itext_t *it)
+{
 
     hu_textline_t *l = &it->l;
 
-    if ( !*it->on )
+    if (!*it->on)
         return;
-    HUlib_drawTextLine( l, true ); // draw the line w/ cursor
+    HUlib_drawTextLine(l, true); // draw the line w/ cursor
 }
 
-void HUlib_eraseIText( hu_itext_t *it ) {
-    if ( it->laston && !*it->on )
+void HUlib_eraseIText(hu_itext_t *it)
+{
+    if (it->laston && !*it->on)
         it->l.needsupdate = 4;
-    HUlib_eraseTextLine( &it->l );
+    HUlib_eraseTextLine(&it->l);
     it->laston = *it->on;
 }
 
+export void HU_Init(void)
+{
 
-export void HU_Init(void) {
+    int i;
+    int j;
+    char buffer[9];
 
-  int i;
-  int j;
-  char buffer[9];
+    if (french)
+        shiftxform = french_shiftxform;
+    else
+        shiftxform = english_shiftxform;
 
-  if (french)
-    shiftxform = french_shiftxform;
-  else
-    shiftxform = english_shiftxform;
-
-  // load the heads-up font
-  j = HU_FONTSTART;
-  for (i = 0; i < HU_FONTSIZE; i++) {
-    snprintf(buffer, 9, "STCFN%.3d", j++);
-    hu_font[i] = (patch_t *)W_CacheLumpName(buffer);
-  }
+    // load the heads-up font
+    j = HU_FONTSTART;
+    for (i = 0; i < HU_FONTSIZE; i++)
+    {
+        snprintf(buffer, 9, "STCFN%.3d", j++);
+        hu_font[i] = (patch_t *)W_CacheLumpName(buffer);
+    }
 }
 
 void HU_Stop(void) { headsupactive = false; }
 
-export void HU_Start(void) {
+export void HU_Start(void)
+{
 
-  int i;
-  const char *s;
+    int i;
+    const char *s;
 
-  if (headsupactive)
-    HU_Stop();
+    if (headsupactive)
+        HU_Stop();
 
-  plr = &players[consoleplayer];
-  message_on = false;
-  // JONNY TODO CIRCULAR DEPENDENCY
-  //message_dontfuckwithme = false;
-  message_nottobefuckedwith = false;
-  chat_on = false;
-
-  // create the message widget
-  HUlib_initSText(&w_message, HU_MSGX, HU_MSGY, HU_MSGHEIGHT, hu_font,
-                  HU_FONTSTART, &message_on);
-
-  // create the map title widget
-  HUlib_initTextLine(&w_title, HU_TITLEX, HU_TITLEY, hu_font, HU_FONTSTART);
-
-  switch (gamemode) {
-  case shareware:
-  case registered:
-  case retail:
-    s = HU_TITLE;
-    break;
-
-    /* FIXME
-          case pack_plut:
-            s = HU_TITLEP;
-            break;
-          case pack_tnt:
-            s = HU_TITLET;
-            break;
-    */
-
-  case commercial:
-  default:
-    s = HU_TITLE2;
-    break;
-  }
-
-  while (*s)
-    HUlib_addCharToTextLine(&w_title, *(s++));
-
-  // create the chat widget
-  HUlib_initIText(&w_chat, HU_INPUTX, HU_INPUTY, hu_font, HU_FONTSTART,
-                  &chat_on);
-
-  // create the inputbuffer widgets
-  for (i = 0; i < MAXPLAYERS; i++)
-    HUlib_initIText(&w_inputbuffer[i], 0, 0, 0, 0, &always_off);
-
-  headsupactive = true;
-}
-
-export void HU_Drawer(void) {
-
-  HUlib_drawSText(&w_message);
-  HUlib_drawIText(&w_chat);
-  if (automapactive)
-    HUlib_drawTextLine(&w_title, false);
-}
-
-export void HU_Erase(void) {
-
-  HUlib_eraseSText(&w_message);
-  HUlib_eraseIText(&w_chat);
-  HUlib_eraseTextLine(&w_title);
-}
-
-export void HU_Ticker(void) {
-
-  int i;
-  char c;
-
-  // tick down message counter if message is up
-  if (message_counter && !--message_counter) {
+    plr = &players[consoleplayer];
     message_on = false;
+    // JONNY TODO CIRCULAR DEPENDENCY
+    // message_dontfuckwithme = false;
     message_nottobefuckedwith = false;
-  }
+    chat_on = false;
 
-  // JONNY TODO CIRCULAR DEPENDENCY
-  if (showMessages /* || message_dontfuckwithme*/ ) {
+    // create the message widget
+    HUlib_initSText(&w_message, HU_MSGX, HU_MSGY, HU_MSGHEIGHT, hu_font,
+                    HU_FONTSTART, &message_on);
 
-    // display message if necessary
-    if ((plr->message && !message_nottobefuckedwith) ||
-        (plr->message /*&& message_dontfuckwithme*/)) {
-      HUlib_addMessageToSText(&w_message, 0, plr->message);
-      plr->message = 0;
-      message_on = true;
-      message_counter = HU_MSGTIMEOUT;
-      // JONNY TODO CIRCULAR DEPENDENCY
-      /*message_nottobefuckedwith = message_dontfuckwithme;
-      message_dontfuckwithme = 0;*/
+    // create the map title widget
+    HUlib_initTextLine(&w_title, HU_TITLEX, HU_TITLEY, hu_font, HU_FONTSTART);
+
+    switch (gamemode)
+    {
+    case shareware:
+    case registered:
+    case retail:
+        s = HU_TITLE;
+        break;
+
+        /* FIXME
+              case pack_plut:
+                s = HU_TITLEP;
+                break;
+              case pack_tnt:
+                s = HU_TITLET;
+                break;
+        */
+
+    case commercial:
+    default:
+        s = HU_TITLE2;
+        break;
     }
 
-  } // else message_on = false;
+    while (*s)
+        HUlib_addCharToTextLine(&w_title, *(s++));
 
-  // check for incoming chat characters
-  if (netgame) {
-    for (i = 0; i < MAXPLAYERS; i++) {
-      if (!playeringame[i])
-        continue;
-      if (i != consoleplayer && (c = players[i].cmd.chatchar)) {
-        if (c <= HU_BROADCAST)
-          chat_dest[i] = c;
-        else {
-          if (c >= 'a' && c <= 'z')
-            c = (char)shiftxform[(unsigned char)c];
-          // rc = HUlib_keyInIText(&w_inputbuffer[i], c);
-          //  JONNY TODO
-          //		    if (rc && c == KEY_ENTER)
-          //		    {
-          //			if (w_inputbuffer[i].l.len
-          //			    && (chat_dest[i] == consoleplayer+1
-          //				|| chat_dest[i] == HU_BROADCAST))
-          //			{
-          //			    HUlib_addMessageToSText(&w_message,
-          //						    player_names[i],
-          //						    w_inputbuffer[i].l.l);
-          //
-          //			    message_nottobefuckedwith = true;
-          //			    message_on = true;
-          //			    message_counter = HU_MSGTIMEOUT;
-          //			    if ( gamemode == commercial )
-          //			      S_StartSound(0, sfx_radio);
-          //			    else
-          //			      S_StartSound(0, sfx_tink);
-          //			}
-          //			HUlib_resetIText(&w_inputbuffer[i]);
-          //		    }
+    // create the chat widget
+    HUlib_initIText(&w_chat, HU_INPUTX, HU_INPUTY, hu_font, HU_FONTSTART,
+                    &chat_on);
+
+    // create the inputbuffer widgets
+    for (i = 0; i < MAXPLAYERS; i++)
+        HUlib_initIText(&w_inputbuffer[i], 0, 0, 0, 0, &always_off);
+
+    headsupactive = true;
+}
+
+export void HU_Drawer(void)
+{
+
+    HUlib_drawSText(&w_message);
+    HUlib_drawIText(&w_chat);
+    if (automapactive)
+        HUlib_drawTextLine(&w_title, false);
+}
+
+export void HU_Erase(void)
+{
+
+    HUlib_eraseSText(&w_message);
+    HUlib_eraseIText(&w_chat);
+    HUlib_eraseTextLine(&w_title);
+}
+
+export void HU_Ticker(void)
+{
+
+    int i;
+    char c;
+
+    // tick down message counter if message is up
+    if (message_counter && !--message_counter)
+    {
+        message_on = false;
+        message_nottobefuckedwith = false;
+    }
+
+    // JONNY TODO CIRCULAR DEPENDENCY
+    if (showMessages /* || message_dontfuckwithme*/)
+    {
+
+        // display message if necessary
+        if ((plr->message && !message_nottobefuckedwith) ||
+            (plr->message /*&& message_dontfuckwithme*/))
+        {
+            HUlib_addMessageToSText(&w_message, 0, plr->message);
+            plr->message = 0;
+            message_on = true;
+            message_counter = HU_MSGTIMEOUT;
+            // JONNY TODO CIRCULAR DEPENDENCY
+            /*message_nottobefuckedwith = message_dontfuckwithme;
+            message_dontfuckwithme = 0;*/
         }
-        players[i].cmd.chatchar = 0;
-      }
+
+    } // else message_on = false;
+
+    // check for incoming chat characters
+    if (netgame)
+    {
+        for (i = 0; i < MAXPLAYERS; i++)
+        {
+            if (!playeringame[i])
+                continue;
+            if (i != consoleplayer && (c = players[i].cmd.chatchar))
+            {
+                if (c <= HU_BROADCAST)
+                    chat_dest[i] = c;
+                else
+                {
+                    if (c >= 'a' && c <= 'z')
+                        c = (char)shiftxform[(unsigned char)c];
+                    // rc = HUlib_keyInIText(&w_inputbuffer[i], c);
+                    //  JONNY TODO
+                    //		    if (rc && c == KEY_ENTER)
+                    //		    {
+                    //			if (w_inputbuffer[i].l.len
+                    //			    && (chat_dest[i] == consoleplayer+1
+                    //				|| chat_dest[i] ==
+                    //HU_BROADCAST))
+                    //			{
+                    //			    HUlib_addMessageToSText(&w_message,
+                    //						    player_names[i],
+                    //						    w_inputbuffer[i].l.l);
+                    //
+                    //			    message_nottobefuckedwith = true;
+                    //			    message_on = true;
+                    //			    message_counter = HU_MSGTIMEOUT;
+                    //			    if ( gamemode == commercial )
+                    //			      S_StartSound(0, sfx_radio);
+                    //			    else
+                    //			      S_StartSound(0, sfx_tink);
+                    //			}
+                    //			HUlib_resetIText(&w_inputbuffer[i]);
+                    //		    }
+                }
+                players[i].cmd.chatchar = 0;
+            }
+        }
     }
-  }
 }
 
 #define QUEUESIZE 128
@@ -715,169 +748,205 @@ static char chatchars[QUEUESIZE];
 static int head = 0;
 static int tail = 0;
 
-void HU_queueChatChar(char c) {
-  if (((head + 1) & (QUEUESIZE - 1)) == tail) {
-    plr->message = HUSTR_MSGU;
-  } else {
-    chatchars[head] = c;
-    head = (head + 1) & (QUEUESIZE - 1);
-  }
+void HU_queueChatChar(char c)
+{
+    if (((head + 1) & (QUEUESIZE - 1)) == tail)
+    {
+        plr->message = HUSTR_MSGU;
+    }
+    else
+    {
+        chatchars[head] = c;
+        head = (head + 1) & (QUEUESIZE - 1);
+    }
 }
 
-export char HU_dequeueChatChar(void) {
-  char c;
+export char HU_dequeueChatChar(void)
+{
+    char c;
 
-  if (head != tail) {
-    c = chatchars[tail];
-    tail = (tail + 1) & (QUEUESIZE - 1);
-  } else {
-    c = 0;
-  }
+    if (head != tail)
+    {
+        c = chatchars[tail];
+        tail = (tail + 1) & (QUEUESIZE - 1);
+    }
+    else
+    {
+        c = 0;
+    }
 
-  return c;
+    return c;
 }
 
-export bool HU_Responder(const sf::Event &ev) {
+export bool HU_Responder(const sf::Event &ev)
+{
 
-  static char lastmessage[HU_MAXLINELENGTH + 1];
-  const char *macromessage;
-  bool eatkey = false;
-  static bool shiftdown = false;
-  static bool altdown = false;
-  unsigned char c;
-  int i;
-  int numplayers;
+    static char lastmessage[HU_MAXLINELENGTH + 1];
+    const char *macromessage;
+    bool eatkey = false;
+    static bool shiftdown = false;
+    static bool altdown = false;
+    unsigned char c;
+    int i;
+    int numplayers;
 
-  std::array destination_keys = {HUSTR_KEYGREEN, HUSTR_KEYINDIGO,
-                                 HUSTR_KEYBROWN, HUSTR_KEYRED};
+    std::array destination_keys = {HUSTR_KEYGREEN, HUSTR_KEYINDIGO,
+                                   HUSTR_KEYBROWN, HUSTR_KEYRED};
 
-  static int num_nobrainers = 0;
+    static int num_nobrainers = 0;
 
-  numplayers = 0;
-  for (i = 0; i < MAXPLAYERS; i++)
-    numplayers += playeringame[i];
+    numplayers = 0;
+    for (i = 0; i < MAXPLAYERS; i++)
+        numplayers += playeringame[i];
 
-  if (auto key_release = ev.getIf<sf::Event::KeyPressed>(); key_release) {
-    switch (key_release->code) {
-    case sf::Keyboard::Key::RShift:
-    case sf::Keyboard::Key::LShift: {
-      shiftdown = false;
-      return false;
-    }
-    case sf::Keyboard::Key::LAlt:
-    case sf::Keyboard::Key::RAlt: {
-      altdown = false;
-      return false;
-    }
-    default:
-      break;
-    }
-  }
-
-  if (auto key_press = ev.getIf<sf::Event::KeyPressed>(); key_press) {
-    switch (key_press->code) {
-    case sf::Keyboard::Key::RShift:
-    case sf::Keyboard::Key::LShift: {
-      shiftdown = true;
-      return false;
-    }
-    case sf::Keyboard::Key::LAlt:
-    case sf::Keyboard::Key::RAlt: {
-      altdown = true;
-      return false;
-    }
-    default:
-      break;
+    if (auto key_release = ev.getIf<sf::Event::KeyPressed>(); key_release)
+    {
+        switch (key_release->code)
+        {
+        case sf::Keyboard::Key::RShift:
+        case sf::Keyboard::Key::LShift:
+        {
+            shiftdown = false;
+            return false;
+        }
+        case sf::Keyboard::Key::LAlt:
+        case sf::Keyboard::Key::RAlt:
+        {
+            altdown = false;
+            return false;
+        }
+        default:
+            break;
+        }
     }
 
-    if (!chat_on) {
-      if (key_press->code == sf::Keyboard::Key::Enter) {
-        message_on = true;
-        message_counter = HU_MSGTIMEOUT;
-        eatkey = true;
-      } else if (netgame && key_press->code == sf::Keyboard::Key::T) {
-        eatkey = chat_on = true;
-        HUlib_resetIText(&w_chat);
-        HU_queueChatChar(HU_BROADCAST);
-      } else if (netgame && numplayers > 2) {
-        for (i = 0; i < MAXPLAYERS; i++) {
-          if (key_press->code == destination_keys[i]) {
-            if (playeringame[i] && i != consoleplayer) {
-              eatkey = chat_on = true;
-              HUlib_resetIText(&w_chat);
-              HU_queueChatChar(i + 1);
-              break;
-            } else if (i == consoleplayer) {
-              num_nobrainers++;
-              if (num_nobrainers < 3)
-                plr->message = HUSTR_TALKTOSELF1;
-              else if (num_nobrainers < 6)
-                plr->message = HUSTR_TALKTOSELF2;
-              else if (num_nobrainers < 9)
-                plr->message = HUSTR_TALKTOSELF3;
-              else if (num_nobrainers < 32)
-                plr->message = HUSTR_TALKTOSELF4;
-              else
-                plr->message = HUSTR_TALKTOSELF5;
+    if (auto key_press = ev.getIf<sf::Event::KeyPressed>(); key_press)
+    {
+        switch (key_press->code)
+        {
+        case sf::Keyboard::Key::RShift:
+        case sf::Keyboard::Key::LShift:
+        {
+            shiftdown = true;
+            return false;
+        }
+        case sf::Keyboard::Key::LAlt:
+        case sf::Keyboard::Key::RAlt:
+        {
+            altdown = true;
+            return false;
+        }
+        default:
+            break;
+        }
+
+        if (!chat_on)
+        {
+            if (key_press->code == sf::Keyboard::Key::Enter)
+            {
+                message_on = true;
+                message_counter = HU_MSGTIMEOUT;
+                eatkey = true;
             }
-          }
+            else if (netgame && key_press->code == sf::Keyboard::Key::T)
+            {
+                eatkey = chat_on = true;
+                HUlib_resetIText(&w_chat);
+                HU_queueChatChar(HU_BROADCAST);
+            }
+            else if (netgame && numplayers > 2)
+            {
+                for (i = 0; i < MAXPLAYERS; i++)
+                {
+                    if (key_press->code == destination_keys[i])
+                    {
+                        if (playeringame[i] && i != consoleplayer)
+                        {
+                            eatkey = chat_on = true;
+                            HUlib_resetIText(&w_chat);
+                            HU_queueChatChar(i + 1);
+                            break;
+                        }
+                        else if (i == consoleplayer)
+                        {
+                            num_nobrainers++;
+                            if (num_nobrainers < 3)
+                                plr->message = HUSTR_TALKTOSELF1;
+                            else if (num_nobrainers < 6)
+                                plr->message = HUSTR_TALKTOSELF2;
+                            else if (num_nobrainers < 9)
+                                plr->message = HUSTR_TALKTOSELF3;
+                            else if (num_nobrainers < 32)
+                                plr->message = HUSTR_TALKTOSELF4;
+                            else
+                                plr->message = HUSTR_TALKTOSELF5;
+                        }
+                    }
+                }
+            }
         }
-      }
-    } else {
-      c = static_cast<char>(key_press->code);
-      // send a macro
-      if (altdown) {
-        c = c - '0';
-        if (c > 9)
-          return false;
-        // fprintf(stderr, "got here\n");
-        macromessage = chat_macros[c];
+        else
+        {
+            c = static_cast<char>(key_press->code);
+            // send a macro
+            if (altdown)
+            {
+                c = c - '0';
+                if (c > 9)
+                    return false;
+                // fprintf(stderr, "got here\n");
+                macromessage = chat_macros[c];
 
-        // kill last message with a '\n'
-        // JONNY TODO
-        // HU_queueChatChar(KEY_ENTER); // DEBUG!!!
+                // kill last message with a '\n'
+                // JONNY TODO
+                // HU_queueChatChar(KEY_ENTER); // DEBUG!!!
 
-        // send the macro message
-        while (*macromessage)
-          HU_queueChatChar(*macromessage++);
-        // JONNY TODO
-        // HU_queueChatChar(KEY_ENTER);
+                // send the macro message
+                while (*macromessage)
+                    HU_queueChatChar(*macromessage++);
+                // JONNY TODO
+                // HU_queueChatChar(KEY_ENTER);
 
-        // leave chat mode and notify that it was sent
-        chat_on = false;
-        strcpy(lastmessage, chat_macros[c]);
-        plr->message = lastmessage;
-        eatkey = true;
-      } else {
-        if (french)
-          c = ForeignTranslation(c);
-        if (shiftdown || (c >= 'a' && c <= 'z'))
-          c = shiftxform[c];
-        eatkey = HUlib_keyInIText(&w_chat, c);
-        if (eatkey) {
-          // static unsigned char buf[20]; // DEBUG
-          HU_queueChatChar(c);
+                // leave chat mode and notify that it was sent
+                chat_on = false;
+                strcpy(lastmessage, chat_macros[c]);
+                plr->message = lastmessage;
+                eatkey = true;
+            }
+            else
+            {
+                if (french)
+                    c = ForeignTranslation(c);
+                if (shiftdown || (c >= 'a' && c <= 'z'))
+                    c = shiftxform[c];
+                eatkey = HUlib_keyInIText(&w_chat, c);
+                if (eatkey)
+                {
+                    // static unsigned char buf[20]; // DEBUG
+                    HU_queueChatChar(c);
 
-          // sprintf(buf, "KEY: %d => %d", ev->data1, c);
-          //      plr->message = buf;
+                    // sprintf(buf, "KEY: %d => %d", ev->data1, c);
+                    //      plr->message = buf;
+                }
+                // JONNY TODO
+                //	    if (c == KEY_ENTER)
+                //	    {
+                //		chat_on = false;
+                //		if (w_chat.l.len)
+                //		{
+                //		    strcpy(lastmessage, w_chat.l.l);
+                //		    plr->message = lastmessage;
+                //		}
+                //	    }
+                //	    else if (c == KEY_ESCAPE)
+                //		chat_on = false;
+            }
         }
-        // JONNY TODO
-        //	    if (c == KEY_ENTER)
-        //	    {
-        //		chat_on = false;
-        //		if (w_chat.l.len)
-        //		{
-        //		    strcpy(lastmessage, w_chat.l.l);
-        //		    plr->message = lastmessage;
-        //		}
-        //	    }
-        //	    else if (c == KEY_ESCAPE)
-        //		chat_on = false;
-      }
     }
-  } else {
-    return false;
-  }
+    else
+    {
+        return false;
+    }
 
-  return eatkey;
+    return eatkey;
 }

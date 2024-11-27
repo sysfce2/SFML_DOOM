@@ -34,7 +34,7 @@ module;
 export module sky;
 
 // SKY, store the number for name.
-export constexpr auto  SKYFLATNAME = "F_SKY1";
+export constexpr auto SKYFLATNAME = "F_SKY1";
 
 // The sky map is 256*128*4 maps.
 export constexpr auto ANGLETOSKYSHIFT = 22;
@@ -50,7 +50,8 @@ export int skytexturemid;
 // R_InitSkyMap
 // Called whenever the view size changes.
 //
-export void R_InitSkyMap(void) {
-  // skyflatnum = R_FlatNumForName ( SKYFLATNAME );
-  skytexturemid = 100 * FRACUNIT;
+export void R_InitSkyMap(void)
+{
+    // skyflatnum = R_FlatNumForName ( SKYFLATNAME );
+    skytexturemid = 100 * FRACUNIT;
 }

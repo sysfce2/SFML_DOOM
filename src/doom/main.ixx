@@ -793,7 +793,7 @@ export void D_DoomMain(void)
 
         if (gamemode == shareware)
             logger::error("\nYou cannot -file with the shareware "
-                    "version. Register!");
+                          "version. Register!");
 
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version.

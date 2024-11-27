@@ -196,7 +196,7 @@ void W_AddFile(const std::filesystem::path &filepath)
             if (strncmp(header.identification, "PWAD", 4))
             {
                 logger::error("Wad file {} doesn't have or PWAD id\n",
-                        filename.string());
+                              filename.string());
             }
 
             // ???modifiedgame = true;
@@ -395,7 +395,7 @@ export void W_ReadLump(int lump, void *dest)
             if (!file)
             {
                 logger::error("W_ReadLump: only read {} of {} on lump {}",
-                        file.gcount(), l.size, lump);
+                              file.gcount(), l.size, lump);
             }
         }
     }
@@ -408,8 +408,8 @@ export void W_ReadLump(int lump, void *dest)
 
         if (!file)
         {
-            logger::error("W_ReadLump: only read {} of {} on lump {}", file.gcount(),
-                    l.size, lump);
+            logger::error("W_ReadLump: only read {} of {} on lump {}",
+                          file.gcount(), l.size, lump);
         }
     }
 }

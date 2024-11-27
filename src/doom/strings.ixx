@@ -46,27 +46,34 @@ export const auto D_CDROM = "VERSION CD-ROM: DEFAULT.CFG DANS C:\\DOOMDATA\n";
 export const auto PRESSKEY = "APPUYEZ SUR UNE TOUCHE.";
 export const auto PRESSYN = "APPUYEZ SUR Y OU N";
 export const auto QUITMSG = "VOUS VOULEZ VRAIMENT\nQUITTER CE SUPER JEU?";
-export const auto LOADNET = std::format("VOUS NE POUVEZ PAS CHARGER\nUN JEU EN RESEAU!\n\n{}",PRESSKEY);
-export const auto QLOADNET = std::format("CHARGEMENT RAPIDE INTERDIT EN RESEAU!\n\n{}",PRESSKEY);
-export const auto QSAVESPOT = std::format("VOUS N'AVEZ PAS CHOISI UN EMPLACEMENT!\n\n{}",PRESSKEY);
+export const auto LOADNET = std::format(
+    "VOUS NE POUVEZ PAS CHARGER\nUN JEU EN RESEAU!\n\n{}", PRESSKEY);
+export const auto QLOADNET =
+    std::format("CHARGEMENT RAPIDE INTERDIT EN RESEAU!\n\n{}", PRESSKEY);
+export const auto QSAVESPOT =
+    std::format("VOUS N'AVEZ PAS CHOISI UN EMPLACEMENT!\n\n{}", PRESSKEY);
 #define SAVEDEAD                                                               \
-  "VOUS NE POUVEZ PAS SAUVER SI VOUS NE JOUEZ "                                \
-  "PAS!\n\n" PRESSKEY
-export const auto QSPROMPT = std::format("SAUVEGARDE RAPIDE DANS LE FICHIER \n\n'%s'?\n\n{}",PRESSYN);
+    "VOUS NE POUVEZ PAS SAUVER SI VOUS NE JOUEZ "                              \
+    "PAS!\n\n" PRESSKEY
+export const auto QSPROMPT =
+    std::format("SAUVEGARDE RAPIDE DANS LE FICHIER \n\n'%s'?\n\n{}", PRESSYN);
 #define QLPROMPT                                                               \
-  "VOULEZ-VOUS CHARGER LA SAUVEGARDE"                                          \
-  "\n\n'%s'?\n\n" PRESSYN
-export const auto NEWGAME = std::format("VOUS NE POUVEZ PAS LANCER\nUN NOUVEAU JEU SUR RESEAU.\n\n{}",PRESSKEY);
-export const auto NIGHTMARE = std::format("VOUS CONFIRMEZ? CE NIVEAU EST\nVRAIMENT IMPITOYABLE!n{}", PRESSYN);
+    "VOULEZ-VOUS CHARGER LA SAUVEGARDE"                                        \
+    "\n\n'%s'?\n\n" PRESSYN
+export const auto NEWGAME = std::format(
+    "VOUS NE POUVEZ PAS LANCER\nUN NOUVEAU JEU SUR RESEAU.\n\n{}", PRESSKEY);
+export const auto NIGHTMARE = std::format(
+    "VOUS CONFIRMEZ? CE NIVEAU EST\nVRAIMENT IMPITOYABLE!n{}", PRESSYN);
 #define SWSTRING                                                               \
-  "CECI EST UNE VERSION SHAREWARE DE DOOM.\n\n"                                \
-  "VOUS DEVRIEZ COMMANDER LA TRILOGIE COMPLETE.\n\n" PRESSKEY
+    "CECI EST UNE VERSION SHAREWARE DE DOOM.\n\n"                              \
+    "VOUS DEVRIEZ COMMANDER LA TRILOGIE COMPLETE.\n\n" PRESSKEY
 export const auto MSGOFF = "MESSAGES OFF";
 export const auto MSGON = "MESSAGES ON";
 #define NETEND                                                                 \
-  "VOUS NE POUVEZ PAS METTRE FIN A UN JEU SUR "                                \
-  "RESEAU!\n\n" PRESSKEY
-export const auto ENDGAME = std::format("VOUS VOULEZ VRAIMENT METTRE FIN AU JEU?\n\n{}",PRESSYN);
+    "VOUS NE POUVEZ PAS METTRE FIN A UN JEU SUR "                              \
+    "RESEAU!\n\n" PRESSKEY
+export const auto ENDGAME =
+    std::format("VOUS VOULEZ VRAIMENT METTRE FIN AU JEU?\n\n{}", PRESSYN);
 
 export const auto DOSY = "(APPUYEZ SUR Y POUR REVENIR AU OS.)";
 
@@ -87,7 +94,8 @@ export const auto GOTMEGA = "MEGA-ARMURE RECUPEREE!";
 export const auto GOTHTHBONUS = "BONUS DE SANTE RECUPERE.";
 export const auto GOTARMBONUS = "BONUS D'ARMURE RECUPERE.";
 export const auto GOTSTIM = "STIMPACK RECUPERE.";
-export const auto GOTMEDINEED = "MEDIKIT RECUPERE. VOUS EN AVEZ VRAIMENT BESOIN!";
+export const auto GOTMEDINEED =
+    "MEDIKIT RECUPERE. VOUS EN AVEZ VRAIMENT BESOIN!";
 export const auto GOTMEDIKIT = "MEDIKIT RECUPERE.";
 export const auto GOTSUPER = "SUPERCHARGE!";
 
@@ -270,7 +278,8 @@ export const auto STSTR_FAADDED = "ARMES (SAUF CLEFS) AJOUTEES";
 export const auto STSTR_NCON = "BARRIERES ON";
 export const auto STSTR_NCOFF = "BARRIERES OFF";
 
-export const auto STSTR_BEHOLD = " inVuln, Str, Inviso, Rad, Allmap, or Lite-amp";
+export const auto STSTR_BEHOLD =
+    " inVuln, Str, Inviso, Rad, Allmap, or Lite-amp";
 export const auto STSTR_BEHOLDX = "AMELIORATION ACTIVEE";
 
 export const auto STSTR_CHOPPERS = "... DOESN'T SUCK - GM";
@@ -279,150 +288,143 @@ export const auto STSTR_CLEV = "CHANGEMENT DE NIVEAU...";
 //
 //	F_Finale.C
 //
-export auto E1TEXT =                                                                  \
-  "APRES AVOIR VAINCU LES GROS MECHANTS\n"                                     \
-  "ET NETTOYE LA BASE LUNAIRE, VOUS AVEZ\n"                                    \
-  "GAGNE, NON? PAS VRAI? OU EST DONC VOTRE\n"                                  \
-  " RECOMPENSE ET VOTRE BILLET DE\n"                                           \
-  "RETOUR? QU'EST-QUE CA VEUT DIRE?CE"                                         \
-  "N'EST PAS LA FIN ESPEREE!\n"                                                \
-  "\n"                                                                         \
-  "CA SENT LA VIANDE PUTREFIEE, MAIS\n"                                        \
-  "ON DIRAIT LA BASE DEIMOS. VOUS ETES\n"                                      \
-  "APPAREMMENT BLOQUE AUX PORTES DE L'ENFER.\n"                                \
-  "LA SEULE ISSUE EST DE L'AUTRE COTE.\n"                                      \
-  "\n"                                                                         \
-  "POUR VIVRE LA SUITE DE DOOM, JOUEZ\n"                                       \
-  "A 'AUX PORTES DE L'ENFER' ET A\n"                                           \
-  "L'EPISODE SUIVANT, 'L'ENFER'!\n"
+export auto E1TEXT = "APRES AVOIR VAINCU LES GROS MECHANTS\n"
+                     "ET NETTOYE LA BASE LUNAIRE, VOUS AVEZ\n"
+                     "GAGNE, NON? PAS VRAI? OU EST DONC VOTRE\n"
+                     " RECOMPENSE ET VOTRE BILLET DE\n"
+                     "RETOUR? QU'EST-QUE CA VEUT DIRE?CE"
+                     "N'EST PAS LA FIN ESPEREE!\n"
+                     "\n"
+                     "CA SENT LA VIANDE PUTREFIEE, MAIS\n"
+                     "ON DIRAIT LA BASE DEIMOS. VOUS ETES\n"
+                     "APPAREMMENT BLOQUE AUX PORTES DE L'ENFER.\n"
+                     "LA SEULE ISSUE EST DE L'AUTRE COTE.\n"
+                     "\n"
+                     "POUR VIVRE LA SUITE DE DOOM, JOUEZ\n"
+                     "A 'AUX PORTES DE L'ENFER' ET A\n"
+                     "L'EPISODE SUIVANT, 'L'ENFER'!\n"
 
-export auto E2TEXT =                                                                 \
-  "VOUS AVEZ REUSSI. L'INFAME DEMON\n"                                         \
-  "QUI CONTROLAIT LA BASE LUNAIRE DE\n"                                        \
-  "DEIMOS EST MORT, ET VOUS AVEZ\n"                                            \
-  "TRIOMPHE! MAIS... OU ETES-VOUS?\n"                                          \
-  "VOUS GRIMPEZ JUSQU'AU BORD DE LA\n"                                         \
-  "LUNE ET VOUS DECOUVREZ L'ATROCE\n"                                          \
-  "VERITE.\n"                                                                  \
-  "\n"                                                                         \
-  "DEIMOS EST AU-DESSUS DE L'ENFER!\n"                                         \
-  "VOUS SAVEZ QUE PERSONNE NE S'EN\n"                                          \
-  "EST JAMAIS ECHAPPE, MAIS CES FUMIERS\n"                                     \
-  "VONT REGRETTER DE VOUS AVOIR CONNU!\n"                                      \
-  "VOUS REDESCENDEZ RAPIDEMENT VERS\n"                                         \
-  "LA SURFACE DE L'ENFER.\n"                                                   \
-  "\n"                                                                         \
-  "VOICI MAINTENANT LE CHAPITRE FINAL DE\n"                                    \
-  "DOOM! -- L'ENFER."
+    export auto E2TEXT = "VOUS AVEZ REUSSI. L'INFAME DEMON\n"
+                         "QUI CONTROLAIT LA BASE LUNAIRE DE\n"
+                         "DEIMOS EST MORT, ET VOUS AVEZ\n"
+                         "TRIOMPHE! MAIS... OU ETES-VOUS?\n"
+                         "VOUS GRIMPEZ JUSQU'AU BORD DE LA\n"
+                         "LUNE ET VOUS DECOUVREZ L'ATROCE\n"
+                         "VERITE.\n"
+                         "\n"
+                         "DEIMOS EST AU-DESSUS DE L'ENFER!\n"
+                         "VOUS SAVEZ QUE PERSONNE NE S'EN\n"
+                         "EST JAMAIS ECHAPPE, MAIS CES FUMIERS\n"
+                         "VONT REGRETTER DE VOUS AVOIR CONNU!\n"
+                         "VOUS REDESCENDEZ RAPIDEMENT VERS\n"
+                         "LA SURFACE DE L'ENFER.\n"
+                         "\n"
+                         "VOICI MAINTENANT LE CHAPITRE FINAL DE\n"
+                         "DOOM! -- L'ENFER."
 
-export auto E3TEXT =                                                                 \
-  "LE DEMON ARACHNEEN ET REPUGNANT\n"                                          \
-  "QUI A DIRIGE L'INVASION DES BASES\n"                                        \
-  "LUNAIRES ET SEME LA MORT VIENT DE SE\n"                                     \
-  "FAIRE PULVERISER UNE FOIS POUR TOUTES.\n"                                   \
-  "\n"                                                                         \
-  "UNE PORTE SECRETE S'OUVRE. VOUS ENTREZ.\n"                                  \
-  "VOUS AVEZ PROUVE QUE VOUS POUVIEZ\n"                                        \
-  "RESISTER AUX HORREURS DE L'ENFER.\n"                                        \
-  "IL SAIT ETRE BEAU JOUEUR, ET LORSQUE\n"                                     \
-  "VOUS SORTEZ, VOUS REVOYEZ LES VERTES\n"                                     \
-  "PRAIRIES DE LA TERRE, VOTRE PLANETE.\n"                                     \
-  "\n"                                                                         \
-  "VOUS VOUS DEMANDEZ CE QUI S'EST PASSE\n"                                    \
-  "SUR TERRE PENDANT QUE VOUS AVEZ\n"                                          \
-  "COMBATTU LE DEMON. HEUREUSEMENT,\n"                                         \
-  "AUCUN GERME DU MAL N'A FRANCHI\n"                                           \
-  "CETTE PORTE AVEC VOUS..."
+    export auto E3TEXT = "LE DEMON ARACHNEEN ET REPUGNANT\n"
+                         "QUI A DIRIGE L'INVASION DES BASES\n"
+                         "LUNAIRES ET SEME LA MORT VIENT DE SE\n"
+                         "FAIRE PULVERISER UNE FOIS POUR TOUTES.\n"
+                         "\n"
+                         "UNE PORTE SECRETE S'OUVRE. VOUS ENTREZ.\n"
+                         "VOUS AVEZ PROUVE QUE VOUS POUVIEZ\n"
+                         "RESISTER AUX HORREURS DE L'ENFER.\n"
+                         "IL SAIT ETRE BEAU JOUEUR, ET LORSQUE\n"
+                         "VOUS SORTEZ, VOUS REVOYEZ LES VERTES\n"
+                         "PRAIRIES DE LA TERRE, VOTRE PLANETE.\n"
+                         "\n"
+                         "VOUS VOUS DEMANDEZ CE QUI S'EST PASSE\n"
+                         "SUR TERRE PENDANT QUE VOUS AVEZ\n"
+                         "COMBATTU LE DEMON. HEUREUSEMENT,\n"
+                         "AUCUN GERME DU MAL N'A FRANCHI\n"
+                         "CETTE PORTE AVEC VOUS..."
 
-// after level 6, put this:
+    // after level 6, put this:
 
-export auto C1TEXT =                                                                  \
-  "VOUS ETES AU PLUS PROFOND DE L'ASTROPORT\n"                                 \
-  "INFESTE DE MONSTRES, MAIS QUELQUE CHOSE\n"                                  \
-  "NE VA PAS. ILS ONT APPORTE LEUR PROPRE\n"                                   \
-  "REALITE, ET LA TECHNOLOGIE DE L'ASTROPORT\n"                                \
-  "EST AFFECTEE PAR LEUR PRESENCE.\n"                                          \
-  "\n"                                                                         \
-  "DEVANT VOUS, VOUS VOYEZ UN POSTE AVANCE\n"                                  \
-  "DE L'ENFER, UNE ZONE FORTIFIEE. SI VOUS\n"                                  \
-  "POUVEZ PASSER, VOUS POURREZ PENETRER AU\n"                                  \
-  "COEUR DE LA BASE HANTEE ET TROUVER \n"                                      \
-  "L'INTERRUPTEUR DE CONTROLE QUI GARDE LA \n"                                 \
-  "POPULATION DE LA TERRE EN OTAGE."
+    export auto C1TEXT = "VOUS ETES AU PLUS PROFOND DE L'ASTROPORT\n"
+                         "INFESTE DE MONSTRES, MAIS QUELQUE CHOSE\n"
+                         "NE VA PAS. ILS ONT APPORTE LEUR PROPRE\n"
+                         "REALITE, ET LA TECHNOLOGIE DE L'ASTROPORT\n"
+                         "EST AFFECTEE PAR LEUR PRESENCE.\n"
+                         "\n"
+                         "DEVANT VOUS, VOUS VOYEZ UN POSTE AVANCE\n"
+                         "DE L'ENFER, UNE ZONE FORTIFIEE. SI VOUS\n"
+                         "POUVEZ PASSER, VOUS POURREZ PENETRER AU\n"
+                         "COEUR DE LA BASE HANTEE ET TROUVER \n"
+                         "L'INTERRUPTEUR DE CONTROLE QUI GARDE LA \n"
+                         "POPULATION DE LA TERRE EN OTAGE."
 
-// After level 11, put this:
+    // After level 11, put this:
 
-export auto C2TEXT =                                                                  \
-  "VOUS AVEZ GAGNE! VOTRE VICTOIRE A PERMIS\n"                                 \
-  "A L'HUMANITE D'EVACUER LA TERRE ET \n"                                      \
-  "D'ECHAPPER AU CAUCHEMAR. VOUS ETES \n"                                      \
-  "MAINTENANT LE DERNIER HUMAIN A LA SURFACE \n"                               \
-  "DE LA PLANETE. VOUS ETES ENTOURE DE \n"                                     \
-  "MUTANTS CANNIBALES, D'EXTRATERRESTRES \n"                                   \
-  "CARNIVORES ET D'ESPRITS DU MAL. VOUS \n"                                    \
-  "ATTENDEZ CALMEMENT LA MORT, HEUREUX \n"                                     \
-  "D'AVOIR PU SAUVER VOTRE RACE.\n"                                            \
-  "MAIS UN MESSAGE VOUS PARVIENT SOUDAIN\n"                                    \
-  "DE L'ESPACE: \"NOS CAPTEURS ONT LOCALISE\n"                                 \
-  "LA SOURCE DE L'INVASION EXTRATERRESTRE.\n"                                  \
-  "SI VOUS Y ALLEZ, VOUS POURREZ PEUT-ETRE\n"                                  \
-  "LES ARRETER. LEUR BASE EST SITUEE AU COEUR\n"                               \
-  "DE VOTRE VILLE NATALE, PRES DE L'ASTROPORT.\n"                              \
-  "VOUS VOUS RELEVEZ LENTEMENT ET PENIBLEMENT\n"                               \
-  "ET VOUS REPARTEZ POUR LE FRONT."
+    export auto C2TEXT = "VOUS AVEZ GAGNE! VOTRE VICTOIRE A PERMIS\n"
+                         "A L'HUMANITE D'EVACUER LA TERRE ET \n"
+                         "D'ECHAPPER AU CAUCHEMAR. VOUS ETES \n"
+                         "MAINTENANT LE DERNIER HUMAIN A LA SURFACE \n"
+                         "DE LA PLANETE. VOUS ETES ENTOURE DE \n"
+                         "MUTANTS CANNIBALES, D'EXTRATERRESTRES \n"
+                         "CARNIVORES ET D'ESPRITS DU MAL. VOUS \n"
+                         "ATTENDEZ CALMEMENT LA MORT, HEUREUX \n"
+                         "D'AVOIR PU SAUVER VOTRE RACE.\n"
+                         "MAIS UN MESSAGE VOUS PARVIENT SOUDAIN\n"
+                         "DE L'ESPACE: \"NOS CAPTEURS ONT LOCALISE\n"
+                         "LA SOURCE DE L'INVASION EXTRATERRESTRE.\n"
+                         "SI VOUS Y ALLEZ, VOUS POURREZ PEUT-ETRE\n"
+                         "LES ARRETER. LEUR BASE EST SITUEE AU COEUR\n"
+                         "DE VOTRE VILLE NATALE, PRES DE L'ASTROPORT.\n"
+                         "VOUS VOUS RELEVEZ LENTEMENT ET PENIBLEMENT\n"
+                         "ET VOUS REPARTEZ POUR LE FRONT."
 
-// After level 20, put this:
+    // After level 20, put this:
 
-export auto C3TEXT =                                                                 \
-  "VOUS ETES AU COEUR DE LA CITE CORROMPUE,\n"                                 \
-  "ENTOURE PAR LES CADAVRES DE VOS ENNEMIS.\n"                                 \
-  "VOUS NE VOYEZ PAS COMMENT DETRUIRE LA PORTE\n"                              \
-  "DES CREATURES DE CE COTE. VOUS SERREZ\n"                                    \
-  "LES DENTS ET PLONGEZ DANS L'OUVERTURE.\n"                                   \
-  "\n"                                                                         \
-  "IL DOIT Y AVOIR UN MOYEN DE LA FERMER\n"                                    \
-  "DE L'AUTRE COTE. VOUS ACCEPTEZ DE\n"                                        \
-  "TRAVERSER L'ENFER POUR LE FAIRE?"
+    export auto C3TEXT = "VOUS ETES AU COEUR DE LA CITE CORROMPUE,\n"
+                         "ENTOURE PAR LES CADAVRES DE VOS ENNEMIS.\n"
+                         "VOUS NE VOYEZ PAS COMMENT DETRUIRE LA PORTE\n"
+                         "DES CREATURES DE CE COTE. VOUS SERREZ\n"
+                         "LES DENTS ET PLONGEZ DANS L'OUVERTURE.\n"
+                         "\n"
+                         "IL DOIT Y AVOIR UN MOYEN DE LA FERMER\n"
+                         "DE L'AUTRE COTE. VOUS ACCEPTEZ DE\n"
+                         "TRAVERSER L'ENFER POUR LE FAIRE?"
 
-// After level 29, put this:
+    // After level 29, put this:
 
- export auto C4TEXT =                                                                 \
-  "LE VISAGE HORRIBLE D'UN DEMON D'UNE\n"                                      \
-  "TAILLE INCROYABLE S'EFFONDRE DEVANT\n"                                      \
-  "VOUS LORSQUE VOUS TIREZ UNE SALVE DE\n"                                     \
-  "ROQUETTES DANS SON CERVEAU. LE MONSTRE\n"                                   \
-  "SE RATATINE, SES MEMBRES DECHIQUETES\n"                                     \
-  "SE REPANDANT SUR DES CENTAINES DE\n"                                        \
-  "KILOMETRES A LA SURFACE DE L'ENFER.\n"                                      \
-  "\n"                                                                         \
-  "VOUS AVEZ REUSSI. L'INVASION N'AURA.\n"                                     \
-  "PAS LIEU. LA TERRE EST SAUVEE. L'ENFER\n"                                   \
-  "EST ANEANTI. EN VOUS DEMANDANT OU IRONT\n"                                  \
-  "MAINTENANT LES DAMNES, VOUS ESSUYEZ\n"                                      \
-  "VOTRE FRONT COUVERT DE SUEUR ET REPARTEZ\n"                                 \
-  "VERS LA TERRE. SA RECONSTRUCTION SERA\n"                                    \
-  "BEAUCOUP PLUS DROLE QUE SA DESTRUCTION.\n"
+    export auto C4TEXT = "LE VISAGE HORRIBLE D'UN DEMON D'UNE\n"
+                         "TAILLE INCROYABLE S'EFFONDRE DEVANT\n"
+                         "VOUS LORSQUE VOUS TIREZ UNE SALVE DE\n"
+                         "ROQUETTES DANS SON CERVEAU. LE MONSTRE\n"
+                         "SE RATATINE, SES MEMBRES DECHIQUETES\n"
+                         "SE REPANDANT SUR DES CENTAINES DE\n"
+                         "KILOMETRES A LA SURFACE DE L'ENFER.\n"
+                         "\n"
+                         "VOUS AVEZ REUSSI. L'INVASION N'AURA.\n"
+                         "PAS LIEU. LA TERRE EST SAUVEE. L'ENFER\n"
+                         "EST ANEANTI. EN VOUS DEMANDANT OU IRONT\n"
+                         "MAINTENANT LES DAMNES, VOUS ESSUYEZ\n"
+                         "VOTRE FRONT COUVERT DE SUEUR ET REPARTEZ\n"
+                         "VERS LA TERRE. SA RECONSTRUCTION SERA\n"
+                         "BEAUCOUP PLUS DROLE QUE SA DESTRUCTION.\n"
 
 // Before level 31, put this:
 
 #define C5TEXT                                                                 \
-  "FELICITATIONS! VOUS AVEZ TROUVE LE\n"                                       \
-  "NIVEAU SECRET! IL SEMBLE AVOIR ETE\n"                                       \
-  "CONSTRUIT PAR LES HUMAINS. VOUS VOUS\n"                                     \
-  "DEMANDEZ QUELS PEUVENT ETRE LES\n"                                          \
-  "HABITANTS DE CE COIN PERDU DE L'ENFER."
+    "FELICITATIONS! VOUS AVEZ TROUVE LE\n"                                     \
+    "NIVEAU SECRET! IL SEMBLE AVOIR ETE\n"                                     \
+    "CONSTRUIT PAR LES HUMAINS. VOUS VOUS\n"                                   \
+    "DEMANDEZ QUELS PEUVENT ETRE LES\n"                                        \
+    "HABITANTS DE CE COIN PERDU DE L'ENFER."
 
 // Before level 32, put this:
 
 #define C6TEXT                                                                 \
-  "FELICITATIONS! VOUS AVEZ DECOUVERT\n"                                       \
-  "LE NIVEAU SUPER SECRET! VOUS FERIEZ\n"                                      \
-  "MIEUX DE FONCER DANS CELUI-LA!\n"
+    "FELICITATIONS! VOUS AVEZ DECOUVERT\n"                                     \
+    "LE NIVEAU SUPER SECRET! VOUS FERIEZ\n"                                    \
+    "MIEUX DE FONCER DANS CELUI-LA!\n"
 
-//
-// Character cast strings F_FINALE.C
-//
-export const auto CC_ZOMBIE = "ZOMBIE";
+    //
+    // Character cast strings F_FINALE.C
+    //
+    export const auto CC_ZOMBIE = "ZOMBIE";
 export const auto CC_SHOTGUN = "TYPE AU FUSIL";
 export const auto CC_HEAVY = "MEC SUPER-ARME";
 export const auto CC_IMP = "DIABLOTIN";
@@ -464,23 +466,36 @@ export const auto D_CDROM = "CD-ROM Version: default.cfg from c:\\doomdata\n";
 export const auto PRESSKEY = "press a key.";
 export const auto PRESSYN = "press y or n.";
 export const auto QUITMSG = "are you sure you want to\nquit this great game?";
-export const auto LOADNET = std::format("you can't do load while in a net game!\n\n{}",PRESSKEY);
-export const auto QLOADNET = std::format("you can't quickload during a netgame!\n\n{}",PRESSKEY);
-export const auto QSAVESPOT = std::format("you haven't picked a quicksave slot yet!\n\n{}",PRESSKEY);
-export const auto SAVEDEAD = std::format("you can't save if you aren't playing!\n\n{}",PRESSKEY);
-export const auto QSPROMPT = std::format("quicksave over your game named\n\n'%s'?\n\n{}",PRESSYN);
-export const auto QLPROMPT = std::format("do you want to quickload the game named\n\n'%s'?\n\n{}",PRESSYN);
+export const auto LOADNET =
+    std::format("you can't do load while in a net game!\n\n{}", PRESSKEY);
+export const auto QLOADNET =
+    std::format("you can't quickload during a netgame!\n\n{}", PRESSKEY);
+export const auto QSAVESPOT =
+    std::format("you haven't picked a quicksave slot yet!\n\n{}", PRESSKEY);
+export const auto SAVEDEAD =
+    std::format("you can't save if you aren't playing!\n\n{}", PRESSKEY);
+export const auto QSPROMPT =
+    std::format("quicksave over your game named\n\n'%s'?\n\n{}", PRESSYN);
+export const auto QLPROMPT = std::format(
+    "do you want to quickload the game named\n\n'%s'?\n\n{}", PRESSYN);
 
-export const auto NEWGAME = std::format("you can't start a new game\nwhile in a network game.\n\n{}", PRESSKEY);
+export const auto NEWGAME = std::format(
+    "you can't start a new game\nwhile in a network game.\n\n{}", PRESSKEY);
 
-export const auto NIGHTMARE = std::format("are you sure? this skill level\nisn't even remotely fair.\n\n", PRESSYN);
+export const auto NIGHTMARE = std::format(
+    "are you sure? this skill level\nisn't even remotely fair.\n\n", PRESSYN);
 
-export const auto SWSTRING = std::format("this is the shareware version of doom.\n\nyou need to order the entire trilogy.\n\n", PRESSKEY);
+export const auto SWSTRING =
+    std::format("this is the shareware version of doom.\n\nyou need to order "
+                "the entire trilogy.\n\n",
+                PRESSKEY);
 
 export const auto MSGOFF = "Messages OFF";
 export const auto MSGON = "Messages ON";
-export const auto NETEND = std::format("you can't end a netgame!\n\n{}",PRESSKEY);
-export const auto ENDGAME = std::format("are you sure you want to end the game?\n\n{}",PRESSYN);
+export const auto NETEND =
+    std::format("you can't end a netgame!\n\n{}", PRESSKEY);
+export const auto ENDGAME =
+    std::format("are you sure you want to end the game?\n\n{}", PRESSYN);
 
 export const auto DOSY = "(press y to quit)";
 
@@ -766,7 +781,8 @@ export const auto STSTR_FAADDED = "Ammo (no keys) Added";
 export const auto STSTR_NCON = "No Clipping Mode ON";
 export const auto STSTR_NCOFF = "No Clipping Mode OFF";
 
-export const auto STSTR_BEHOLD = "inVuln, Str, Inviso, Rad, Allmap, or Lite-amp";
+export const auto STSTR_BEHOLD =
+    "inVuln, Str, Inviso, Rad, Allmap, or Lite-amp";
 export const auto STSTR_BEHOLDX = "Power-up Toggled";
 
 export const auto STSTR_CHOPPERS = "... doesn't suck - GM";
@@ -775,301 +791,279 @@ export const auto STSTR_CLEV = "Changing Level...";
 //
 //	F_Finale.C
 //
-export auto E1TEXT =                                                                 \
-  "Once you beat the big badasses and\n"                                       \
-  "clean out the moon base you're supposed\n"                                  \
-  "to win, aren't you? Aren't you? Where's\n"                                  \
-  "your fat reward and ticket home? What\n"                                    \
-  "the hell is this? It's not supposed to\n"                                   \
-  "end this way!\n"                                                            \
-  "\n"                                                                         \
-  "It stinks like rotten meat, but looks\n"                                    \
-  "like the lost Deimos base.  Looks like\n"                                   \
-  "you're stuck on The Shores of Hell.\n"                                      \
-  "The only way out is through.\n"                                             \
-  "\n"                                                                         \
-  "To continue the DOOM experience, play\n"                                    \
-  "The Shores of Hell and its amazing\n"                                       \
-  "sequel, Inferno!\n";
+export auto E1TEXT = "Once you beat the big badasses and\n"
+                     "clean out the moon base you're supposed\n"
+                     "to win, aren't you? Aren't you? Where's\n"
+                     "your fat reward and ticket home? What\n"
+                     "the hell is this? It's not supposed to\n"
+                     "end this way!\n"
+                     "\n"
+                     "It stinks like rotten meat, but looks\n"
+                     "like the lost Deimos base.  Looks like\n"
+                     "you're stuck on The Shores of Hell.\n"
+                     "The only way out is through.\n"
+                     "\n"
+                     "To continue the DOOM experience, play\n"
+                     "The Shores of Hell and its amazing\n"
+                     "sequel, Inferno!\n";
 
-export auto E2TEXT =                                                                 \
-  "You've done it! The hideous cyber-\n"                                       \
-  "demon lord that ruled the lost Deimos\n"                                    \
-  "moon base has been slain and you\n"                                         \
-  "are triumphant! But ... where are\n"                                        \
-  "you? You clamber to the edge of the\n"                                      \
-  "moon and look down to see the awful\n"                                      \
-  "truth.\n"                                                                   \
-  "\n"                                                                         \
-  "Deimos floats above Hell itself!\n"                                         \
-  "You've never heard of anyone escaping\n"                                    \
-  "from Hell, but you'll make the bastards\n"                                  \
-  "sorry they ever heard of you! Quickly,\n"                                   \
-  "you rappel down to  the surface of\n"                                       \
-  "Hell.\n"                                                                    \
-  "\n"                                                                         \
-  "Now, it's on to the final chapter of\n"                                     \
-  "DOOM! -- Inferno.";
+export auto E2TEXT = "You've done it! The hideous cyber-\n"
+                     "demon lord that ruled the lost Deimos\n"
+                     "moon base has been slain and you\n"
+                     "are triumphant! But ... where are\n"
+                     "you? You clamber to the edge of the\n"
+                     "moon and look down to see the awful\n"
+                     "truth.\n"
+                     "\n"
+                     "Deimos floats above Hell itself!\n"
+                     "You've never heard of anyone escaping\n"
+                     "from Hell, but you'll make the bastards\n"
+                     "sorry they ever heard of you! Quickly,\n"
+                     "you rappel down to  the surface of\n"
+                     "Hell.\n"
+                     "\n"
+                     "Now, it's on to the final chapter of\n"
+                     "DOOM! -- Inferno.";
 
-export auto E3TEXT =                                                                 \
-  "The loathsome spiderdemon that\n"                                           \
-  "masterminded the invasion of the moon\n"                                    \
-  "bases and caused so much death has had\n"                                   \
-  "its ass kicked for all time.\n"                                             \
-  "\n"                                                                         \
-  "A hidden doorway opens and you enter.\n"                                    \
-  "You've proven too tough for Hell to\n"                                      \
-  "contain, and now Hell at last plays\n"                                      \
-  "fair -- for you emerge from the door\n"                                     \
-  "to see the green fields of Earth!\n"                                        \
-  "Home at last.\n"                                                            \
-  "\n"                                                                         \
-  "You wonder what's been happening on\n"                                      \
-  "Earth while you were battling evil\n"                                       \
-  "unleashed. It's good that no Hell-\n"                                       \
-  "spawn could have come through that\n"                                       \
-  "door with you ...";
+export auto E3TEXT = "The loathsome spiderdemon that\n"
+                     "masterminded the invasion of the moon\n"
+                     "bases and caused so much death has had\n"
+                     "its ass kicked for all time.\n"
+                     "\n"
+                     "A hidden doorway opens and you enter.\n"
+                     "You've proven too tough for Hell to\n"
+                     "contain, and now Hell at last plays\n"
+                     "fair -- for you emerge from the door\n"
+                     "to see the green fields of Earth!\n"
+                     "Home at last.\n"
+                     "\n"
+                     "You wonder what's been happening on\n"
+                     "Earth while you were battling evil\n"
+                     "unleashed. It's good that no Hell-\n"
+                     "spawn could have come through that\n"
+                     "door with you ...";
 
-export auto E4TEXT =                                                                 \
-  "the spider mastermind must have sent forth\n"                               \
-  "its legions of hellspawn before your\n"                                     \
-  "final confrontation with that terrible\n"                                   \
-  "beast from hell.  but you stepped forward\n"                                \
-  "and brought forth eternal damnation and\n"                                  \
-  "suffering upon the horde as a true hero\n"                                  \
-  "would in the face of something so evil.\n"                                  \
-  "\n"                                                                         \
-  "besides, someone was gonna pay for what\n"                                  \
-  "happened to daisy, your pet rabbit.\n"                                      \
-  "\n"                                                                         \
-  "but now, you see spread before you more\n"                                  \
-  "potential pain and gibbitude as a nation\n"                                 \
-  "of demons run amok among our cities.\n"                                     \
-  "\n"                                                                         \
-  "next stop, hell on earth!";
+export auto E4TEXT = "the spider mastermind must have sent forth\n"
+                     "its legions of hellspawn before your\n"
+                     "final confrontation with that terrible\n"
+                     "beast from hell.  but you stepped forward\n"
+                     "and brought forth eternal damnation and\n"
+                     "suffering upon the horde as a true hero\n"
+                     "would in the face of something so evil.\n"
+                     "\n"
+                     "besides, someone was gonna pay for what\n"
+                     "happened to daisy, your pet rabbit.\n"
+                     "\n"
+                     "but now, you see spread before you more\n"
+                     "potential pain and gibbitude as a nation\n"
+                     "of demons run amok among our cities.\n"
+                     "\n"
+                     "next stop, hell on earth!";
 
 // after level 6, put this:
 
-export auto C1TEXT =                                                                 \
-  "YOU HAVE ENTERED DEEPLY INTO THE INFESTED\n"                                \
-  "STARPORT. BUT SOMETHING IS WRONG. THE\n"                                    \
-  "MONSTERS HAVE BROUGHT THEIR OWN REALITY\n"                                  \
-  "WITH THEM, AND THE STARPORT'S TECHNOLOGY\n"                                 \
-  "IS BEING SUBVERTED BY THEIR PRESENCE.\n"                                    \
-  "\n"                                                                         \
-  "AHEAD, YOU SEE AN OUTPOST OF HELL, A\n"                                     \
-  "FORTIFIED ZONE. IF YOU CAN GET PAST IT,\n"                                  \
-  "YOU CAN PENETRATE INTO THE HAUNTED HEART\n"                                 \
-  "OF THE STARBASE AND FIND THE CONTROLLING\n"                                 \
-  "SWITCH WHICH HOLDS EARTH'S POPULATION\n"                                    \
-  "HOSTAGE.";
+export auto C1TEXT = "YOU HAVE ENTERED DEEPLY INTO THE INFESTED\n"
+                     "STARPORT. BUT SOMETHING IS WRONG. THE\n"
+                     "MONSTERS HAVE BROUGHT THEIR OWN REALITY\n"
+                     "WITH THEM, AND THE STARPORT'S TECHNOLOGY\n"
+                     "IS BEING SUBVERTED BY THEIR PRESENCE.\n"
+                     "\n"
+                     "AHEAD, YOU SEE AN OUTPOST OF HELL, A\n"
+                     "FORTIFIED ZONE. IF YOU CAN GET PAST IT,\n"
+                     "YOU CAN PENETRATE INTO THE HAUNTED HEART\n"
+                     "OF THE STARBASE AND FIND THE CONTROLLING\n"
+                     "SWITCH WHICH HOLDS EARTH'S POPULATION\n"
+                     "HOSTAGE.";
 
 // After level 11, put this:
 
-export auto C2TEXT =                                                                 \
-  "YOU HAVE WON! YOUR VICTORY HAS ENABLED\n"                                   \
-  "HUMANKIND TO EVACUATE EARTH AND ESCAPE\n"                                   \
-  "THE NIGHTMARE.  NOW YOU ARE THE ONLY\n"                                     \
-  "HUMAN LEFT ON THE FACE OF THE PLANET.\n"                                    \
-  "CANNIBAL MUTATIONS, CARNIVOROUS ALIENS,\n"                                  \
-  "AND EVIL SPIRITS ARE YOUR ONLY NEIGHBORS.\n"                                \
-  "YOU SIT BACK AND WAIT FOR DEATH, CONTENT\n"                                 \
-  "THAT YOU HAVE SAVED YOUR SPECIES.\n"                                        \
-  "\n"                                                                         \
-  "BUT THEN, EARTH CONTROL BEAMS DOWN A\n"                                     \
-  "MESSAGE FROM SPACE: \"SENSORS HAVE LOCATED\n"                               \
-  "THE SOURCE OF THE ALIEN INVASION. IF YOU\n"                                 \
-  "GO THERE, YOU MAY BE ABLE TO BLOCK THEIR\n"                                 \
-  "ENTRY.  THE ALIEN BASE IS IN THE HEART OF\n"                                \
-  "YOUR OWN HOME CITY, NOT FAR FROM THE\n"                                     \
-  "STARPORT.\" SLOWLY AND PAINFULLY YOU GET\n"                                 \
-  "UP AND RETURN TO THE FRAY.";
+export auto C2TEXT = "YOU HAVE WON! YOUR VICTORY HAS ENABLED\n"
+                     "HUMANKIND TO EVACUATE EARTH AND ESCAPE\n"
+                     "THE NIGHTMARE.  NOW YOU ARE THE ONLY\n"
+                     "HUMAN LEFT ON THE FACE OF THE PLANET.\n"
+                     "CANNIBAL MUTATIONS, CARNIVOROUS ALIENS,\n"
+                     "AND EVIL SPIRITS ARE YOUR ONLY NEIGHBORS.\n"
+                     "YOU SIT BACK AND WAIT FOR DEATH, CONTENT\n"
+                     "THAT YOU HAVE SAVED YOUR SPECIES.\n"
+                     "\n"
+                     "BUT THEN, EARTH CONTROL BEAMS DOWN A\n"
+                     "MESSAGE FROM SPACE: \"SENSORS HAVE LOCATED\n"
+                     "THE SOURCE OF THE ALIEN INVASION. IF YOU\n"
+                     "GO THERE, YOU MAY BE ABLE TO BLOCK THEIR\n"
+                     "ENTRY.  THE ALIEN BASE IS IN THE HEART OF\n"
+                     "YOUR OWN HOME CITY, NOT FAR FROM THE\n"
+                     "STARPORT.\" SLOWLY AND PAINFULLY YOU GET\n"
+                     "UP AND RETURN TO THE FRAY.";
 
 // After level 20, put this:
 
-export auto C3TEXT =                                                                 \
-  "YOU ARE AT THE CORRUPT HEART OF THE CITY,\n"                                \
-  "SURROUNDED BY THE CORPSES OF YOUR ENEMIES.\n"                               \
-  "YOU SEE NO WAY TO DESTROY THE CREATURES'\n"                                 \
-  "ENTRYWAY ON THIS SIDE, SO YOU CLENCH YOUR\n"                                \
-  "TEETH AND PLUNGE THROUGH IT.\n"                                             \
-  "\n"                                                                         \
-  "THERE MUST BE A WAY TO CLOSE IT ON THE\n"                                   \
-  "OTHER SIDE. WHAT DO YOU CARE IF YOU'VE\n"                                   \
-  "GOT TO GO THROUGH HELL TO GET TO IT?";
+export auto C3TEXT = "YOU ARE AT THE CORRUPT HEART OF THE CITY,\n"
+                     "SURROUNDED BY THE CORPSES OF YOUR ENEMIES.\n"
+                     "YOU SEE NO WAY TO DESTROY THE CREATURES'\n"
+                     "ENTRYWAY ON THIS SIDE, SO YOU CLENCH YOUR\n"
+                     "TEETH AND PLUNGE THROUGH IT.\n"
+                     "\n"
+                     "THERE MUST BE A WAY TO CLOSE IT ON THE\n"
+                     "OTHER SIDE. WHAT DO YOU CARE IF YOU'VE\n"
+                     "GOT TO GO THROUGH HELL TO GET TO IT?";
 
 // After level 29, put this:
 
-export auto C4TEXT =                                                                 \
-  "THE HORRENDOUS VISAGE OF THE BIGGEST\n"                                     \
-  "DEMON YOU'VE EVER SEEN CRUMBLES BEFORE\n"                                   \
-  "YOU, AFTER YOU PUMP YOUR ROCKETS INTO\n"                                    \
-  "HIS EXPOSED BRAIN. THE MONSTER SHRIVELS\n"                                  \
-  "UP AND DIES, ITS THRASHING LIMBS\n"                                         \
-  "DEVASTATING UNTOLD MILES OF HELL'S\n"                                       \
-  "SURFACE.\n"                                                                 \
-  "\n"                                                                         \
-  "YOU'VE DONE IT. THE INVASION IS OVER.\n"                                    \
-  "EARTH IS SAVED. HELL IS A WRECK. YOU\n"                                     \
-  "WONDER WHERE BAD FOLKS WILL GO WHEN THEY\n"                                 \
-  "DIE, NOW. WIPING THE SWEAT FROM YOUR\n"                                     \
-  "FOREHEAD YOU BEGIN THE LONG TREK BACK\n"                                    \
-  "HOME. REBUILDING EARTH OUGHT TO BE A\n"                                     \
-  "LOT MORE FUN THAN RUINING IT WAS.\n";
+export auto C4TEXT = "THE HORRENDOUS VISAGE OF THE BIGGEST\n"
+                     "DEMON YOU'VE EVER SEEN CRUMBLES BEFORE\n"
+                     "YOU, AFTER YOU PUMP YOUR ROCKETS INTO\n"
+                     "HIS EXPOSED BRAIN. THE MONSTER SHRIVELS\n"
+                     "UP AND DIES, ITS THRASHING LIMBS\n"
+                     "DEVASTATING UNTOLD MILES OF HELL'S\n"
+                     "SURFACE.\n"
+                     "\n"
+                     "YOU'VE DONE IT. THE INVASION IS OVER.\n"
+                     "EARTH IS SAVED. HELL IS A WRECK. YOU\n"
+                     "WONDER WHERE BAD FOLKS WILL GO WHEN THEY\n"
+                     "DIE, NOW. WIPING THE SWEAT FROM YOUR\n"
+                     "FOREHEAD YOU BEGIN THE LONG TREK BACK\n"
+                     "HOME. REBUILDING EARTH OUGHT TO BE A\n"
+                     "LOT MORE FUN THAN RUINING IT WAS.\n";
 
 // Before level 31, put this:
 
-export auto C5TEXT =                                                                 \
-  "CONGRATULATIONS, YOU'VE FOUND THE SECRET\n"                                 \
-  "LEVEL! LOOKS LIKE IT'S BEEN BUILT BY\n"                                     \
-  "HUMANS, RATHER THAN DEMONS. YOU WONDER\n"                                   \
-  "WHO THE INMATES OF THIS CORNER OF HELL\n"                                   \
-  "WILL BE.";
+export auto C5TEXT = "CONGRATULATIONS, YOU'VE FOUND THE SECRET\n"
+                     "LEVEL! LOOKS LIKE IT'S BEEN BUILT BY\n"
+                     "HUMANS, RATHER THAN DEMONS. YOU WONDER\n"
+                     "WHO THE INMATES OF THIS CORNER OF HELL\n"
+                     "WILL BE.";
 
 // Before level 32, put this:
 
-export auto C6TEXT =                                                                 \
-  "CONGRATULATIONS, YOU'VE FOUND THE\n"                                        \
-  "SUPER SECRET LEVEL!  YOU'D BETTER\n"                                        \
-  "BLAZE THROUGH THIS ONE!\n";
+export auto C6TEXT = "CONGRATULATIONS, YOU'VE FOUND THE\n"
+                     "SUPER SECRET LEVEL!  YOU'D BETTER\n"
+                     "BLAZE THROUGH THIS ONE!\n";
 
 // after map 06
 
-export auto P1TEXT =                                                                 \
-  "You gloat over the steaming carcass of the\n"                               \
-  "Guardian.  With its death, you've wrested\n"                                \
-  "the Accelerator from the stinking claws\n"                                  \
-  "of Hell.  You relax and glance around the\n"                                \
-  "room.  Damn!  There was supposed to be at\n"                                \
-  "least one working prototype, but you can't\n"                               \
-  "see it. The demons must have taken it.\n"                                   \
-  "\n"                                                                         \
-  "You must find the prototype, or all your\n"                                 \
-  "struggles will have been wasted. Keep\n"                                    \
-  "moving, keep fighting, keep killing.\n"                                     \
-  "Oh yes, keep living, too.";
+export auto P1TEXT = "You gloat over the steaming carcass of the\n"
+                     "Guardian.  With its death, you've wrested\n"
+                     "the Accelerator from the stinking claws\n"
+                     "of Hell.  You relax and glance around the\n"
+                     "room.  Damn!  There was supposed to be at\n"
+                     "least one working prototype, but you can't\n"
+                     "see it. The demons must have taken it.\n"
+                     "\n"
+                     "You must find the prototype, or all your\n"
+                     "struggles will have been wasted. Keep\n"
+                     "moving, keep fighting, keep killing.\n"
+                     "Oh yes, keep living, too.";
 
 // after map 11
 
-export auto P2TEXT =                                                                 \
-  "Even the deadly Arch-Vile labyrinth could\n"                                \
-  "not stop you, and you've gotten to the\n"                                   \
-  "prototype Accelerator which is soon\n"                                      \
-  "efficiently and permanently deactivated.\n"                                 \
-  "\n"                                                                         \
-  "You're good at that kind of thing.";
+export auto P2TEXT = "Even the deadly Arch-Vile labyrinth could\n"
+                     "not stop you, and you've gotten to the\n"
+                     "prototype Accelerator which is soon\n"
+                     "efficiently and permanently deactivated.\n"
+                     "\n"
+                     "You're good at that kind of thing.";
 
 // after map 20
 
-export auto P3TEXT =                                                                 \
-  "You've bashed and battered your way into\n"                                 \
-  "the heart of the devil-hive.  Time for a\n"                                 \
-  "Search-and-Destroy mission, aimed at the\n"                                 \
-  "Gatekeeper, whose foul offspring is\n"                                      \
-  "cascading to Earth.  Yeah, he's bad. But\n"                                 \
-  "you know who's worse!\n"                                                    \
-  "\n"                                                                         \
-  "Grinning evilly, you check your gear, and\n"                                \
-  "get ready to give the bastard a little Hell\n"                              \
-  "of your own making!";
+export auto P3TEXT = "You've bashed and battered your way into\n"
+                     "the heart of the devil-hive.  Time for a\n"
+                     "Search-and-Destroy mission, aimed at the\n"
+                     "Gatekeeper, whose foul offspring is\n"
+                     "cascading to Earth.  Yeah, he's bad. But\n"
+                     "you know who's worse!\n"
+                     "\n"
+                     "Grinning evilly, you check your gear, and\n"
+                     "get ready to give the bastard a little Hell\n"
+                     "of your own making!";
 
 // after map 30
 
-export auto P4TEXT =                                                                 \
-  "The Gatekeeper's evil face is splattered\n"                                 \
-  "all over the place.  As its tattered corpse\n"                              \
-  "collapses, an inverted Gate forms and\n"                                    \
-  "sucks down the shards of the last\n"                                        \
-  "prototype Accelerator, not to mention the\n"                                \
-  "few remaining demons.  You're done. Hell\n"                                 \
-  "has gone back to pounding bad dead folks \n"                                \
-  "instead of good live ones.  Remember to\n"                                  \
-  "tell your grandkids to put a rocket\n"                                      \
-  "launcher in your coffin. If you go to Hell\n"                               \
-  "when you die, you'll need it for some\n"                                    \
-  "final cleaning-up ...";
+export auto P4TEXT = "The Gatekeeper's evil face is splattered\n"
+                     "all over the place.  As its tattered corpse\n"
+                     "collapses, an inverted Gate forms and\n"
+                     "sucks down the shards of the last\n"
+                     "prototype Accelerator, not to mention the\n"
+                     "few remaining demons.  You're done. Hell\n"
+                     "has gone back to pounding bad dead folks \n"
+                     "instead of good live ones.  Remember to\n"
+                     "tell your grandkids to put a rocket\n"
+                     "launcher in your coffin. If you go to Hell\n"
+                     "when you die, you'll need it for some\n"
+                     "final cleaning-up ...";
 
 // before map 31
 
-export auto P5TEXT =                                                                  \
-  "You've found the second-hardest level we\n"                                 \
-  "got. Hope you have a saved game a level or\n"                               \
-  "two previous.  If not, be prepared to die\n"                                \
-  "aplenty. For master marines only.";
+export auto P5TEXT = "You've found the second-hardest level we\n"
+                     "got. Hope you have a saved game a level or\n"
+                     "two previous.  If not, be prepared to die\n"
+                     "aplenty. For master marines only.";
 
 // before map 32
 
-export auto P6TEXT =                                                                 \
-  "Betcha wondered just what WAS the hardest\n"                                \
-  "level we had ready for ya?  Now you know.\n"                                \
-  "No one gets out alive.";
+export auto P6TEXT = "Betcha wondered just what WAS the hardest\n"
+                     "level we had ready for ya?  Now you know.\n"
+                     "No one gets out alive.";
 
-export auto T1TEXT =                                                                 \
-  "You've fought your way out of the infested\n"                               \
-  "experimental labs.   It seems that UAC has\n"                               \
-  "once again gulped it down.  With their\n"                                   \
-  "high turnover, it must be hard for poor\n"                                  \
-  "old UAC to buy corporate health insurance\n"                                \
-  "nowadays..\n"                                                               \
-  "\n"                                                                         \
-  "Ahead lies the military complex, now\n"                                     \
-  "swarming with diseased horrors hot to get\n"                                \
-  "their teeth into you. With luck, the\n"                                     \
-  "complex still has some warlike ordnance\n"                                  \
-  "laying around.";
+export auto T1TEXT = "You've fought your way out of the infested\n"
+                     "experimental labs.   It seems that UAC has\n"
+                     "once again gulped it down.  With their\n"
+                     "high turnover, it must be hard for poor\n"
+                     "old UAC to buy corporate health insurance\n"
+                     "nowadays..\n"
+                     "\n"
+                     "Ahead lies the military complex, now\n"
+                     "swarming with diseased horrors hot to get\n"
+                     "their teeth into you. With luck, the\n"
+                     "complex still has some warlike ordnance\n"
+                     "laying around.";
 
-export auto T2TEXT =                                                                 \
-  "You hear the grinding of heavy machinery\n"                                 \
-  "ahead.  You sure hope they're not stamping\n"                               \
-  "out new hellspawn, but you're ready to\n"                                   \
-  "ream out a whole herd if you have to.\n"                                    \
-  "They might be planning a blood feast, but\n"                                \
-  "you feel about as mean as two thousand\n"                                   \
-  "maniacs packed into one mad killer.\n"                                      \
-  "\n"                                                                         \
-  "You don't plan to go down easy.";
+export auto T2TEXT = "You hear the grinding of heavy machinery\n"
+                     "ahead.  You sure hope they're not stamping\n"
+                     "out new hellspawn, but you're ready to\n"
+                     "ream out a whole herd if you have to.\n"
+                     "They might be planning a blood feast, but\n"
+                     "you feel about as mean as two thousand\n"
+                     "maniacs packed into one mad killer.\n"
+                     "\n"
+                     "You don't plan to go down easy.";
 
-export auto T3TEXT =                                                                 \
-  "The vista opening ahead looks real damn\n"                                  \
-  "familiar. Smells familiar, too -- like\n"                                   \
-  "fried excrement. You didn't like this\n"                                    \
-  "place before, and you sure as hell ain't\n"                                 \
-  "planning to like it now. The more you\n"                                    \
-  "brood on it, the madder you get.\n"                                         \
-  "Hefting your gun, an evil grin trickles\n"                                  \
-  "onto your face. Time to take some names.";
+export auto T3TEXT = "The vista opening ahead looks real damn\n"
+                     "familiar. Smells familiar, too -- like\n"
+                     "fried excrement. You didn't like this\n"
+                     "place before, and you sure as hell ain't\n"
+                     "planning to like it now. The more you\n"
+                     "brood on it, the madder you get.\n"
+                     "Hefting your gun, an evil grin trickles\n"
+                     "onto your face. Time to take some names.";
 
-export auto T4TEXT =                                                                 \
-  "Suddenly, all is silent, from one horizon\n"                                \
-  "to the other. The agonizing echo of Hell\n"                                 \
-  "fades away, the nightmare sky turns to\n"                                   \
-  "blue, the heaps of monster corpses start \n"                                \
-  "to evaporate along with the evil stench \n"                                 \
-  "that filled the air. Jeeze, maybe you've\n"                                 \
-  "done it. Have you really won?\n"                                            \
-  "\n"                                                                         \
-  "Something rumbles in the distance.\n"                                       \
-  "A blue light begins to glow inside the\n"                                   \
-  "ruined skull of the demon-spitter.";
+export auto T4TEXT = "Suddenly, all is silent, from one horizon\n"
+                     "to the other. The agonizing echo of Hell\n"
+                     "fades away, the nightmare sky turns to\n"
+                     "blue, the heaps of monster corpses start \n"
+                     "to evaporate along with the evil stench \n"
+                     "that filled the air. Jeeze, maybe you've\n"
+                     "done it. Have you really won?\n"
+                     "\n"
+                     "Something rumbles in the distance.\n"
+                     "A blue light begins to glow inside the\n"
+                     "ruined skull of the demon-spitter.";
 
-export auto T5TEXT =                                                                 \
-  "What now? Looks totally different. Kind\n"                                  \
-  "of like King Tut's condo. Well,\n"                                          \
-  "whatever's here can't be any worse\n"                                       \
-  "than usual. Can it?  Or maybe it's best\n"                                  \
-  "to let sleeping gods lie..";
+export auto T5TEXT = "What now? Looks totally different. Kind\n"
+                     "of like King Tut's condo. Well,\n"
+                     "whatever's here can't be any worse\n"
+                     "than usual. Can it?  Or maybe it's best\n"
+                     "to let sleeping gods lie..";
 
-export auto T6TEXT =                                                                 \
-  "Time for a vacation. You've burst the\n"                                    \
-  "bowels of hell and by golly you're ready\n"                                 \
-  "for a break. You mutter to yourself,\n"                                     \
-  "Maybe someone else can kick Hell's ass\n"                                   \
-  "next time around. Ahead lies a quiet town,\n"                               \
-  "with peaceful flowing water, quaint\n"                                      \
-  "buildings, and presumably no Hellspawn.\n"                                  \
-  "\n"                                                                         \
-  "As you step off the transport, you hear\n"                                  \
-  "the stomp of a cyberdemon's iron shoe.";
+export auto T6TEXT = "Time for a vacation. You've burst the\n"
+                     "bowels of hell and by golly you're ready\n"
+                     "for a break. You mutter to yourself,\n"
+                     "Maybe someone else can kick Hell's ass\n"
+                     "next time around. Ahead lies a quiet town,\n"
+                     "with peaceful flowing water, quaint\n"
+                     "buildings, and presumably no Hellspawn.\n"
+                     "\n"
+                     "As you step off the transport, you hear\n"
+                     "the stomp of a cyberdemon's iron shoe.";
 
 //
 // Character cast strings F_FINALE.C
@@ -1097,7 +1091,6 @@ export const auto CC_HERO = "OUR HERO";
 // $Log:$
 //
 //-----------------------------------------------------------------------------
-
 
 #endif
 

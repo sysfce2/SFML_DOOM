@@ -26,39 +26,34 @@ export module engine:arguments;
 
 namespace arguments
 {
-    export void parse( int argc, char** argv );
-    export bool has( std::string_view argument );
-    export uint8_t index_of( std::string_view argument );
-    export std::string_view at( uint8_t index );
-    export uint8_t count();
+export void parse(int argc, char **argv);
+export bool has(std::string_view argument);
+export uint8_t index_of(std::string_view argument);
+export std::string_view at(uint8_t index);
+export uint8_t count();
 
-    std::vector<std::string> arguments;
+std::vector<std::string> arguments;
 
-    void parse( int argc, char** argv )
+void parse(int argc, char **argv)
+{
+    for (auto i : std::views::iota(0, argc))
     {
-        for ( auto i : std::views::iota( 0, argc ) )
-        {
-            arguments.emplace_back( argv[i] );
-        }
-    }
-
-    bool has( std::string_view argument )
-    {
-        return std::ranges::contains( arguments, argument );
-    }
-
-    uint8_t index_of( std::string_view argument )
-    {
-        return std::distance( arguments.begin(), std::ranges::find( arguments, argument ) );
-    }
-
-    std::string_view at( uint8_t index )
-    {
-        return arguments[index];
-    }
-
-    uint8_t count()
-    {
-        return arguments.size();
+        arguments.emplace_back(argv[i]);
     }
 }
+
+bool has(std::string_view argument)
+{
+    return std::ranges::contains(arguments, argument);
+}
+
+uint8_t index_of(std::string_view argument)
+{
+    return std::distance(arguments.begin(),
+                         std::ranges::find(arguments, argument));
+}
+
+std::string_view at(uint8_t index) { return arguments[index]; }
+
+uint8_t count() { return arguments.size(); }
+} // namespace arguments

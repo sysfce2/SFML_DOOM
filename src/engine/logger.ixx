@@ -62,4 +62,4 @@ void debug(spdlog::format_string_t<Args...> fmt, Args &&...args)
 {
     spdlog::debug(fmt, std::forward<Args>(args)...);
 }
-} // namespace log
+} // namespace logger
