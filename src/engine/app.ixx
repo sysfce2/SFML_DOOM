@@ -19,8 +19,10 @@ export int main( int argc, char **argv )
 {
     arguments::parse( argc, argv );
 
+    logger::info( "Initialising app" );
     init();
 
+    logger::info( "Initialisation done, starting update loop" );
     while ( true )
     {
         update();

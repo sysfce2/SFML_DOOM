@@ -24,8 +24,12 @@ module;
 
 export module engine:arguments;
 
+import :logger;
+
 namespace arguments
 {
+
+using namespace std::literals;
 
 std::vector<std::string> arguments;
 
@@ -34,10 +38,14 @@ std::vector<std::string> arguments;
 //! @param argv Argument values
 export void parse( int argc, char **argv )
 {
+    auto message = "Parsed arguments: "s;
     for ( auto i : std::views::iota( 0, argc ) )
     {
         arguments.emplace_back( argv[i] );
+        message += argv[i];
     }
+
+    logger::info( "{}", message );
 }
 
 //! Check if we were given a command line argument
