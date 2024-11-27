@@ -40,7 +40,7 @@
 
 
 import main;
-import system;
+import engine;
 import setup;
 import tick;
 import doom;
@@ -242,7 +242,7 @@ bool P_Move(mobj_t *actor) {
     return false;
 
   if ((unsigned)actor->movedir >= 8)
-    I_Error("Weird actor->movedir!");
+    logger::error("Weird actor->movedir!");
 
   tryx = actor->x + actor->info->speed * xspeed[actor->movedir];
   tryy = actor->y + actor->info->speed * yspeed[actor->movedir];
@@ -317,7 +317,7 @@ void P_NewChaseDir(mobj_t *actor) {
   dirtype_t turnaround;
 
   if (!actor->target)
-    I_Error("P_NewChaseDir: called with no target");
+    logger::error("P_NewChaseDir: called with no target");
 
   olddir = static_cast<dirtype_t>(actor->movedir);
   turnaround = opposite[olddir];

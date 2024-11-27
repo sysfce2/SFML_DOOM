@@ -48,7 +48,7 @@
 #include "g_game.h"
 
 import main;
-import system;
+import engine;
 import menu;
 import engine;
 import wad;
@@ -585,7 +585,7 @@ void G_Ticker(void) {
 
       if (netgame && !netdemo && !(gametic % ticdup)) {
         if (gametic > BACKUPTICS && consistancy[i][buf] != cmd->consistancy) {
-          I_Error("consistency failure ({} should be {})", cmd->consistancy,
+          logger::error("consistency failure ({} should be {})", cmd->consistancy,
                   consistancy[i][buf]);
         }
         if (players[i].mo)
@@ -776,7 +776,7 @@ void G_DeathMatchSpawnPlayer(int playernum) {
 
   const auto selections = deathmatch_p - deathmatchstarts;
   if (selections < 4)
-    I_Error("Only {} deathmatch spots, 4 required", selections);
+    logger::error("Only {} deathmatch spots, 4 required", selections);
 
   for (j = 0; j < 20; j++) {
     i = P_Random() % selections;
@@ -1068,7 +1068,7 @@ void G_DoLoadGame(void) {
   P_UnArchiveSpecials();
 
   if (*save_p != std::byte{0x1d})
-    I_Error("Bad savegame");
+    logger::error("Bad savegame");
 
   // done
   free(savebuffer);
@@ -1127,7 +1127,7 @@ void G_DoSaveGame(void) {
 
   const auto length = save_p - savebuffer;
   if (length > SAVEGAMESIZE)
-    I_Error("Savegame buffer overrun");
+    logger::error("Savegame buffer overrun");
   // M_WriteFile (name, savebuffer, static_cast<int>(length));
   gameaction = ga_nothing;
   savedescription[0] = 0;
@@ -1418,7 +1418,7 @@ bool G_CheckDemoStatus(void) {
 
   if (timingdemo) {
     endtime = I_GetTime();
-    I_Error("timed {} gametics in {} realtics", gametic, endtime - starttime);
+    logger::error("timed {} gametics in {} realtics", gametic, endtime - starttime);
   }
 
   if (demoplayback) {
@@ -1444,7 +1444,7 @@ bool G_CheckDemoStatus(void) {
     // demobuffer));
     free(demobuffer);
     demorecording = false;
-    I_Error("Demo %s recorded", demoname.string());
+    logger::error("Demo %s recorded", demoname.string());
   }
 
   return false;

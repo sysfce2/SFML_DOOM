@@ -35,7 +35,7 @@
 #include "r_things.h"
 #include "r_bsp.h"
 
-import system;
+import engine;
 import net;
 import sky;
 import setup;

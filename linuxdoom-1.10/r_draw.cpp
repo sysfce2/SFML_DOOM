@@ -29,7 +29,7 @@
 
 #include <stdlib.h>
 
-import system;
+import engine;
 import wad;
 import doom;
 import video;
@@ -101,7 +101,7 @@ void R_DrawColumn(void) {
 
 #ifdef RANGECHECK
   if ((unsigned)dc_x >= SCREENWIDTH || dc_yl < 0 || dc_yh >= SCREENHEIGHT)
-    I_Error("R_DrawColumn: {} to {} at {}", dc_yl, dc_yh, dc_x);
+    logger::error("R_DrawColumn: {} to {} at {}", dc_yl, dc_yh, dc_x);
 #endif
 
   // Framebuffer destination address.
@@ -204,7 +204,7 @@ void R_DrawColumnLow(void) {
 #ifdef RANGECHECK
   if ((unsigned)dc_x >= SCREENWIDTH || dc_yl < 0 || dc_yh >= SCREENHEIGHT) {
 
-    I_Error("R_DrawColumn: {} to {} at {}", dc_yl, dc_yh, dc_x);
+    logger::error("R_DrawColumn: {} to {} at {}", dc_yl, dc_yh, dc_x);
   }
   //	dccount++;
 #endif
@@ -273,7 +273,7 @@ void R_DrawFuzzColumn(void) {
 
 #ifdef RANGECHECK
   if ((unsigned)dc_x >= SCREENWIDTH || dc_yl < 0 || dc_yh >= SCREENHEIGHT) {
-    I_Error("R_DrawFuzzColumn: {} to {} at {}", dc_yl, dc_yh, dc_x);
+    logger::error("R_DrawFuzzColumn: {} to {} at {}", dc_yl, dc_yh, dc_x);
   }
 #endif
 
@@ -352,7 +352,7 @@ void R_DrawTranslatedColumn(void) {
 
 #ifdef RANGECHECK
   if ((unsigned)dc_x >= SCREENWIDTH || dc_yl < 0 || dc_yh >= SCREENHEIGHT) {
-    I_Error("R_DrawColumn: {} to {} at {}", dc_yl, dc_yh, dc_x);
+    logger::error("R_DrawColumn: {} to {} at {}", dc_yl, dc_yh, dc_x);
   }
 
 #endif
@@ -465,7 +465,7 @@ void R_DrawSpan(void) {
 #ifdef RANGECHECK
   if (ds_x2 < ds_x1 || ds_x1 < 0 || ds_x2 >= SCREENWIDTH ||
       (unsigned)ds_y > SCREENHEIGHT) {
-    I_Error("R_DrawSpan: {} to {} at {}", ds_x1, ds_x2, ds_y);
+    logger::error("R_DrawSpan: {} to {} at {}", ds_x1, ds_x2, ds_y);
   }
 //	dscount++;
 #endif
@@ -578,7 +578,7 @@ void R_DrawSpanLow(void) {
 #ifdef RANGECHECK
   if (ds_x2 < ds_x1 || ds_x1 < 0 || ds_x2 >= SCREENWIDTH ||
       (unsigned)ds_y > SCREENHEIGHT) {
-    I_Error("R_DrawSpan: {} to {} at {}", ds_x1, ds_x2, ds_y);
+    logger::error("R_DrawSpan: {} to {} at {}", ds_x1, ds_x2, ds_y);
   }
 //	dscount++;
 #endif

@@ -344,7 +344,7 @@ Fri Dec 19 10:02:48 1997    <bk@gamers.org>
 	  scaling of the menu (effective range 0-15),
 	  up to 0..120, by multiply with 8 scattered
  	  all over the place, that we got a
-	   v_video.c: I_Error ("Bad V_DrawPatch")
+	   v_video.c: logger::error ("Bad V_DrawPatch")
 	  Now I am using the menu resolution
 	  everywhere, and scaling should only be done
 	  in the actual mixing/output.
@@ -740,7 +740,7 @@ Wed Jan 22 12:15:00 1997    <bk@gamers.org ()>
           i_unix.c: At top level:
            warning: `endianness' defined but not used
 
-          i_x.c: In function `I_Error':
+          i_x.c: In function `logger::error':
            warning: unused variable `string'
           i_x.c: In function `I_GetEvent':
            warning: suggest parentheses around arithmetic in operand of |

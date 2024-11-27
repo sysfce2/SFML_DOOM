@@ -29,7 +29,7 @@ module;
 export module net;
 
 import engine;
-import system;
+import engine;
 import menu;
 import doom;
 
@@ -162,7 +162,7 @@ int UDPsocket( void ) {
     // allocate a socket
     //    s = socket (PF_INET, SOCK_DGRAM, IPPROTO_UDP);
     //    if (s<0)
-    I_Error( "can't create socket: {}", strerror( errno ) );
+    logger::error( "can't create socket: {}", strerror( errno ) );
 
     return s;
 }
@@ -180,7 +180,7 @@ void BindToLocalPort( int s, int port ) {
     // JONNY TODO
     // v = bind (s, (void *)&address, sizeof(address));
     // if (v == -1)
-    I_Error( "BindToPort: bind: %s", strerror( errno ) );
+    logger::error( "BindToPort: bind: %s", strerror( errno ) );
 }
 
 //
@@ -213,7 +213,7 @@ void PacketSend( void ) {
     //	,sizeof(sendaddress[doomcom.remotenode]));
 
     //	if (c == -1)
-    //		I_Error ("SendPacket error: %s",strerror(errno));
+    //		logger::error ("SendPacket error: %s",strerror(errno));
 }
 
 //
@@ -232,7 +232,7 @@ void PacketGet( void ) {
     if ( c == -1 )
     {
         if ( errno != EWOULDBLOCK )
-            I_Error( "GetPacket: %s", strerror( errno ) );
+            logger::error( "GetPacket: %s", strerror( errno ) );
         doomcom.remotenode = -1; // no packet
         return;
     }
@@ -286,11 +286,11 @@ int GetLocalAddress( void ) {
     // get local address
     //    v = gethostname (hostname, sizeof(hostname));
     //    if (v == -1)
-    I_Error( "GetLocalAddress : gethostname: errno %d", errno );
+    logger::error( "GetLocalAddress : gethostname: errno %d", errno );
 
     //    hostentry = gethostbyname (hostname);
     //   if (!hostentry)
-    I_Error( "GetLocalAddress : gethostbyname: couldn't get local host" );
+    logger::error( "GetLocalAddress : gethostbyname: couldn't get local host" );
 
     //    return *(int *)hostentry->h_addr_list[0];
     return {};
@@ -367,7 +367,7 @@ void I_InitNetwork( void ) {
         {
             //	    hostentry = gethostbyname (arguments::at(i).c_str());
             //	    if (!hostentry)
-            I_Error( "gethostbyname: couldn't find %s", arguments::at(i).data() );
+            logger::error( "gethostbyname: couldn't find %s", arguments::at(i).data() );
             //	    sendaddress[doomcom.numnodes].sin_addr.s_addr
             //		= *(int *)hostentry->h_addr_list[0];
         }
@@ -395,7 +395,7 @@ void I_NetCmd( void ) {
         netget();
     }
     else
-        I_Error( "Bad net cmd: {}\n", doomcom.command );
+        logger::error( "Bad net cmd: {}\n", doomcom.command );
 }
 
 
@@ -494,7 +494,7 @@ int ExpandTics(int low) {
   if (delta < -64)
     return (maketic & ~0xff) + 256 + low;
 
-  I_Error("ExpandTics: strange value {} at maketic {}", low, maketic);
+  logger::error("ExpandTics: strange value {} at maketic {}", low, maketic);
   return 0;
 }
 
@@ -514,7 +514,7 @@ void HSendPacket(int node, int flags) {
     return;
 
   if (!netgame)
-    I_Error("Tried to transmit to another node");
+    logger::error("Tried to transmit to another node");
 
   doomcom.command = CMD_SEND;
   doomcom.remotenode = node;
@@ -598,7 +598,7 @@ void GetPackets(void) {
 
     // check for a remote game kill
     if (netbuffer->checksum & NCMD_KILL)
-      I_Error("Killed by network driver");
+      logger::error("Killed by network driver");
 
     nodeforplayer[netconsole] = netnode;
 
@@ -698,7 +698,7 @@ export void NetUpdate(void) {
       netbuffer->starttic = static_cast<std::byte>(realstart);
       netbuffer->numtics = static_cast<std::byte>(maketic - realstart);
       if (static_cast<int>(netbuffer->numtics) > BACKUPTICS)
-        I_Error("NetUpdate: netbuffer->numtics > BACKUPTICS");
+        logger::error("NetUpdate: netbuffer->numtics > BACKUPTICS");
 
       resendto[i] = maketic - doomcom.extratics;
 
@@ -737,7 +737,7 @@ void CheckAbort(void) {
     // ev = events[eventtail];
     // if (ev.type == sf::Event::KeyPressed && ev.key.code ==
     // sf::Keyboard::Key::Escape)
-    //    I_Error ("Network game synchronization aborted.");
+    //    logger::error ("Network game synchronization aborted.");
   //}
 }
 
@@ -761,7 +761,7 @@ void D_ArbitrateNetStart(void) {
         continue;
       if (netbuffer->checksum & NCMD_SETUP) {
         if (netbuffer->player != static_cast<std::byte>(VERSION))
-          I_Error("Different DOOM versions cannot play a net game!");
+          logger::error("Different DOOM versions cannot play a net game!");
           // TODO JONNY circular dependency
         //startskill = static_cast<skill_t>(netbuffer->retransmitfrom &
         //                                  static_cast <std::byte>(15));
@@ -829,7 +829,7 @@ export void D_CheckNetGame(void) {
   // I_InitNetwork sets doomcom and netgame
   I_InitNetwork();
   if (doomcom.id != DOOMCOM_ID)
-    I_Error("Doomcom buffer invalid!");
+    logger::error("Doomcom buffer invalid!");
 
   netbuffer = &doomcom.data;
   consoleplayer = displayplayer = doomcom.consoleplayer;
@@ -955,7 +955,7 @@ export void TryRunTics(void) {
         lowtic = nettics[i];
 
     if (lowtic < gametic / ticdup)
-      I_Error("TryRunTics: lowtic < gametic");
+      logger::error("TryRunTics: lowtic < gametic");
 
     // don't stay in here forever -- give the menu a chance to work
     if (I_GetTime() / ticdup - entertic >= 20) {
@@ -968,7 +968,7 @@ export void TryRunTics(void) {
   while (counts--) {
     for (i = 0; i < ticdup; i++) {
       if (gametic / ticdup > lowtic)
-        I_Error("gametic>lowtic");
+        logger::error("gametic>lowtic");
       M_Ticker();
       G_Ticker();
       gametic++;

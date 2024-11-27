@@ -16,21 +16,15 @@
 //-----------------------------------------------------------------------------
 module;
 #include "i_video.h"
+#include <cassert>
 #include <filesystem>
 #include <fstream>
 #include <map>
-#include <spdlog/spdlog.h>
 
-// For debug break on error
-#if WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#else
-#include <signal.h>
-#endif
-export module system;
+export module engine:system;
 
-import engine;
+import :logger;
+import :arguments;
 
 //
 // I_GetTime
@@ -44,41 +38,6 @@ export int I_GetTime(void)
     static const auto basetime = now;
     const auto tics = duration_cast<tic>(now - basetime).count();
     return tics;
-}
-
-//
-// I_Error
-//
-export template <typename... Args>
-void I_Error(spdlog::format_string_t<Args...> fmt, Args &&...args)
-{
-    spdlog::error(fmt, std::forward<Args>(args)...);
-
-#if WIN32
-    DebugBreak();
-#else
-    raise(SIGTRAP);
-#endif
-
-    exit(-1);
-}
-
-//
-// I_Debug
-//
-export template <typename... Args>
-void I_Log(spdlog::format_string_t<Args...> fmt, Args &&...args)
-{
-    spdlog::info(fmt, std::forward<Args>(args)...);
-}
-
-//
-// I_Debug
-//
-export template <typename... Args>
-void I_Debug(spdlog::format_string_t<Args...> fmt, Args &&...args)
-{
-    spdlog::debug(fmt, std::forward<Args>(args)...);
 }
 
 //
@@ -213,7 +172,7 @@ export void M_LoadDefaults(void)
     if (constexpr auto arg = "-config"; arguments::has(arg))
     {
         defaults_file_path = arguments::at(arguments::index_of(arg) + 1);
-        spdlog::info("Defaults config set on command line: {}",
+        logger::info("Defaults config set on command line: {}",
                      defaults_file_path.string());
     }
     else if (const auto home_var = getenv("HOME"); home_var)
@@ -224,7 +183,7 @@ export void M_LoadDefaults(void)
 
     if (std::filesystem::exists(defaults_file_path))
     {
-        spdlog::info("Defaults config found at: {}",
+        logger::info("Defaults config found at: {}",
                      defaults_file_path.string());
 
         if (std::ifstream config(defaults_file_path); config)
@@ -232,19 +191,19 @@ export void M_LoadDefaults(void)
             std::string key, value;
             while (config >> key >> value)
             {
-                spdlog::info("Read default from config: {} = {}", key, value);
+                logger::info("Read default from config: {} = {}", key, value);
                 assert(defaults.contains(key));
                 defaults.find(key)->second = std::stoi(value);
             }
         }
         else
         {
-            spdlog::error("Failed to open config: {}",
+            logger::error("Failed to open config: {}",
                           defaults_file_path.string());
         }
     }
     else
     {
-        spdlog::info("No default config file found");
+        logger::info("No default config file found");
     }
 }

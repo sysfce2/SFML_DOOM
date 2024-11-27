@@ -34,7 +34,7 @@ module;
 
 export module wad;
 
-import system;
+import engine;
 
 //
 // TYPES
@@ -108,7 +108,7 @@ void ExtractFileBase(const char *path, char *dest)
     while (*src && *src != '.')
     {
         if (++length == 9)
-            I_Error("Filename base of %s >8 chars", path);
+            logger::error("Filename base of %s >8 chars", path);
 
         *dest++ = toupper((int)*src++);
     }
@@ -195,7 +195,7 @@ void W_AddFile(const std::filesystem::path &filepath)
             // Homebrew levels?
             if (strncmp(header.identification, "PWAD", 4))
             {
-                I_Error("Wad file {} doesn't have or PWAD id\n",
+                logger::error("Wad file {} doesn't have or PWAD id\n",
                         filename.string());
             }
 
@@ -238,7 +238,7 @@ export void W_Reload(void)
 
     // JONNY TODO
     // if ( (handle = open (reloadname,O_RDONLY | O_BINARY)) == -1)
-    // I_Error ("W_Reload: couldn't open %s",reloadname);
+    // logger::error ("W_Reload: couldn't open %s",reloadname);
 
     // JONNY TODO
     // read (handle, &header, sizeof(header));
@@ -291,7 +291,7 @@ export void W_InitMultipleFiles(std::vector<std::string> &filenames)
 
     if (lumpinfo.empty())
     {
-        I_Error("W_InitFiles: no files found");
+        logger::error("W_InitFiles: no files found");
     }
 
     // set up caching
@@ -343,7 +343,7 @@ export int W_GetNumForName(const std::string &name)
     i = W_CheckNumForName(name);
 
     if (i == -1)
-        I_Error("W_GetNumForName: {} not found!", name);
+        logger::error("W_GetNumForName: {} not found!", name);
 
     return i;
 }
@@ -356,7 +356,7 @@ export int W_LumpLength(int lump)
 {
     if (lump >= lumpinfo.size())
     {
-        I_Error("W_LumpLength: {} out of bounds", lump);
+        logger::error("W_LumpLength: {} out of bounds", lump);
     }
 
     return lumpinfo[lump].size;
@@ -372,7 +372,7 @@ export void W_ReadLump(int lump, void *dest)
 
     if (lump >= lumpinfo.size())
     {
-        I_Error("W_ReadLump: {} out of bounds", lump);
+        logger::error("W_ReadLump: {} out of bounds", lump);
     }
 
     const auto &l = lumpinfo[lump];
@@ -385,7 +385,7 @@ export void W_ReadLump(int lump, void *dest)
         if (std::ifstream file{reloadpath.c_str(), std::ios::binary};
             !file.is_open())
         {
-            I_Error("W_ReadLump: couldn't open {}", reloadpath.string());
+            logger::error("W_ReadLump: couldn't open {}", reloadpath.string());
         }
         else
         {
@@ -394,7 +394,7 @@ export void W_ReadLump(int lump, void *dest)
 
             if (!file)
             {
-                I_Error("W_ReadLump: only read {} of {} on lump {}",
+                logger::error("W_ReadLump: only read {} of {} on lump {}",
                         file.gcount(), l.size, lump);
             }
         }
@@ -408,7 +408,7 @@ export void W_ReadLump(int lump, void *dest)
 
         if (!file)
         {
-            I_Error("W_ReadLump: only read {} of {} on lump {}", file.gcount(),
+            logger::error("W_ReadLump: only read {} of {} on lump {}", file.gcount(),
                     l.size, lump);
         }
     }
@@ -421,7 +421,7 @@ export void *W_CacheLumpNum(uint32_t lump)
 {
     if (lump >= lumpinfo.size())
     {
-        I_Error("W_CacheLumpNum: {} out of bounds", lump);
+        logger::error("W_CacheLumpNum: {} out of bounds", lump);
     }
 
     if (!lumpcache[lump])

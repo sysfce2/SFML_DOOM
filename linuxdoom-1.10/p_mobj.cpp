@@ -31,7 +31,7 @@
 
 
 import main;
-import system;
+import engine;
 import sky;
 import tick;
 import setup;
@@ -655,7 +655,7 @@ void P_SpawnMapThing(mapthing_t *mthing) {
       break;
 
   if (i == NUMMOBJTYPES)
-    I_Error("P_SpawnMapThing: Unknown type {} at ({}, {})", mthing->type,
+    logger::error("P_SpawnMapThing: Unknown type {} at ({}, {})", mthing->type,
             mthing->x, mthing->y);
 
   // don't spawn keycards and players in deathmatch

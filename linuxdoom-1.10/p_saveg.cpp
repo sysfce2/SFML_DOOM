@@ -33,7 +33,7 @@
 
 #include "g_game.h"
 
-import system;
+import engine;
 import tick;
 import setup;
 import doom;
@@ -222,7 +222,7 @@ void P_ArchiveThinkers(void) {
       continue;
     }
 
-    // I_Error ("P_ArchiveThinkers: Unknown thinker function");
+    // logger::error ("P_ArchiveThinkers: Unknown thinker function");
   }
 
   // add a terminating marker
@@ -279,7 +279,7 @@ void P_UnArchiveThinkers(void) {
       break;
 
     default:
-      I_Error("Unknown tclass {} in savegame", static_cast<int>(tclass));
+      logger::error("Unknown tclass {} in savegame", static_cast<int>(tclass));
     }
   }
 }

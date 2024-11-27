@@ -29,7 +29,7 @@
 #include "r_things.h"
 #include "r_draw.h"
 
-import system;
+import engine;
 import sky;
 import plane;
 
@@ -335,7 +335,7 @@ void R_StoreWallRange(int start, int stop) {
 
 #ifdef RANGECHECK
   if (start >= viewwidth || start > stop)
-    I_Error("Bad R_RenderWallRange: {} to {}", start, stop);
+    logger::error("Bad R_RenderWallRange: {} to {}", start, stop);
 #endif
 
   sidedef = curline->sidedef;

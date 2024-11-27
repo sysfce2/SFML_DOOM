@@ -34,7 +34,7 @@
 // State.
 #include "r_state.h"
 
-import system;
+import engine;
 import doom;
 import setup;
 import sound;
@@ -124,7 +124,7 @@ void P_InitSwitchList(void) {
 
             if (R_CheckTextureNumForName(alphSwitchList[i].name1) < 0)
             {
-            I_Error("Can't find switch texture '%s'!",
+            logger::error("Can't find switch texture '%s'!",
                 alphSwitchList[i].name1);
             continue;
             }
@@ -162,7 +162,7 @@ void P_StartButton(line_t *line, bwhere_e w, int texture, int time) {
     }
   }
 
-  I_Error("P_StartButton: no button slots left!");
+  logger::error("P_StartButton: no button slots left!");
 }
 
 //

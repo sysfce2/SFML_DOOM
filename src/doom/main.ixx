@@ -29,7 +29,7 @@ module;
 #include <spdlog/spdlog.h>
 export module main;
 
-import system;
+import engine;
 import menu;
 import wad;
 import engine;
@@ -572,7 +572,7 @@ void IdentifyVersion(void)
 
     // We don't abort. Let's see what the PWAD contains.
     // exit(1);
-    // I_Error ("Game mode indeterminate\n");
+    // logger::error ("Game mode indeterminate\n");
 }
 
 export fixed_t forwardmove[2] = {0x19, 0x32};
@@ -792,7 +792,7 @@ export void D_DoomMain(void)
         int i;
 
         if (gamemode == shareware)
-            I_Error("\nYou cannot -file with the shareware "
+            logger::error("\nYou cannot -file with the shareware "
                     "version. Register!");
 
         // Check for fake IWAD with right name,
@@ -800,7 +800,7 @@ export void D_DoomMain(void)
         if (gamemode == registered)
             for (i = 0; i < 23; i++)
                 if (W_CheckNumForName(name[i]) < 0)
-                    I_Error("\nThis is not the registered version.");
+                    logger::error("\nThis is not the registered version.");
     }
 
     // Iff additonal PWAD files are used, print modified banner

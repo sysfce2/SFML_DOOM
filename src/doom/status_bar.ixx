@@ -46,7 +46,7 @@ import wad;
 import items;
 import doom.map;
 import video;
-import system;
+import engine;
 import doom;
 
 // Size of statusbar.
@@ -1086,7 +1086,7 @@ void STlib_drawNum(st_number_t *n, bool refresh) {
   x = n->x - numdigits * w;
 
   if (n->y - ST_Y < 0)
-    I_Error("drawNum: n->y - ST_Y < 0");
+    logger::error("drawNum: n->y - ST_Y < 0");
 
   V_CopyRect(x, n->y - ST_Y, BG, w * numdigits, h, x, n->y, FG);
 
@@ -1140,7 +1140,7 @@ void STlib_updateBinIcon(st_binicon_t *bi, bool refresh) {
     h = bi->p->height;
 
     if (y - ST_Y < 0)
-      I_Error("updateBinIcon: y - ST_Y < 0");
+      logger::error("updateBinIcon: y - ST_Y < 0");
 
     if (*bi->val)
       V_DrawPatch(bi->x, bi->y, FG, bi->p);
@@ -1161,7 +1161,7 @@ void STlib_updateMultIcon(st_multicon_t *mi, bool refresh) {
       auto h = mi->p[mi->oldinum]->height;
 
       if (y - ST_Y < 0)
-        I_Error("updateMultIcon: y - ST_Y < 0");
+        logger::error("updateMultIcon: y - ST_Y < 0");
 
       V_CopyRect(x, y - ST_Y, BG, w, h, x, y, FG);
     }

@@ -36,7 +36,7 @@
 
 #include "r_main.h"
 
-import system;
+import engine;
 import doom.map;
 import items;
 import doom;
@@ -68,7 +68,7 @@ bool P_GiveAmmo(player_t *player, ammotype_t ammo, int num) {
     return false;
 
   if (ammo < 0 || ammo > NUMAMMO)
-    I_Error("P_GiveAmmo: bad type {}", static_cast<int>(ammo));
+    logger::error("P_GiveAmmo: bad type {}", static_cast<int>(ammo));
 
   if (player->ammo[ammo] == player->maxammo[ammo])
     return false;
@@ -571,7 +571,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher) {
     break;
 
   default:
-    I_Error("P_SpecialThing: Unknown gettable thing");
+    logger::error("P_SpecialThing: Unknown gettable thing");
   }
 
   if (special->flags & MF_COUNTITEM)

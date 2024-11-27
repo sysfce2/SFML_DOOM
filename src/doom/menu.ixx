@@ -29,7 +29,7 @@ module;
 
 export module menu;
 
-import system;
+import engine;
 import wad;
 import engine;
 import doom.map;

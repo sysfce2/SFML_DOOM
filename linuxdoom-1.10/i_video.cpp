@@ -37,7 +37,7 @@
 #include <spdlog/spdlog.h>
 
 import main;
-import system;
+import engine;
 import engine;
 import video;
 import doom;
@@ -242,7 +242,7 @@ void I_InitGraphics(void) {
       if (ysign == '-')
         y = -y;
     } else
-      I_Error("bad -geom parameter");
+      logger::error("bad -geom parameter");
   }
 
   // open the window

@@ -115,7 +115,7 @@
 
 
 - Ungraceful and untimely demise of Linuxdoom (core
-   instead of I_Error) will leave idle sndserver
+   instead of logger::error) will leave idle sndserver
    processes in your system, blocking /dev/bsp.
   A timeout on lack of input for "sndserver"?
 

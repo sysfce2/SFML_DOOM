@@ -27,7 +27,7 @@ module;
 #include <ranges>
 export module sound;
 
-import system;
+import engine;
 import wad;
 import engine;
 import doom;
@@ -467,7 +467,7 @@ export int I_GetSfxLumpNum( const std::string& name ) {
 	//  default sound for replacement.
 	if ( W_CheckNumForName( lump_name ) == -1 )
 	{
-		I_Log( "{} sound not found, using pistol placeholder", name );
+		logger::info( "{} sound not found, using pistol placeholder", name );
 		return W_GetNumForName( "dspistol" );
 	}
 	else
@@ -620,7 +620,7 @@ static musicinfo_t *mus_playing = 0;
 export void S_SetSfxVolume( int volume ) {
 
 	if ( volume < 0 || volume > 127 )
-		I_Error( "Attempt to set sfx volume at %d", volume );
+		logger::error( "Attempt to set sfx volume at %d", volume );
 
 	snd_SfxVolume = volume;
 }
@@ -629,7 +629,7 @@ export void S_SetSfxVolume( int volume ) {
 export void S_SetMusicVolume( int volume ) {
 	if ( volume < 0 || volume > 127 )
 	{
-		I_Error( "Attempt to set music volume at %d", volume );
+		logger::error( "Attempt to set music volume at %d", volume );
 	}
 
 	I_SetMusicVolume( 127 );
@@ -685,7 +685,7 @@ export void S_ChangeMusic( int musicnum, int looping ) {
 
 	if ( (musicnum <= mus_None) || (musicnum >= NUMMUSIC) )
 	{
-		I_Error( "Bad music number %d", musicnum );
+		logger::error( "Bad music number %d", musicnum );
 	}
 	else
 		music = &S_music[musicnum];
@@ -758,11 +758,11 @@ export void S_Start( void ) {
 
 void S_StartSoundAtVolume( void *origin_p, int sfx_id, int volume ) {
 	mobj_t *origin = (mobj_t *)origin_p;
-	I_Debug( "S_StartSoundAtVolume: playing sound {} ({})", sfx_id, S_sfx[sfx_id].name );
+	logger::debug( "S_StartSoundAtVolume: playing sound {} ({})", sfx_id, S_sfx[sfx_id].name );
 
 	// check for bogus sound #
 	if ( sfx_id < 1 || sfx_id > NUMSFX)
-		I_Error( "Bad sfx #: %d", sfx_id );
+		logger::error( "Bad sfx #: %d", sfx_id );
 
 	auto sfx = &S_sfx[sfx_id];
 
@@ -814,7 +814,7 @@ void S_StartSoundAtVolume( void *origin_p, int sfx_id, int volume ) {
 	// cache data if necessary
 	if ( !sfx->data.getSampleCount() )
 	{
-		I_Error( "S_StartSoundAtVolume: 16bit and not pre-cached - wtf?\n" );
+		logger::error( "S_StartSoundAtVolume: 16bit and not pre-cached - wtf?\n" );
 	}
 
 	// increase the usefulness
@@ -933,7 +933,7 @@ export void S_StartMusic( int m_id ) {
 module : private;
 
 void I_InitSound() {
-	I_Log( "I_InitSound: " );
+	logger::info( "I_InitSound: " );
 
 	for ( auto& sound : S_sfx)
 	{
@@ -957,7 +957,7 @@ void I_InitSound() {
       }
 			if (!sound.data.loadFromSamples( samples.data(), samples.size(), 1, header.sample_rate, {sf::SoundChannel::Mono} ))
       {
-        I_Error("Failed to load sound: {}", sound.name);
+        logger::error("Failed to load sound: {}", sound.name);
       }
 		}
 		else
@@ -967,5 +967,5 @@ void I_InitSound() {
 		}
 	}
 
-	I_Log("Sounds initialised");
+	logger::info("Sounds initialised");
 }

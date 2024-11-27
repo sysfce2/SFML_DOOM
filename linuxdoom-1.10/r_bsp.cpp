@@ -29,7 +29,7 @@
 // State.
 #include "r_state.h"
 
-import system;
+import engine;
 import sky;
 import setup;
 import plane;
@@ -425,7 +425,7 @@ void R_Subsector(int num) {
   subsector_t *sub;
 
   if (num >= subsectors.size())
-    I_Error("R_Subsector: ss {} with numss = {}", num, subsectors.size());
+    logger::error("R_Subsector: ss {} with numss = {}", num, subsectors.size());
 
   sscount++;
   sub = &subsectors[num];

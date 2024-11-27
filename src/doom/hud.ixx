@@ -28,7 +28,7 @@ module;
 #include "r_draw.h"
 export module hud;
 
-import system;
+import engine;
 import wad;
 import doom.map;
 import doom;

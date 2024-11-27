@@ -29,7 +29,7 @@ module;
 #include "r_things.h"
 export module plane;
 
-import system;
+import engine;
 import wad;
 import sky;
 
@@ -112,7 +112,7 @@ void R_MapPlane(int y, int x1, int x2) {
 
 #ifdef RANGECHECK
   if (x2 < x1 || x1 < 0 || x2 >= viewwidth || (unsigned)y > viewheight) {
-    I_Error("R_MapPlane: {}, {} at {}", x1, x2, y);
+    logger::error("R_MapPlane: {}, {} at {}", x1, x2, y);
   }
 #endif
 
@@ -201,7 +201,7 @@ export visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel) {
     return check;
 
   if (lastvisplane - visplanes == MAXVISPLANES)
-    I_Error("R_FindPlane: no more visplanes");
+    logger::error("R_FindPlane: no more visplanes");
 
   lastvisplane++;
 
@@ -304,13 +304,13 @@ export void R_DrawPlanes(void) {
 
 #ifdef RANGECHECK
   if (ds_p - drawsegs > MAXDRAWSEGS)
-    I_Error("R_DrawPlanes: drawsegs overflow ({})", ds_p - drawsegs);
+    logger::error("R_DrawPlanes: drawsegs overflow ({})", ds_p - drawsegs);
 
   if (lastvisplane - visplanes > MAXVISPLANES)
-    I_Error("R_DrawPlanes: visplane overflow ({})", lastvisplane - visplanes);
+    logger::error("R_DrawPlanes: visplane overflow ({})", lastvisplane - visplanes);
 
   if (lastopening - openings > MAXOPENINGS)
-    I_Error("R_DrawPlanes: opening overflow ({})", lastopening - openings);
+    logger::error("R_DrawPlanes: opening overflow ({})", lastopening - openings);
 #endif
 
   for (pl = visplanes; pl < lastvisplane; pl++) {

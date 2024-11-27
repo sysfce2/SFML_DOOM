@@ -33,7 +33,7 @@ module;
 #include "r_defs.h"
 
 export module video;
-import system;
+import engine;
 
 //
 // VIDEO
@@ -173,7 +173,7 @@ export void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height,
       destx + width > SCREENWIDTH || desty < 0 ||
       desty + height > SCREENHEIGHT || (unsigned)srcscrn > 4 ||
       (unsigned)destscrn > 4) {
-    I_Error("Bad V_CopyRect");
+    logger::error("Bad V_CopyRect");
   }
 #endif
   V_MarkRect(destx, desty, width, height);
@@ -208,7 +208,7 @@ export void V_DrawPatch(int x, int y, int scrn, patch_t *patch) {
   if (x < 0 || x + patch->width > SCREENWIDTH || y < 0 ||
       y + patch->height > SCREENHEIGHT || (unsigned)scrn > 4) {
     fprintf(stderr, "Patch at %d,%d exceeds LFB\n", x, y);
-    // No I_Error abort - what is up with TNT.WAD?
+    // No logger::error abort - what is up with TNT.WAD?
     fprintf(stderr, "V_DrawPatch: bad patch (ignored)\n");
     return;
   }
@@ -261,7 +261,7 @@ void V_DrawPatchFlipped(int x, int y, int scrn, patch_t *patch) {
   if (x < 0 || x + patch->width > SCREENWIDTH || y < 0 ||
       y + patch->height > SCREENHEIGHT || (unsigned)scrn > 4) {
     fprintf(stderr, "Patch origin %d,%d exceeds LFB\n", x, y);
-    I_Error("Bad V_DrawPatch in V_DrawPatchFlipped");
+    logger::error("Bad V_DrawPatch in V_DrawPatchFlipped");
   }
 #endif
 
@@ -317,7 +317,7 @@ export void V_DrawPatchDirect(int x, int y, int scrn, patch_t *patch) {
       || y+patch->height>SCREENHEIGHT
       || (unsigned)scrn>4)
   {
-      I_Error ("Bad V_DrawPatchDirect");
+      logger::error ("Bad V_DrawPatchDirect");
   }
 #endif
 
@@ -361,7 +361,7 @@ export void V_DrawBlock(int x, int y, int scrn, int width, int height, std::byte
 #ifdef RANGECHECK
   if (x < 0 || x + width > SCREENWIDTH || y < 0 || y + height > SCREENHEIGHT ||
       (unsigned)scrn > 4) {
-    I_Error("Bad V_DrawBlock");
+    logger::error("Bad V_DrawBlock");
   }
 #endif
 
@@ -386,7 +386,7 @@ void V_GetBlock(int x, int y, int scrn, int width, int height, std::byte *dest) 
 #ifdef RANGECHECK
   if (x < 0 || x + width > SCREENWIDTH || y < 0 || y + height > SCREENHEIGHT ||
       (unsigned)scrn > 4) {
-    I_Error("Bad V_DrawBlock");
+    logger::error("Bad V_DrawBlock");
   }
 #endif
 

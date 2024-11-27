@@ -28,7 +28,7 @@
 
 #include <limits>
 
-import system;
+import engine;
 
 // Fixme. __USE_C_FIXED__ or something.
 
@@ -58,6 +58,6 @@ fixed_t FixedDiv2(fixed_t a, fixed_t b) {
   c = ((double)a) / ((double)b) * FRACUNIT;
 
   if (c >= 2147483648.0 || c < -2147483648.0)
-    I_Error("FixedDiv: divide by zero");
+    logger::error("FixedDiv: divide by zero");
   return (fixed_t)c;
 }

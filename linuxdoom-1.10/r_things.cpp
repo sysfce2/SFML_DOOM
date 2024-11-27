@@ -33,7 +33,7 @@
 #include "r_bsp.h"
 #include "r_segs.h"
 
-import system;
+import engine;
 import wad;
 import doom;
 
@@ -88,7 +88,7 @@ spriteframe_t R_InstallSpriteLump(int lump, unsigned frame, unsigned rotation,
   spriteframe_t sprframe{};
 
   if (rotation > 8) {
-    I_Error("R_InstallSpriteLump: Bad frame characters in lump {}", lump);
+    logger::error("R_InstallSpriteLump: Bad frame characters in lump {}", lump);
   } else if (rotation == 0) {
     sprframe.rotate = false;
 
@@ -104,7 +104,7 @@ spriteframe_t R_InstallSpriteLump(int lump, unsigned frame, unsigned rotation,
   // make 0 based
   rotation--;
   if (sprframe.lump[rotation] != 0) {
-    I_Error("R_InitSprites: Sprite %s : %c : %c has two lumps mapped to it",
+    logger::error("R_InitSprites: Sprite %s : %c : %c has two lumps mapped to it",
             spritename, 'A' + frame, '1' + rotation);
   }
 
@@ -178,7 +178,7 @@ void R_InitSpriteDefs(
       switch (sprites[i][frame].rotate) {
       case -1:
         // no rotations were found for that frame at all
-        I_Error("R_InitSprites: No patches found "
+        logger::error("R_InitSprites: No patches found "
                 "for %s frame %c",
                 namelist[i].c_str(), frame + 'A');
         break;
@@ -191,7 +191,7 @@ void R_InitSpriteDefs(
         // must have all 8 frames
         for (auto rotation = 0; rotation < 8; rotation++)
           if (sprites[i][frame].lump[rotation] == -1)
-            I_Error("R_InitSprites: Sprite %s frame %c "
+            logger::error("R_InitSprites: Sprite %s frame %c "
                     "is missing rotations",
                     namelist[i].c_str(), frame + 'A');
         break;
@@ -322,7 +322,7 @@ void R_DrawVisSprite(vissprite_t *vis, int x1, int x2) {
     texturecolumn = frac >> FRACBITS;
 #ifdef RANGECHECK
     if (texturecolumn < 0 || texturecolumn >= patch->width)
-      I_Error("R_DrawSpriteRange: bad texturecolumn");
+      logger::error("R_DrawSpriteRange: bad texturecolumn");
 #endif
     column =
         (column_t *)((std::byte *)patch + patch->columnofs[texturecolumn]);
@@ -392,12 +392,12 @@ void R_ProjectSprite(mobj_t *thing) {
   // decide which patch to use for sprite relative to player
 #ifdef RANGECHECK
   if ((unsigned)thing->sprite >= sprites.size())
-    I_Error("R_ProjectSprite: invalid sprite number {} ", static_cast<int>(thing->sprite));
+    logger::error("R_ProjectSprite: invalid sprite number {} ", static_cast<int>(thing->sprite));
 #endif
   sprdef = &sprites[thing->sprite];
 #ifdef RANGECHECK
   if ((thing->frame & FF_FRAMEMASK) >= sprdef->size())
-    I_Error("R_ProjectSprite: invalid sprite frame {} : {} ", static_cast<int>(thing->sprite),
+    logger::error("R_ProjectSprite: invalid sprite frame {} : {} ", static_cast<int>(thing->sprite),
             thing->frame);
 #endif
   sprframe = &(*sprdef)[thing->frame & FF_FRAMEMASK];
@@ -524,12 +524,12 @@ void R_DrawPSprite(pspdef_t *psp) {
   // decide which patch to use
 #ifdef RANGECHECK
   if ((unsigned)psp->state->sprite >= sprites.size())
-    I_Error("R_ProjectSprite: invalid sprite number {} ", static_cast<int>(psp->state->sprite));
+    logger::error("R_ProjectSprite: invalid sprite number {} ", static_cast<int>(psp->state->sprite));
 #endif
   sprdef = &sprites[psp->state->sprite];
 #ifdef RANGECHECK
   if ((psp->state->frame & FF_FRAMEMASK) >= sprdef->size())
-    I_Error("R_ProjectSprite: invalid sprite frame {} : {} ",
+    logger::error("R_ProjectSprite: invalid sprite frame {} : {} ",
             static_cast<int>(psp->state->sprite), psp->state->frame);
 #endif
   sprframe = &(*sprdef)[psp->state->frame & FF_FRAMEMASK];

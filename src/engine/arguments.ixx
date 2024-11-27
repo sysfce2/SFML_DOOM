@@ -22,7 +22,7 @@ module;
 #include <string_view>
 #include <vector>
 
-export module engine.arguments;
+export module engine:arguments;
 
 namespace arguments
 {
@@ -31,12 +31,7 @@ namespace arguments
     export uint8_t index_of( std::string_view argument );
     export std::string_view at( uint8_t index );
     export uint8_t count();
-}
 
-module: private;
-
-namespace arguments
-{
     std::vector<std::string> arguments;
 
     void parse( int argc, char** argv )

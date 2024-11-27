@@ -46,7 +46,7 @@
 
 #include <array>
 
-import system;
+import engine;
 import wad;
 import engine;
 import tick;
@@ -160,7 +160,7 @@ void P_InitPicAnims(void) {
     lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
 
     if (lastanim->numpics < 2)
-      I_Error("P_InitPicAnims: bad cycle from %s to %s",
+      logger::error("P_InitPicAnims: bad cycle from %s to %s",
               animdef.startname.c_str(), animdef.endname.c_str());
 
     lastanim->speed = animdef.speed;
@@ -952,7 +952,7 @@ void P_PlayerInSpecialSector(player_t *player) {
     break;
 
   default:
-    I_Error("P_PlayerInSpecialSector: "
+    logger::error("P_PlayerInSpecialSector: "
             "unknown special {}",
             sector->special);
     break;

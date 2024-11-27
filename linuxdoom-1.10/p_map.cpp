@@ -37,7 +37,7 @@
 #include "r_main.h"
 // Data.
 
-import system;
+import engine;
 import doom;
 import sky;
 import tick;
@@ -462,7 +462,7 @@ bool P_TryMove(mobj_t *thing, fixed_t x, fixed_t y) {
       oldside = P_PointOnLineSide(oldx, oldy, ld);
       if (side != oldside) {
           if ( ld->special )
-              I_Error( "TODO JONNY: not entirely sure how to handle this yet" );
+              logger::error( "TODO JONNY: not entirely sure how to handle this yet" );
               //P_CrossSpecialLine(static_cast<int>(ld - lines), oldside, thing);
       }
     }
@@ -559,7 +559,7 @@ void P_HitSlideLine(line_t *ld) {
 
   if (deltaangle > ANG180)
     deltaangle += ANG180;
-  //	I_Error ("SlideLine: ang>ANG180");
+  //	logger::error ("SlideLine: ang>ANG180");
 
   lineangle >>= ANGLETOFINESHIFT;
   deltaangle >>= ANGLETOFINESHIFT;
@@ -578,7 +578,7 @@ bool PTR_SlideTraverse(intercept_t *in) {
   line_t *li;
 
   if (!in->isaline)
-    I_Error("PTR_SlideTraverse: not a line?");
+    logger::error("PTR_SlideTraverse: not a line?");
 
   li = in->d.line;
 

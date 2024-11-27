@@ -36,7 +36,7 @@
 
 #include <stdlib.h>
 
-import system;
+import engine;
 import doom;
 import tick;
 import setup;
@@ -254,7 +254,7 @@ void P_AddActivePlat(plat_t *plat) {
       activeplats[i] = plat;
       return;
     }
-  I_Error("P_AddActivePlat: no more plats!");
+  logger::error("P_AddActivePlat: no more plats!");
 }
 
 void P_RemoveActivePlat(plat_t *plat) {
@@ -267,5 +267,5 @@ void P_RemoveActivePlat(plat_t *plat) {
 
       return;
     }
-  I_Error("P_RemoveActivePlat: can't find plat!");
+  logger::error("P_RemoveActivePlat: can't find plat!");
 }

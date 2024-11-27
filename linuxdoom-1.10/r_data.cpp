@@ -39,7 +39,7 @@
 
 #include "g_game.h"
 
-import system;
+import engine;
 import wad;
 import sky;
 import tick;
@@ -278,7 +278,7 @@ void R_GenerateLookup(int texnum) {
              texture.name.c_str());
       return;
     }
-    // I_Error ("R_GenerateLookup: column without a patch");
+    // logger::error ("R_GenerateLookup: column without a patch");
 
     if (static_cast<int>(patchcount[x]) > 1) {
       // Use the cached .
@@ -286,7 +286,7 @@ void R_GenerateLookup(int texnum) {
       colofs[x] = texturecompositesize[texnum];
 
       if (texturecompositesize[texnum] > 0x10000 - texture.height) {
-        I_Error("R_GenerateLookup: texture {} is >64k", texnum);
+        logger::error("R_GenerateLookup: texture {} is >64k", texnum);
       }
 
       texturecompositesize[texnum] += texture.height;
@@ -416,7 +416,7 @@ void R_InitTextures(void) {
     offset = *directory;
 
     if (offset > maxoff)
-      I_Error("R_InitTextures: bad texture directory");
+      logger::error("R_InitTextures: bad texture directory");
 
     mtexture = (maptexture_t *)((std::byte *)maptex + offset);
 
@@ -435,7 +435,7 @@ void R_InitTextures(void) {
       patch->originy = mpatch->originy;
       patch->patch = patchlookup[mpatch->patch];
       if (patch->patch == -1) {
-        I_Error("R_InitTextures: Missing patch in texture %s",
+        logger::error("R_InitTextures: Missing patch in texture %s",
                 texture.name.c_str());
       }
     }
@@ -552,7 +552,7 @@ int R_FlatNumForName(const std::string &name) {
   const auto i = W_CheckNumForName(name.substr(0, 8));
 
   if (i == -1) {
-    I_Error("R_FlatNumForName: %s not found", name.c_str());
+    logger::error("R_FlatNumForName: %s not found", name.c_str());
   }
   return i - firstflat;
 }
@@ -593,7 +593,7 @@ int R_TextureNumForName(const std::string &name) {
       i = R_CheckTextureNumForName(truncated_name);
     }
     if (i == -1) {
-      I_Error("{} texture not found", name);
+      logger::error("{} texture not found", name);
     }
   }
   return i;
