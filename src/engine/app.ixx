@@ -1,3 +1,5 @@
+module;
+#include "spdlog/spdlog.h"
 export module app;
 
 import engine;
@@ -17,6 +19,10 @@ export void update();
 //! @param argv Argument values
 export int main( int argc, char **argv )
 {
+#if !NDEBUG
+    spdlog::set_level( spdlog::level::debug );
+#endif
+
     arguments::parse( argc, argv );
 
     logger::info( "Initialising app" );
