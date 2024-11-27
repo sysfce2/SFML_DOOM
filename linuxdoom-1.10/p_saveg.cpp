@@ -32,6 +32,7 @@
 #include <stdlib.h>
 
 #include "g_game.h"
+#include "p_pspr.h"
 
 import engine;
 import tick;

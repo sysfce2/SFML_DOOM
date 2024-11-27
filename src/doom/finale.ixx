@@ -25,6 +25,7 @@ module;
 
 #include "g_game.h"
 #include "r_state.h"
+#include "p_pspr.h"
 
 #include <string>
 

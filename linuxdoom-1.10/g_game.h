@@ -20,8 +20,6 @@
 //-----------------------------------------------------------------------------
 
 #pragma once
-#include "d_player.h"
-
 #include <SFML/Window.hpp>
 
 enum class skill_t;

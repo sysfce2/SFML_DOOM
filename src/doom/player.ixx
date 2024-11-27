@@ -106,3 +106,17 @@ export struct player_t
 };
 
 export inline player_t players[MAXPLAYERS];
+
+//
+// Player internal flags, for cheats and debug.
+//
+typedef enum
+{
+    // No clipping, walk through barriers.
+    CF_NOCLIP = 1,
+    // No damage, no health loss.
+    CF_GODMODE = 2,
+    // Not really a cheat, just a debug aid.
+    CF_NOMOMENTUM = 4
+
+} cheat_t;

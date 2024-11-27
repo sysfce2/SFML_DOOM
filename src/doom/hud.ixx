@@ -21,7 +21,6 @@
 //-----------------------------------------------------------------------------
 module;
 #include <ctype.h>
-#include "d_player.h"
 #include "g_game.h"
 #include "r_defs.h"
 #include "r_main.h"

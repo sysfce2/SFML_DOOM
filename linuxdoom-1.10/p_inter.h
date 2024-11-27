@@ -20,5 +20,5 @@
 //-----------------------------------------------------------------------------
 
 #pragma once
-
+struct player_t;
 bool P_GivePower(player_t *, int);

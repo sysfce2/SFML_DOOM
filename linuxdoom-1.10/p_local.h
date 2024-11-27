@@ -20,7 +20,6 @@
 //-----------------------------------------------------------------------------
 
 #pragma once
-#include "d_player.h"
 #include "r_defs.h"
 #include "r_main.h"
 #include "r_draw.h"

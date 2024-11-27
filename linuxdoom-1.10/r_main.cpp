@@ -29,7 +29,6 @@
 #include "m_bbox.h"
 #include "r_defs.h"
 
-#include "d_player.h"
 #include "r_main.h"
 #include "r_draw.h"
 #include "r_things.h"

@@ -21,7 +21,6 @@
 
 #pragma once
 
-#include "d_player.h"
 #include "r_data.h"
 
 //externs from doomstat.h

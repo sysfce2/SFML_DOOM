@@ -25,6 +25,7 @@
 #include <stdlib.h>
 
 #include "g_game.h"
+#include "p_pspr.h"
 #include "r_defs.h"
 #include "r_state.h"
 #include "r_things.h"

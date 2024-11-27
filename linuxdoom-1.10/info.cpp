@@ -29,8 +29,8 @@
 
 #include "info.h"
 
-#include "d_player.h"
 #include "p_mobj.h"
+#include "p_pspr.h"
 
 #include <array>
 #include <string>
