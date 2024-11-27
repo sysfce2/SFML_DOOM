@@ -164,11 +164,11 @@ bool P_CheckAmmo(player_t *player) {
   // Out of ammo, pick a weapon to change to.
   // Preferences are set here.
   do {
-    if (player->weaponowned[wp_plasma] && player->ammo[am_cell] &&
-        (gamemode != shareware)) {
+    if (player->weaponowned[wp_plasma] && player->ammo[am_cell] && ( gamemode != game_mode::shareware ) )
+      {
       player->pendingweapon = wp_plasma;
-    } else if (player->weaponowned[wp_supershotgun] &&
-               player->ammo[am_shell] > 2 && (gamemode == commercial)) {
+    } else if (player->weaponowned[wp_supershotgun] && player->ammo[am_shell] > 2 && ( gamemode == game_mode::commercial ) )
+    {
       player->pendingweapon = wp_supershotgun;
     } else if (player->weaponowned[wp_chaingun] && player->ammo[am_clip]) {
       player->pendingweapon = wp_chaingun;
@@ -180,8 +180,8 @@ bool P_CheckAmmo(player_t *player) {
       player->pendingweapon = wp_chainsaw;
     } else if (player->weaponowned[wp_missile] && player->ammo[am_misl]) {
       player->pendingweapon = wp_missile;
-    } else if (player->weaponowned[wp_bfg] && player->ammo[am_cell] > 40 &&
-               (gamemode != shareware)) {
+    } else if (player->weaponowned[wp_bfg] && player->ammo[am_cell] > 40 && ( gamemode != game_mode::shareware ) )
+    {
       player->pendingweapon = wp_bfg;
     } else {
       // If everything fails.

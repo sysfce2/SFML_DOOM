@@ -660,7 +660,7 @@ void R_FillBackScreen(void) {
   if (scaledviewwidth == 320)
     return;
 
-  if (gamemode == commercial)
+  if ( gamemode == game_mode::commercial )
     name = name2;
   else
     name = name1;

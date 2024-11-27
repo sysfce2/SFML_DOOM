@@ -154,7 +154,6 @@ extern std::byte scantokey[128];
 //
 export void M_LoadDefaults( void )
 {
-
     // check for a custom default file
     if ( constexpr auto arg = "-config"; arguments::has( arg ) )
     {

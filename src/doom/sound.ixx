@@ -724,7 +724,7 @@ export void S_Start( void )
     mus_paused = 0;
 
     auto mnum = mus_runnin + gamemap - 1;
-    if ( gamemode != commercial )
+    if ( gamemode != game_mode::commercial )
     {
         int spmus[] = {
             // Song - Who? - Where?

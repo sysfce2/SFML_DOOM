@@ -276,7 +276,7 @@ export void W_Reload( void )
 //
 export void W_InitMultipleFiles( std::vector<std::string> &filenames )
 {
-    // open all the files, load headers, and count lumps
+    // Clear existing lump infop
     lumpinfo.clear();
 
     for ( const auto &name : filenames )

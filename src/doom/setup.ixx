@@ -257,7 +257,7 @@ void P_LoadThings( int lump )
         spawn = true;
 
         // Do not spawn cool, new monsters if !commercial
-        if ( gamemode != commercial )
+        if ( gamemode != game_mode::commercial )
         {
             switch ( mt->type )
             {
@@ -497,7 +497,7 @@ export void P_SetupLevel( int episode, int map, int playermask, skill_t skill )
     W_Reload();
 
     // find map name
-    if ( gamemode == commercial )
+    if ( gamemode == game_mode::commercial )
     {
         if ( map < 10 )
             snprintf( lumpname, 9, "map0%i", map );

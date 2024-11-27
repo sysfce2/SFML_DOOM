@@ -31,7 +31,7 @@ export constexpr int32_t VERSION = 110;
 
 // Game mode handling - identify IWAD version
 //  to handle IWAD dependend animations etc.
-export enum GameMode_t {
+export enum class game_mode {
     shareware,  // DOOM 1 shareware, E1, M9
     registered, // DOOM 1 registered, E3, M27
     commercial, // DOOM 2 retail, E1 M34

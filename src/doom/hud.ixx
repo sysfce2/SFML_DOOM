@@ -577,6 +577,7 @@ export void HU_Start( void )
 
     switch ( gamemode )
     {
+        using enum game_mode;
     case shareware:
     case registered:
     case retail:

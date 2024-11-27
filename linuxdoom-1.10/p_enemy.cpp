@@ -1358,7 +1358,8 @@ void A_BossDeath(mobj_t *mo) {
   line_t junk;
   int i;
 
-  if (gamemode == commercial) {
+  if ( gamemode == game_mode::commercial )
+  {
     if (gamemap != 7)
       return;
 
@@ -1438,7 +1439,8 @@ void A_BossDeath(mobj_t *mo) {
   }
 
   // victory!
-  if (gamemode == commercial) {
+  if ( gamemode == game_mode::commercial )
+  {
     if (gamemap == 7) {
       if (mo->type == MT_FATSO) {
         junk.tag = 666;
@@ -1675,7 +1677,8 @@ void A_PlayerScream(mobj_t *mo) {
   // Default death sound.
   int sound = sfx_pldeth;
 
-  if ((gamemode == commercial) && (mo->health < -50)) {
+  if ( ( gamemode == game_mode::commercial ) && ( mo->health < -50 ) )
+  {
     // IF THE PLAYER DIES
     // LESS THAN -50% WITHOUT GIBBING
     sound = sfx_pdiehi;

@@ -35,6 +35,8 @@ std::vector<std::string> wadfilenames;
 //
 void IdentifyVersion( void )
 {
+    logger::info( "Identifying doom game version" );
+
     // Search in the "wads" dir relative to the working directory
     std::string waddir = "wads";
 
@@ -60,41 +62,6 @@ void IdentifyVersion( void )
 
     // French stuff.
     const auto doom2fwad = waddir + "/doom2f.wad";
-
-    if ( arguments::has( "-shdev" ) )
-    {
-        gamemode = shareware;
-        wadfilenames.emplace_back( "doom1.wad" );
-        wadfilenames.emplace_back( "data_se/texture1.lmp" );
-        wadfilenames.emplace_back( "data_se/pnames.lmp" );
-        return;
-    }
-
-    if ( arguments::has( "-regdev" ) )
-    {
-        gamemode = registered;
-        wadfilenames.emplace_back( "doom.wad" );
-        wadfilenames.emplace_back( "data_se/texture1.lmp" );
-        wadfilenames.emplace_back( "data_se/texture2.lmp" );
-        wadfilenames.emplace_back( "data_se/pnames.lmp" );
-        return;
-    }
-
-    if ( arguments::has( "-comdev" ) )
-    {
-        gamemode = commercial;
-        /* I don't bother
-        if(plutonia)
-            wadfilenames.emplace_back ("plutonia.wad");
-        else if(tnt)
-            wadfilenames.emplace_back ("tnt.wad");
-        else*/
-        wadfilenames.emplace_back( "doom2.wad" );
-
-        wadfilenames.emplace_back( "cdata/texture1.lmp" );
-        wadfilenames.emplace_back( "cdata/pnames.lmp" );
-        return;
-    }
 
     if ( std::filesystem::exists( doom2fwad ) )
     {
@@ -148,13 +115,7 @@ void IdentifyVersion( void )
         wadfilenames.emplace_back( doom1wad.c_str() );
         return;
     }
-
-    printf( "Game mode indeterminate.\n" );
-    gamemode = indetermined;
-
-    // We don't abort. Let's see what the PWAD contains.
-    // exit(1);
-    // logger::error ("Game mode indeterminate\n");
+    logger::error( "Game mode indeterminate" );
 }
 
 void init( void )
@@ -166,6 +127,7 @@ void init( void )
     nomonsters = arguments::has( "-nomonsters" );
     respawnparm = arguments::has( "-respawn" );
     fastparm = arguments::has( "-fast" );
+
     if ( arguments::has( "-altdeath" ) )
         deathmatch = 2;
     else if ( arguments::has( "-deathmatch" ) )
@@ -185,38 +147,18 @@ void init( void )
     case commercial:
         logger::info( "DOOM 2: Hell on Earth v{}.{}", VERSION / 100, VERSION % 100 );
         break;
-        /*FIXME
-               case pack_plut:
-                sprintf (title,
-                         "                   "
-                         "DOOM 2: Plutonia Experiment v%i.%i"
-                         "                           ",
-                         VERSION/100,VERSION%100);
-                break;
-              case pack_tnt:
-                sprintf (title,
-                         "                     "
-                         "DOOM 2: TNT - Evilution v%i.%i"
-                         "                           ",
-                         VERSION/100,VERSION%100);
-                break;
-        */
-    default:
-        logger::info( "Public DOOM v{}.{}", VERSION / 100, VERSION % 100 );
-        break;
     }
 
-#if !NDEBUG
-    printf( D_DEVSTR );
-#endif
+    logger::debug( "{}", D_DEVSTR );
 
     // turbo option
-    if ( ( p = arguments::has( "-turbo" ) ) )
+    if ( arguments::has( "-turbo" ) )
     {
+        auto index = arguments::index_of( "-turbo" );
         int scale = 200;
 
-        if ( p < arguments::count() - 1 )
-            scale = atoi( arguments::at( p + 1 ).data() );
+        if ( index < arguments::count() - 1 )
+            scale = atoi( arguments::at( index + 1 ).data() );
         if ( scale < 10 )
             scale = 10;
         if ( scale > 400 )
@@ -230,63 +172,25 @@ void init( void )
 
     // add any files specified on the command line with -file wadfile
     // to the wad list
-    //
-    // convenience hack to allow -wart e m to add a wad file
-    // prepend a tilde to the filename so wadfile will be reloadable
-    p = arguments::has( "-wart" );
-    if ( p )
+    if ( arguments::has( "-file" ) )
     {
-        // @TODO JONNY
-        // arguments::at(p)[4] = 'p'; // big hack, change to -warp
-
-        // Map name handling.
-        switch ( gamemode )
-        {
-        case shareware:
-        case retail:
-        case registered:
-            // snprintf(file, 256, "~/E%cM%c.wad", arguments::at(p + 1)[0],
-            //        arguments::at(p + 2)[0]);
-            // printf("Warping to Episode %s, Map %s.\n", arguments::at(p +
-            // 1).c_str(),
-            //      arguments::at(p + 2).c_str());
-            break;
-
-        case commercial:
-        default:
-            p = atoi( arguments::at( p + 1 ).data() );
-            if ( p < 10 )
-            {
-            }
-            // snprintf(file, 256, "~/cdata/map0%i.wad", p);
-            else
-            {
-            }
-            // snprintf(file, 256, "~/cdata/map%i.wad", p);
-            break;
-        }
-        wadfilenames.emplace_back( file );
-    }
-
-    p = arguments::has( "-file" );
-    if ( p )
-    {
-        // the parms after p are wadfile/lump names,
-        // until end of parms or another - preceded parm
         modifiedgame = true; // homebrew levels
-        while ( ++p != arguments::count() && arguments::at( p )[0] != '-' )
-            wadfilenames.emplace_back( arguments::at( p ).data() );
+
+        // the parms after are wadfile/lump names,
+        // until end of parms or another - preceded parm
+        auto index = arguments::index_of( "-file" );
+        while ( ++index != arguments::count() && arguments::at( index )[0] != '-' )
+            wadfilenames.emplace_back( arguments::at( index ) );
     }
 
-    p = arguments::has( "-playdemo" );
+    auto p = arguments::index_of( "-playdemo" );
 
     if ( !p )
         p = arguments::has( "-timedemo" );
 
     if ( p && p < arguments::count() - 1 )
     {
-        // snprintf(file, 256, "%s.lmp", arguments::at(p + 1).c_str());
-        wadfilenames.emplace_back( file );
+        wadfilenames.emplace_back( arguments::at( p + 1 ) );
         printf( "Playing demo %s.lmp.\n", arguments::at( p + 1 ).data() );
     }
 
@@ -338,12 +242,6 @@ void init( void )
         }
         autostart = true;
     }
-
-    // init subsystems
-    M_LoadDefaults(); // load before initing other systems
-
-    logger::info( "W_Init: Init WADfiles." );
-    W_InitMultipleFiles( wadfilenames );
 
     // Check for -file in shareware
     if ( modifiedgame )
@@ -418,6 +316,10 @@ void init( void )
         break;
     }
 
+    logger::info( "Initialising subsystems" );
+    M_LoadDefaults(); // load before initing other systems
+    W_InitMultipleFiles( wadfilenames );
+
     M_Init();
 
     printf( "R_Init: Init DOOM refresh daemon - " );
@@ -470,7 +372,7 @@ void init( void )
     p = arguments::has( "-loadgame" );
     if ( p && p < arguments::count() - 1 )
     {
-        file = std::format( "{}{}.dsg", SAVEGAMENAME, arguments::at( p + 1 )[0] );
+        auto file = std::format( "{}{}.dsg", SAVEGAMENAME, arguments::at( p + 1 )[0] );
         G_LoadGame( file );
     }
 

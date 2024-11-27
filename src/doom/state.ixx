@@ -22,7 +22,7 @@ import :definitions;
 import :player;
 
 // Game Mode - identify IWAD as shareware, retail etc.
-export GameMode_t gamemode = indetermined;
+export game_mode gamemode = game_mode::indetermined;
 export GameMission_t gamemission = doom;
 
 // Language.
