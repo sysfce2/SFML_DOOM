@@ -186,10 +186,10 @@ export enum powertype_t {
 //  assuming TICRATE is 35 ticks/second.
 //
 export enum powerduration_t {
-    INVULNTICS = (30 * TICRATE),
-    INVISTICS = (60 * TICRATE),
-    INFRATICS = (120 * TICRATE),
-    IRONTICS = (60 * TICRATE)
+    INVULNTICS = ( 30 * TICRATE ),
+    INVISTICS = ( 60 * TICRATE ),
+    INFRATICS = ( 120 * TICRATE ),
+    IRONTICS = ( 60 * TICRATE )
 
 };
 

@@ -88,28 +88,29 @@ export int eventtail;
 // D_PostEvent
 // Called by the I/O functions when input is detected
 //
-export void D_PostEvent(const sf::Event &ev)
+export void D_PostEvent( const sf::Event &ev )
 {
-    events[eventhead] = std::make_unique<sf::Event>(ev);
-    eventhead = (++eventhead) & (MAXEVENTS - 1);
+    events[eventhead] = std::make_unique<sf::Event>( ev );
+    eventhead = ( ++eventhead ) & ( MAXEVENTS - 1 );
 }
 
 //
 // D_ProcessEvents
 // Send all the events of the given timestamp down the responder chain
 //
-export void D_ProcessEvents(void)
+export void D_ProcessEvents( void )
 {
     // IF STORE DEMO, DO NOT ACCEPT INPUT
-    if ((gamemode == commercial) && (W_CheckNumForName("map01") < 0))
+    if ( ( gamemode == commercial ) && ( W_CheckNumForName( "map01" ) < 0 ) )
         return;
 
-    for (; eventtail != eventhead; eventtail = (++eventtail) & (MAXEVENTS - 1))
+    for ( ; eventtail != eventhead;
+          eventtail = ( ++eventtail ) & ( MAXEVENTS - 1 ) )
     {
         auto &ev = events[eventtail];
-        if (M_Responder(*ev))
+        if ( M_Responder( *ev ) )
             continue; // menu ate the event
-        G_Responder(*ev);
+        G_Responder( *ev );
     }
 }
 
@@ -118,9 +119,10 @@ std::string pagename;
 //
 // D_PageDrawer
 //
-void D_PageDrawer(void)
+void D_PageDrawer( void )
 {
-    V_DrawPatch(0, 0, 0, static_cast<patch_t *>(W_CacheLumpName(pagename)));
+    V_DrawPatch( 0, 0, 0,
+                 static_cast<patch_t *>( W_CacheLumpName( pagename ) ) );
 }
 
 //
@@ -132,13 +134,13 @@ void D_PageDrawer(void)
 export gamestate_t wipegamestate = GS_DEMOSCREEN;
 export bool setsizeneeded;
 
-export void D_Display(void)
+export void D_Display( void )
 {
     static bool viewactivestate = false;
     static bool menuactivestate = false;
     static bool inhelpscreensstate = false;
     static bool fullscreen = false;
-    static gamestate_t oldgamestate = static_cast<gamestate_t>(-1);
+    static gamestate_t oldgamestate = static_cast<gamestate_t>( -1 );
     static int borderdrawcount;
     int nowtime;
     int tics;
@@ -148,44 +150,45 @@ export void D_Display(void)
     bool wipe;
     bool redrawsbar;
 
-    if (nodrawers)
+    if ( nodrawers )
         return; // for comparative timing / profiling
 
     redrawsbar = false;
 
     // change the view size if needed
-    if (setsizeneeded)
+    if ( setsizeneeded )
     {
         R_ExecuteSetViewSize();
-        oldgamestate = static_cast<gamestate_t>(-1); // force background redraw
+        oldgamestate =
+            static_cast<gamestate_t>( -1 ); // force background redraw
         borderdrawcount = 3;
     }
 
     // save the current screen if about to wipe
-    if (gamestate != wipegamestate)
+    if ( gamestate != wipegamestate )
     {
         wipe = true;
-        wipe_StartScreen(0, 0, SCREENWIDTH, SCREENHEIGHT);
+        wipe_StartScreen( 0, 0, SCREENWIDTH, SCREENHEIGHT );
     }
     else
         wipe = false;
 
-    if (gamestate == GS_LEVEL && gametic)
+    if ( gamestate == GS_LEVEL && gametic )
         HU_Erase();
 
     // do buffered drawing
-    switch (gamestate)
+    switch ( gamestate )
     {
     case GS_LEVEL:
-        if (!gametic)
+        if ( !gametic )
             break;
-        if (automapactive)
+        if ( automapactive )
             AM_Drawer();
-        if (wipe || (viewheight != 200 && fullscreen))
+        if ( wipe || ( viewheight != 200 && fullscreen ) )
             redrawsbar = true;
-        if (inhelpscreensstate && !inhelpscreens)
+        if ( inhelpscreensstate && !inhelpscreens )
             redrawsbar = true; // just put away the help screen
-        ST_Drawer(viewheight == 200, redrawsbar);
+        ST_Drawer( viewheight == 200, redrawsbar );
         fullscreen = viewheight == 200;
         break;
 
@@ -206,29 +209,30 @@ export void D_Display(void)
     I_UpdateNoBlit();
 
     // draw the view directly
-    if (gamestate == GS_LEVEL && !automapactive && gametic)
-        R_RenderPlayerView(&players[displayplayer]);
+    if ( gamestate == GS_LEVEL && !automapactive && gametic )
+        R_RenderPlayerView( &players[displayplayer] );
 
-    if (gamestate == GS_LEVEL && gametic)
+    if ( gamestate == GS_LEVEL && gametic )
         HU_Drawer();
 
     // clean up border stuff
-    if (gamestate != oldgamestate && gamestate != GS_LEVEL)
-        I_SetPalette(static_cast<std::byte *>(W_CacheLumpName("PLAYPAL")));
+    if ( gamestate != oldgamestate && gamestate != GS_LEVEL )
+        I_SetPalette(
+            static_cast<std::byte *>( W_CacheLumpName( "PLAYPAL" ) ) );
 
     // see if the border needs to be initially drawn
-    if (gamestate == GS_LEVEL && oldgamestate != GS_LEVEL)
+    if ( gamestate == GS_LEVEL && oldgamestate != GS_LEVEL )
     {
         viewactivestate = false; // view was not active
         R_FillBackScreen();      // draw the pattern into the back screen
     }
 
     // see if the border needs to be updated to the screen
-    if (gamestate == GS_LEVEL && !automapactive && scaledviewwidth != 320)
+    if ( gamestate == GS_LEVEL && !automapactive && scaledviewwidth != 320 )
     {
-        if (menuactive || menuactivestate || !viewactivestate)
+        if ( menuactive || menuactivestate || !viewactivestate )
             borderdrawcount = 3;
-        if (borderdrawcount)
+        if ( borderdrawcount )
         {
             R_DrawViewBorder(); // erase old menu stuff
             borderdrawcount--;
@@ -241,14 +245,15 @@ export void D_Display(void)
     oldgamestate = wipegamestate = gamestate;
 
     // draw pause pic
-    if (paused)
+    if ( paused )
     {
-        if (automapactive)
+        if ( automapactive )
             y = 4;
         else
             y = viewwindowy + 4;
-        V_DrawPatchDirect(viewwindowx + (scaledviewwidth - 68) / 2, y, 0,
-                          static_cast<patch_t *>(W_CacheLumpName("M_PAUSE")));
+        V_DrawPatchDirect(
+            viewwindowx + ( scaledviewwidth - 68 ) / 2, y, 0,
+            static_cast<patch_t *>( W_CacheLumpName( "M_PAUSE" ) ) );
     }
 
     // menus go directly to the screen
@@ -256,14 +261,14 @@ export void D_Display(void)
     NetUpdate(); // send out any new accumulation
 
     // normal update
-    if (!wipe)
+    if ( !wipe )
     {
         I_FinishUpdate(); // page flip or blit buffer
         return;
     }
 
     // wipe update
-    wipe_EndScreen(0, 0, SCREENWIDTH, SCREENHEIGHT);
+    wipe_EndScreen( 0, 0, SCREENWIDTH, SCREENHEIGHT );
 
     wipestart = I_GetTime() - 1;
 
@@ -273,14 +278,14 @@ export void D_Display(void)
         {
             nowtime = I_GetTime();
             tics = nowtime - wipestart;
-        } while (!tics);
+        } while ( !tics );
         wipestart = nowtime;
         done =
-            wipe_ScreenWipe(wipe_Melt, 0, 0, SCREENWIDTH, SCREENHEIGHT, tics);
+            wipe_ScreenWipe( wipe_Melt, 0, 0, SCREENWIDTH, SCREENHEIGHT, tics );
         I_UpdateNoBlit();
         M_Drawer();       // menu is drawn even on top of wipes
         I_FinishUpdate(); // page flip or blit buffer
-    } while (!done);
+    } while ( !done );
 }
 
 //
@@ -293,7 +298,7 @@ int pagetic;
 // This cycles through the demo sequences.
 // FIXME - version dependend demo numbers?
 //
-export void D_DoAdvanceDemo(void)
+export void D_DoAdvanceDemo( void )
 {
     players[consoleplayer].playerstate = PST_LIVE; // not reborn
     advancedemo = false;
@@ -301,27 +306,27 @@ export void D_DoAdvanceDemo(void)
     paused = false;
     gameaction = gameaction_t::ga_nothing;
 
-    if (gamemode == retail)
-        demosequence = (demosequence + 1) % 7;
+    if ( gamemode == retail )
+        demosequence = ( demosequence + 1 ) % 7;
     else
-        demosequence = (demosequence + 1) % 6;
+        demosequence = ( demosequence + 1 ) % 6;
 
-    switch (demosequence)
+    switch ( demosequence )
     {
     case 0:
-        if (gamemode == commercial)
+        if ( gamemode == commercial )
             pagetic = 35 * 11;
         else
             pagetic = 170;
         gamestate = GS_DEMOSCREEN;
         pagename = "TITLEPIC";
-        if (gamemode == commercial)
-            S_StartMusic(mus_dm2ttl);
+        if ( gamemode == commercial )
+            S_StartMusic( mus_dm2ttl );
         else
-            S_StartMusic(mus_intro);
+            S_StartMusic( mus_intro );
         break;
     case 1:
-        G_DeferedPlayDemo("demo1");
+        G_DeferedPlayDemo( "demo1" );
         break;
     case 2:
         pagetic = 200;
@@ -329,32 +334,32 @@ export void D_DoAdvanceDemo(void)
         pagename = "CREDIT";
         break;
     case 3:
-        G_DeferedPlayDemo("demo2");
+        G_DeferedPlayDemo( "demo2" );
         break;
     case 4:
         gamestate = GS_DEMOSCREEN;
-        if (gamemode == commercial)
+        if ( gamemode == commercial )
         {
             pagetic = 35 * 11;
             pagename = "TITLEPIC";
-            S_StartMusic(mus_dm2ttl);
+            S_StartMusic( mus_dm2ttl );
         }
         else
         {
             pagetic = 200;
 
-            if (gamemode == retail)
+            if ( gamemode == retail )
                 pagename = "CREDIT";
             else
                 pagename = "HELP2";
         }
         break;
     case 5:
-        G_DeferedPlayDemo("demo3");
+        G_DeferedPlayDemo( "demo3" );
         break;
         // THE DEFINITIVE DOOM Special Edition demo
     case 6:
-        G_DeferedPlayDemo("demo4");
+        G_DeferedPlayDemo( "demo4" );
         break;
     }
 }
@@ -372,27 +377,27 @@ export bool demorecording;
 // D_AdvanceDemo
 // Called after each demo or intro demosequence finishes
 //
-export void D_AdvanceDemo(void) { advancedemo = true; }
+export void D_AdvanceDemo( void ) { advancedemo = true; }
 
 //
 // D_PageTicker
 // Handles timing for warped projection
 //
-export void D_PageTicker(void)
+export void D_PageTicker( void )
 {
-    if (--pagetic < 0)
+    if ( --pagetic < 0 )
         D_AdvanceDemo();
 }
 
 //
 // D_StartTitle
 //
-export void D_StartTitle(void)
+export void D_StartTitle( void )
 {
     gameaction = gameaction_t::ga_nothing;
     demosequence = -1;
     D_AdvanceDemo();
 }
 
-export fixed_t forwardmove[2] = {0x19, 0x32};
-export fixed_t sidemove[2] = {0x18, 0x28};
+export fixed_t forwardmove[2] = { 0x19, 0x32 };
+export fixed_t sidemove[2] = { 0x18, 0x28 };

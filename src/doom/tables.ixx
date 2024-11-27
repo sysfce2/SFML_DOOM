@@ -46,24 +46,24 @@ export constexpr auto ANG270 = 0xc0000000;
 
 export constexpr auto SLOPERANGE = 2048;
 export constexpr auto SLOPEBITS = 11;
-export constexpr auto DBITS = (FRACBITS - SLOPEBITS);
+export constexpr auto DBITS = ( FRACBITS - SLOPEBITS );
 
 export typedef unsigned angle_t;
 
 export constexpr auto FINEANGLES = 8192;
-export constexpr auto FINEMASK = (FINEANGLES - 1);
+export constexpr auto FINEMASK = ( FINEANGLES - 1 );
 
 // 0x100000000 to 0x2000
 export constexpr auto ANGLETOFINESHIFT = 19;
 
-export int SlopeDiv(unsigned num, unsigned den)
+export int SlopeDiv( unsigned num, unsigned den )
 {
     unsigned ans;
 
-    if (den < 512)
+    if ( den < 512 )
         return SLOPERANGE;
 
-    ans = (num << 3) / (den >> 8);
+    ans = ( num << 3 ) / ( den >> 8 );
 
     return ans <= SLOPERANGE ? ans : SLOPERANGE;
 }
@@ -751,7 +751,7 @@ export int finetangent[4096] = {
     3973855,    4167737,   4381502,   4618375,   4882318,   5178251,
     5512368,    5892567,   6329090,   6835455,   7429880,   8137527,
     8994149,    10052327,  11392683,  13145455,  15535599,  18988036,
-    24413316,   34178904,  56965752,  170910304};
+    24413316,   34178904,  56965752,  170910304 };
 
 export int finesine[10240] = {
     25,     75,     125,    175,    226,    276,    326,    376,    427,
@@ -1891,7 +1891,7 @@ export int finesine[10240] = {
     65514,  65515,  65516,  65518,  65519,  65520,  65521,  65522,  65523,
     65524,  65525,  65526,  65527,  65527,  65528,  65529,  65530,  65530,
     65531,  65531,  65532,  65532,  65533,  65533,  65534,  65534,  65534,
-    65535,  65535,  65535,  65535,  65535,  65535,  65535};
+    65535,  65535,  65535,  65535,  65535,  65535,  65535 };
 
 export angle_t tantoangle[2049] = {
     0,         333772,    667544,    1001315,   1335086,   1668857,   2002626,
@@ -2186,6 +2186,6 @@ export angle_t tantoangle[2049] = {
     532673184, 532842080, 533010912, 533179616, 533348288, 533516832, 533685312,
     533853728, 534022048, 534190272, 534358432, 534526496, 534694496, 534862400,
     535030240, 535197984, 535365632, 535533216, 535700704, 535868128, 536035456,
-    536202720, 536369888, 536536992, 536704000, 536870912};
+    536202720, 536369888, 536536992, 536704000, 536870912 };
 
 export fixed_t *finecosine = &finesine[FINEANGLES / 4];

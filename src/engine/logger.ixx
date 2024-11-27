@@ -33,34 +33,34 @@ namespace logger
 //! @param args Arguments for the format string
 //! @warning This will exit the app and break in the debugger, if attached
 export template <typename... Args>
-void error(spdlog::format_string_t<Args...> fmt, Args &&...args)
+void error( spdlog::format_string_t<Args...> fmt, Args &&...args )
 {
-    spdlog::error(fmt, std::forward<Args>(args)...);
+    spdlog::error( fmt, std::forward<Args>( args )... );
 
 #if WIN32
     DebugBreak();
 #else
-    raise(SIGTRAP);
+    raise( SIGTRAP );
 #endif
 
-    exit(-1);
+    exit( -1 );
 }
 
 //! Log an info message
 //! @param fmt Format string to use
 //! @param args Arguments for the format string
 export template <typename... Args>
-void info(spdlog::format_string_t<Args...> fmt, Args &&...args)
+void info( spdlog::format_string_t<Args...> fmt, Args &&...args )
 {
-    spdlog::info(fmt, std::forward<Args>(args)...);
+    spdlog::info( fmt, std::forward<Args>( args )... );
 }
 
 //! Log a debug message
 //! @param fmt Format string to use
 //! @param args Arguments for the format string
 export template <typename... Args>
-void debug(spdlog::format_string_t<Args...> fmt, Args &&...args)
+void debug( spdlog::format_string_t<Args...> fmt, Args &&...args )
 {
-    spdlog::debug(fmt, std::forward<Args>(args)...);
+    spdlog::debug( fmt, std::forward<Args>( args )... );
 }
 } // namespace logger

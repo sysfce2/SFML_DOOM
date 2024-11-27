@@ -50,7 +50,7 @@ export int skytexturemid;
 // R_InitSkyMap
 // Called whenever the view size changes.
 //
-export void R_InitSkyMap(void)
+export void R_InitSkyMap( void )
 {
     // skyflatnum = R_FlatNumForName ( SKYFLATNAME );
     skytexturemid = 100 * FRACUNIT;

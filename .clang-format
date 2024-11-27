@@ -220,12 +220,12 @@ SpacesInContainerLiterals: true
 SpacesInLineCommentPrefix:
   Minimum:         1
   Maximum:         -1
-SpacesInParens:  Never
+SpacesInParens:  Custom
 SpacesInParensOptions:
   InCStyleCasts:   false
-  InConditionalStatements: false
+  InConditionalStatements: true
   InEmptyParentheses: false
-  Other:           false
+  Other:           true
 SpacesInSquareBrackets: false
 Standard:        Latest
 StatementAttributeLikeMacros:

@@ -35,12 +35,12 @@ std::vector<std::string> wadfilenames;
 // to determine whether registered/commercial features
 // should be executed (notably loading PWAD's).
 //
-void IdentifyVersion(void)
+void IdentifyVersion( void )
 {
     std::string waddir = "wads";
 
-    logger::info("WAD directory: {}",
-                 (std::filesystem::current_path() / waddir).string());
+    logger::info( "WAD directory: {}",
+                  ( std::filesystem::current_path() / waddir ).string() );
 
     // Commercial.
     const auto doom2wad = waddir + "/doom2.wad";
@@ -63,26 +63,26 @@ void IdentifyVersion(void)
     // French stuff.
     const auto doom2fwad = waddir + "/doom2f.wad";
 
-    if (arguments::has("-shdev"))
+    if ( arguments::has( "-shdev" ) )
     {
         gamemode = shareware;
-        wadfilenames.emplace_back("doom1.wad");
-        wadfilenames.emplace_back("data_se/texture1.lmp");
-        wadfilenames.emplace_back("data_se/pnames.lmp");
+        wadfilenames.emplace_back( "doom1.wad" );
+        wadfilenames.emplace_back( "data_se/texture1.lmp" );
+        wadfilenames.emplace_back( "data_se/pnames.lmp" );
         return;
     }
 
-    if (arguments::has("-regdev"))
+    if ( arguments::has( "-regdev" ) )
     {
         gamemode = registered;
-        wadfilenames.emplace_back("doom.wad");
-        wadfilenames.emplace_back("data_se/texture1.lmp");
-        wadfilenames.emplace_back("data_se/texture2.lmp");
-        wadfilenames.emplace_back("data_se/pnames.lmp");
+        wadfilenames.emplace_back( "doom.wad" );
+        wadfilenames.emplace_back( "data_se/texture1.lmp" );
+        wadfilenames.emplace_back( "data_se/texture2.lmp" );
+        wadfilenames.emplace_back( "data_se/pnames.lmp" );
         return;
     }
 
-    if (arguments::has("-comdev"))
+    if ( arguments::has( "-comdev" ) )
     {
         gamemode = commercial;
         /* I don't bother
@@ -91,67 +91,67 @@ void IdentifyVersion(void)
         else if(tnt)
             wadfilenames.emplace_back ("tnt.wad");
         else*/
-        wadfilenames.emplace_back("doom2.wad");
+        wadfilenames.emplace_back( "doom2.wad" );
 
-        wadfilenames.emplace_back("cdata/texture1.lmp");
-        wadfilenames.emplace_back("cdata/pnames.lmp");
+        wadfilenames.emplace_back( "cdata/texture1.lmp" );
+        wadfilenames.emplace_back( "cdata/pnames.lmp" );
         return;
     }
 
-    if (std::filesystem::exists(doom2fwad))
+    if ( std::filesystem::exists( doom2fwad ) )
     {
         gamemode = commercial;
         // C'est ridicule!
         // Let's handle languages in config files, okay?
         language = french;
-        printf("French version\n");
-        wadfilenames.emplace_back(doom2fwad.c_str());
+        printf( "French version\n" );
+        wadfilenames.emplace_back( doom2fwad.c_str() );
         return;
     }
 
-    if (std::filesystem::exists(doom2wad))
+    if ( std::filesystem::exists( doom2wad ) )
     {
         gamemode = commercial;
-        wadfilenames.emplace_back(doom2wad.c_str());
+        wadfilenames.emplace_back( doom2wad.c_str() );
         return;
     }
 
-    if (std::filesystem::exists(plutoniawad))
+    if ( std::filesystem::exists( plutoniawad ) )
     {
         gamemode = commercial;
-        wadfilenames.emplace_back(plutoniawad.c_str());
+        wadfilenames.emplace_back( plutoniawad.c_str() );
         return;
     }
 
-    if (std::filesystem::exists(tntwad))
+    if ( std::filesystem::exists( tntwad ) )
     {
         gamemode = commercial;
-        wadfilenames.emplace_back(tntwad.c_str());
+        wadfilenames.emplace_back( tntwad.c_str() );
         return;
     }
 
-    if (std::filesystem::exists(doomuwad))
+    if ( std::filesystem::exists( doomuwad ) )
     {
         gamemode = retail;
-        wadfilenames.emplace_back(doomuwad.c_str());
+        wadfilenames.emplace_back( doomuwad.c_str() );
         return;
     }
 
-    if (std::filesystem::exists(doomwad))
+    if ( std::filesystem::exists( doomwad ) )
     {
         gamemode = registered;
-        wadfilenames.emplace_back(doomwad.c_str());
+        wadfilenames.emplace_back( doomwad.c_str() );
         return;
     }
 
-    if (std::filesystem::exists(doom1wad))
+    if ( std::filesystem::exists( doom1wad ) )
     {
         gamemode = shareware;
-        wadfilenames.emplace_back(doom1wad.c_str());
+        wadfilenames.emplace_back( doom1wad.c_str() );
         return;
     }
 
-    printf("Game mode indeterminate.\n");
+    printf( "Game mode indeterminate.\n" );
     gamemode = indetermined;
 
     // We don't abort. Let's see what the PWAD contains.
@@ -159,7 +159,7 @@ void IdentifyVersion(void)
     // logger::error ("Game mode indeterminate\n");
 }
 
-void init(void)
+void init( void )
 {
     int p;
     std::string file;
@@ -168,31 +168,31 @@ void init(void)
 
     modifiedgame = false;
 
-    nomonsters = arguments::has("-nomonsters");
-    respawnparm = arguments::has("-respawn");
-    fastparm = arguments::has("-fast");
-    if (arguments::has("-altdeath"))
+    nomonsters = arguments::has( "-nomonsters" );
+    respawnparm = arguments::has( "-respawn" );
+    fastparm = arguments::has( "-fast" );
+    if ( arguments::has( "-altdeath" ) )
         deathmatch = 2;
-    else if (arguments::has("-deathmatch"))
+    else if ( arguments::has( "-deathmatch" ) )
         deathmatch = 1;
 
-    switch (gamemode)
+    switch ( gamemode )
     {
     case retail:
-        logger::info("The Ultimate DOOM Startup v{}.{}", VERSION / 100,
-                     VERSION % 100);
+        logger::info( "The Ultimate DOOM Startup v{}.{}", VERSION / 100,
+                      VERSION % 100 );
         break;
     case shareware:
-        logger::info("DOOM Shareware Startup v{}.{}", VERSION / 100,
-                     VERSION % 100);
+        logger::info( "DOOM Shareware Startup v{}.{}", VERSION / 100,
+                      VERSION % 100 );
         break;
     case registered:
-        logger::info("DOOM Registered Startup v{}.{}", VERSION / 100,
-                     VERSION % 100);
+        logger::info( "DOOM Registered Startup v{}.{}", VERSION / 100,
+                      VERSION % 100 );
         break;
     case commercial:
-        logger::info("DOOM 2: Hell on Earth v{}.{}", VERSION / 100,
-                     VERSION % 100);
+        logger::info( "DOOM 2: Hell on Earth v{}.{}", VERSION / 100,
+                      VERSION % 100 );
         break;
         /*FIXME
                case pack_plut:
@@ -211,26 +211,26 @@ void init(void)
                 break;
         */
     default:
-        logger::info("Public DOOM v{}.{}", VERSION / 100, VERSION % 100);
+        logger::info( "Public DOOM v{}.{}", VERSION / 100, VERSION % 100 );
         break;
     }
 
 #if !NDEBUG
-    printf(D_DEVSTR);
+    printf( D_DEVSTR );
 #endif
 
     // turbo option
-    if ((p = arguments::has("-turbo")))
+    if ( ( p = arguments::has( "-turbo" ) ) )
     {
         int scale = 200;
 
-        if (p < arguments::count() - 1)
-            scale = atoi(arguments::at(p + 1).data());
-        if (scale < 10)
+        if ( p < arguments::count() - 1 )
+            scale = atoi( arguments::at( p + 1 ).data() );
+        if ( scale < 10 )
             scale = 10;
-        if (scale > 400)
+        if ( scale > 400 )
             scale = 400;
-        logger::info("turbo scale: {}%%\n", scale);
+        logger::info( "turbo scale: {}%%\n", scale );
         forwardmove[0] = forwardmove[0] * scale / 100;
         forwardmove[1] = forwardmove[1] * scale / 100;
         sidemove[0] = sidemove[0] * scale / 100;
@@ -242,14 +242,14 @@ void init(void)
     //
     // convenience hack to allow -wart e m to add a wad file
     // prepend a tilde to the filename so wadfile will be reloadable
-    p = arguments::has("-wart");
-    if (p)
+    p = arguments::has( "-wart" );
+    if ( p )
     {
         // @TODO JONNY
         // arguments::at(p)[4] = 'p'; // big hack, change to -warp
 
         // Map name handling.
-        switch (gamemode)
+        switch ( gamemode )
         {
         case shareware:
         case retail:
@@ -263,8 +263,8 @@ void init(void)
 
         case commercial:
         default:
-            p = atoi(arguments::at(p + 1).data());
-            if (p < 10)
+            p = atoi( arguments::at( p + 1 ).data() );
+            if ( p < 10 )
             {
             }
             // snprintf(file, 256, "~/cdata/map0%i.wad", p);
@@ -274,29 +274,29 @@ void init(void)
             // snprintf(file, 256, "~/cdata/map%i.wad", p);
             break;
         }
-        wadfilenames.emplace_back(file);
+        wadfilenames.emplace_back( file );
     }
 
-    p = arguments::has("-file");
-    if (p)
+    p = arguments::has( "-file" );
+    if ( p )
     {
         // the parms after p are wadfile/lump names,
         // until end of parms or another - preceded parm
         modifiedgame = true; // homebrew levels
-        while (++p != arguments::count() && arguments::at(p)[0] != '-')
-            wadfilenames.emplace_back(arguments::at(p).data());
+        while ( ++p != arguments::count() && arguments::at( p )[0] != '-' )
+            wadfilenames.emplace_back( arguments::at( p ).data() );
     }
 
-    p = arguments::has("-playdemo");
+    p = arguments::has( "-playdemo" );
 
-    if (!p)
-        p = arguments::has("-timedemo");
+    if ( !p )
+        p = arguments::has( "-timedemo" );
 
-    if (p && p < arguments::count() - 1)
+    if ( p && p < arguments::count() - 1 )
     {
         // snprintf(file, 256, "%s.lmp", arguments::at(p + 1).c_str());
-        wadfilenames.emplace_back(file);
-        printf("Playing demo %s.lmp.\n", arguments::at(p + 1).data());
+        wadfilenames.emplace_back( file );
+        printf( "Playing demo %s.lmp.\n", arguments::at( p + 1 ).data() );
     }
 
     // get skill / episode / map from parms
@@ -305,45 +305,45 @@ void init(void)
     startmap = 1;
     autostart = false;
 
-    p = arguments::has("-skill");
-    if (p && p < arguments::count() - 1)
+    p = arguments::has( "-skill" );
+    if ( p && p < arguments::count() - 1 )
     {
-        startskill = static_cast<skill_t>(arguments::at(p + 1)[0] - '1');
+        startskill = static_cast<skill_t>( arguments::at( p + 1 )[0] - '1' );
         autostart = true;
     }
 
-    p = arguments::has("-episode");
-    if (p && p < arguments::count() - 1)
+    p = arguments::has( "-episode" );
+    if ( p && p < arguments::count() - 1 )
     {
-        startepisode = arguments::at(p + 1)[0] - '0';
+        startepisode = arguments::at( p + 1 )[0] - '0';
         startmap = 1;
         autostart = true;
     }
 
-    p = arguments::has("-timer");
-    if (p && p < arguments::count() - 1 && deathmatch)
+    p = arguments::has( "-timer" );
+    if ( p && p < arguments::count() - 1 && deathmatch )
     {
         int time;
-        time = atoi(arguments::at(p + 1).data());
-        printf("Levels will end after %d minute", time);
-        if (time > 1)
-            printf("s");
-        printf(".\n");
+        time = atoi( arguments::at( p + 1 ).data() );
+        printf( "Levels will end after %d minute", time );
+        if ( time > 1 )
+            printf( "s" );
+        printf( ".\n" );
     }
 
-    p = arguments::has("-avg");
-    if (p && p < arguments::count() - 1 && deathmatch)
-        printf("Austin Virtual Gaming: Levels will end after 20 minutes\n");
+    p = arguments::has( "-avg" );
+    if ( p && p < arguments::count() - 1 && deathmatch )
+        printf( "Austin Virtual Gaming: Levels will end after 20 minutes\n" );
 
-    p = arguments::has("-warp");
-    if (p && p < arguments::count() - 1)
+    p = arguments::has( "-warp" );
+    if ( p && p < arguments::count() - 1 )
     {
-        if (gamemode == commercial)
-            startmap = atoi(arguments::at(p + 1).data());
+        if ( gamemode == commercial )
+            startmap = atoi( arguments::at( p + 1 ).data() );
         else
         {
-            startepisode = arguments::at(p + 1)[0] - '0';
-            startmap = arguments::at(p + 2)[0] - '0';
+            startepisode = arguments::at( p + 1 )[0] - '0';
+            startmap = arguments::at( p + 2 )[0] - '0';
         }
         autostart = true;
     }
@@ -351,35 +351,35 @@ void init(void)
     // init subsystems
     M_LoadDefaults(); // load before initing other systems
 
-    logger::info("W_Init: Init WADfiles.");
-    W_InitMultipleFiles(wadfilenames);
+    logger::info( "W_Init: Init WADfiles." );
+    W_InitMultipleFiles( wadfilenames );
 
     // Check for -file in shareware
-    if (modifiedgame)
+    if ( modifiedgame )
     {
         // These are the lumps that will be checked in IWAD,
         // if any one is not present, execution will be aborted.
-        std::array name = {"e2m1",   "e2m2",   "e2m3",    "e2m4",   "e2m5",
-                           "e2m6",   "e2m7",   "e2m8",    "e2m9",   "e3m1",
-                           "e3m3",   "e3m3",   "e3m4",    "e3m5",   "e3m6",
-                           "e3m7",   "e3m8",   "e3m9",    "dphoof", "bfgga0",
-                           "heada1", "cybra1", "spida1d1"};
+        std::array name = { "e2m1",   "e2m2",   "e2m3",    "e2m4",   "e2m5",
+                            "e2m6",   "e2m7",   "e2m8",    "e2m9",   "e3m1",
+                            "e3m3",   "e3m3",   "e3m4",    "e3m5",   "e3m6",
+                            "e3m7",   "e3m8",   "e3m9",    "dphoof", "bfgga0",
+                            "heada1", "cybra1", "spida1d1" };
         int i;
 
-        if (gamemode == shareware)
-            logger::error("\nYou cannot -file with the shareware "
-                          "version. Register!");
+        if ( gamemode == shareware )
+            logger::error( "\nYou cannot -file with the shareware "
+                           "version. Register!" );
 
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version.
-        if (gamemode == registered)
-            for (i = 0; i < 23; i++)
-                if (W_CheckNumForName(name[i]) < 0)
-                    logger::error("\nThis is not the registered version.");
+        if ( gamemode == registered )
+            for ( i = 0; i < 23; i++ )
+                if ( W_CheckNumForName( name[i] ) < 0 )
+                    logger::error( "\nThis is not the registered version." );
     }
 
     // Iff additonal PWAD files are used, print modified banner
-    if (modifiedgame)
+    if ( modifiedgame )
     {
         /*m*/ printf(
             "=================================================================="
@@ -395,35 +395,37 @@ void init(void)
             "                      press enter to continue\n"
             "=================================================================="
             "===="
-            "=====\n");
+            "=====\n" );
         getchar();
     }
 
     // Check and print which version is executed.
-    switch (gamemode)
+    switch ( gamemode )
     {
     case shareware:
     case indetermined:
-        printf("==============================================================="
-               "===="
-               "========\n"
-               "                                Shareware!\n"
-               "==============================================================="
-               "===="
-               "========\n");
+        printf(
+            "==============================================================="
+            "===="
+            "========\n"
+            "                                Shareware!\n"
+            "==============================================================="
+            "===="
+            "========\n" );
         break;
     case registered:
     case retail:
     case commercial:
-        printf("==============================================================="
-               "===="
-               "========\n"
-               "                 Commercial product - do not distribute!\n"
-               "         Please report software piracy to the SPA: "
-               "1-800-388-PIR8\n"
-               "==============================================================="
-               "===="
-               "========\n");
+        printf(
+            "==============================================================="
+            "===="
+            "========\n"
+            "                 Commercial product - do not distribute!\n"
+            "         Please report software piracy to the SPA: "
+            "1-800-388-PIR8\n"
+            "==============================================================="
+            "===="
+            "========\n" );
         break;
 
     default:
@@ -433,69 +435,70 @@ void init(void)
 
     M_Init();
 
-    printf("R_Init: Init DOOM refresh daemon - ");
+    printf( "R_Init: Init DOOM refresh daemon - " );
     R_Init();
 
-    printf("\nP_Init: Init Playloop state.\n");
+    printf( "\nP_Init: Init Playloop state.\n" );
     P_Init();
 
     I_InitSound();
 
-    printf("I_Init: Setting up machine state.\n");
+    printf( "I_Init: Setting up machine state.\n" );
     I_Init();
 
-    printf("D_CheckNetGame: Checking network game status.\n");
+    printf( "D_CheckNetGame: Checking network game status.\n" );
     D_CheckNetGame();
 
-    printf("S_Init: Setting up sound.\n");
-    S_Init(snd_SfxVolume /* *8 */, snd_MusicVolume /* *8*/);
+    printf( "S_Init: Setting up sound.\n" );
+    S_Init( snd_SfxVolume /* *8 */, snd_MusicVolume /* *8*/ );
 
-    printf("HU_Init: Setting up heads up display.\n");
+    printf( "HU_Init: Setting up heads up display.\n" );
     HU_Init();
 
-    printf("ST_Init: Init status bar.\n");
+    printf( "ST_Init: Init status bar.\n" );
     ST_Init();
 
     // start the apropriate game based on parms
-    p = arguments::has("-record");
+    p = arguments::has( "-record" );
 
-    if (p && p < arguments::count() - 1)
+    if ( p && p < arguments::count() - 1 )
     {
-        G_RecordDemo(arguments::at(p + 1));
+        G_RecordDemo( arguments::at( p + 1 ) );
         autostart = true;
     }
 
-    p = arguments::has("-playdemo");
-    if (p && p < arguments::count() - 1)
+    p = arguments::has( "-playdemo" );
+    if ( p && p < arguments::count() - 1 )
     {
         singledemo = true; // quit after one demo
-        G_DeferedPlayDemo(arguments::at(p + 1));
+        G_DeferedPlayDemo( arguments::at( p + 1 ) );
         return;
     }
 
-    p = arguments::has("-timedemo");
-    if (p && p < arguments::count() - 1)
+    p = arguments::has( "-timedemo" );
+    if ( p && p < arguments::count() - 1 )
     {
-        G_TimeDemo(arguments::at(p + 1));
+        G_TimeDemo( arguments::at( p + 1 ) );
         return;
     }
 
-    p = arguments::has("-loadgame");
-    if (p && p < arguments::count() - 1)
+    p = arguments::has( "-loadgame" );
+    if ( p && p < arguments::count() - 1 )
     {
-        file = std::format("{}{}.dsg", SAVEGAMENAME, arguments::at(p + 1)[0]);
-        G_LoadGame(file);
+        file =
+            std::format( "{}{}.dsg", SAVEGAMENAME, arguments::at( p + 1 )[0] );
+        G_LoadGame( file );
     }
 
-    if (gameaction != gameaction_t::ga_loadgame)
+    if ( gameaction != gameaction_t::ga_loadgame )
     {
-        if (autostart || netgame)
-            G_InitNew(startskill, startepisode, startmap);
+        if ( autostart || netgame )
+            G_InitNew( startskill, startepisode, startmap );
         else
             D_StartTitle(); // start up intro loop
     }
 
-    if (demorecording)
+    if ( demorecording )
         G_BeginRecording();
 
     I_InitGraphics();
@@ -504,12 +507,12 @@ void init(void)
 void update()
 {
     // process one or more tics
-    if (singletics)
+    if ( singletics )
     {
         I_StartTic();
         D_ProcessEvents();
-        G_BuildTiccmd(&netcmds[consoleplayer][maketic % BACKUPTICS]);
-        if (advancedemo)
+        G_BuildTiccmd( &netcmds[consoleplayer][maketic % BACKUPTICS] );
+        if ( advancedemo )
             D_DoAdvanceDemo();
         M_Ticker();
         G_Ticker();
@@ -518,13 +521,13 @@ void update()
     }
     else
     {
-        if (advancedemo)
+        if ( advancedemo )
             D_DoAdvanceDemo();
         D_ProcessEvents();
         TryRunTics(); // will run at least one tic
     }
 
-    S_UpdateSounds(players[consoleplayer].mo); // move positional sounds
+    S_UpdateSounds( players[consoleplayer].mo ); // move positional sounds
 
     // Update display, next frame, with current state.
     D_Display();

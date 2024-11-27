@@ -35,23 +35,28 @@ import doom;
 
 // For some odd reason...
 #ifndef ntohl
-#define ntohl(x)                                                               \
-    ((unsigned long int)((((unsigned long int)(x) & 0x000000ffU) << 24) |      \
-                         (((unsigned long int)(x) & 0x0000ff00U) << 8) |       \
-                         (((unsigned long int)(x) & 0x00ff0000U) >> 8) |       \
-                         (((unsigned long int)(x) & 0xff000000U) >> 24)))
+#define ntohl( x )                                                             \
+    ( (unsigned long int)( ( ( (unsigned long int)( x ) & 0x000000ffU )        \
+                             << 24 ) |                                         \
+                           ( ( (unsigned long int)( x ) & 0x0000ff00U )        \
+                             << 8 ) |                                          \
+                           ( ( (unsigned long int)( x ) & 0x00ff0000U ) >>     \
+                             8 ) |                                             \
+                           ( ( (unsigned long int)( x ) & 0xff000000U ) >>     \
+                             24 ) ) )
 #endif
 #ifndef ntohs
-#define ntohs(x)                                                               \
-    ((unsigned short int)((((unsigned short int)(x) & 0x00ff) << 8) |          \
-                          (((unsigned short int)(x) & 0xff00) >> 8)))
+#define ntohs( x )                                                             \
+    ( (unsigned short int)( ( ( (unsigned short int)( x ) & 0x00ff ) << 8 ) |  \
+                            ( ( (unsigned short int)( x ) & 0xff00 ) >>        \
+                              8 ) ) )
 
 #endif
 #ifndef htonl
-#define htonl(x) ntohl(x)
+#define htonl( x ) ntohl( x )
 #endif
 #ifndef htons
-#define htons(x) ntohs(x)
+#define htons( x ) ntohs( x )
 #endif
 
 export constexpr auto DOOMCOM_ID = 0x12345678l;
@@ -145,21 +150,21 @@ int insocket;
 
 // struct	sockaddr_in	sendaddress[MAXNETNODES];
 
-void (*netget)(void);
+void ( *netget )( void );
 
-void (*netsend)(void);
+void ( *netsend )( void );
 
 //
 // UDPsocket
 //
-int UDPsocket(void)
+int UDPsocket( void )
 {
     int s{};
 
     // allocate a socket
     //    s = socket (PF_INET, SOCK_DGRAM, IPPROTO_UDP);
     //    if (s<0)
-    logger::error("can't create socket: {}", strerror(errno));
+    logger::error( "can't create socket: {}", strerror( errno ) );
 
     return s;
 }
@@ -167,7 +172,7 @@ int UDPsocket(void)
 //
 // BindToLocalPort
 //
-void BindToLocalPort(int s, int port)
+void BindToLocalPort( int s, int port )
 {
     //    struct sockaddr_in	address;
 
@@ -178,29 +183,29 @@ void BindToLocalPort(int s, int port)
     // JONNY TODO
     // v = bind (s, (void *)&address, sizeof(address));
     // if (v == -1)
-    logger::error("BindToPort: bind: %s", strerror(errno));
+    logger::error( "BindToPort: bind: %s", strerror( errno ) );
 }
 
 //
 // PacketSend
 //
-void PacketSend(void)
+void PacketSend( void )
 {
     int c;
     doomdata_t sw;
 
     // byte swap
-    sw.checksum = htonl(netbuffer->checksum);
+    sw.checksum = htonl( netbuffer->checksum );
     sw.player = netbuffer->player;
     sw.retransmitfrom = netbuffer->retransmitfrom;
     sw.starttic = netbuffer->starttic;
     sw.numtics = netbuffer->numtics;
-    for (c = 0; c < static_cast<int>(netbuffer->numtics); c++)
+    for ( c = 0; c < static_cast<int>( netbuffer->numtics ); c++ )
     {
         sw.cmds[c].forwardmove = netbuffer->cmds[c].forwardmove;
         sw.cmds[c].sidemove = netbuffer->cmds[c].sidemove;
-        sw.cmds[c].angleturn = htons(netbuffer->cmds[c].angleturn);
-        sw.cmds[c].consistancy = htons(netbuffer->cmds[c].consistancy);
+        sw.cmds[c].angleturn = htons( netbuffer->cmds[c].angleturn );
+        sw.cmds[c].consistancy = htons( netbuffer->cmds[c].consistancy );
         sw.cmds[c].chatchar = netbuffer->cmds[c].chatchar;
         sw.cmds[c].buttons = netbuffer->cmds[c].buttons;
     }
@@ -218,10 +223,10 @@ void PacketSend(void)
 //
 // PacketGet
 //
-void PacketGet(void)
+void PacketGet( void )
 {
     int i;
-    int c{-1};
+    int c{ -1 };
     //    struct sockaddr_in	fromaddress;
     doomdata_t sw{};
 
@@ -229,29 +234,29 @@ void PacketGet(void)
     // fromlen = sizeof(fromaddress);
     // c = recvfrom (insocket, &sw, sizeof(sw), 0
     //	  , (struct sockaddr *)&fromaddress, &fromlen );
-    if (c == -1)
+    if ( c == -1 )
     {
-        if (errno != EWOULDBLOCK)
-            logger::error("GetPacket: %s", strerror(errno));
+        if ( errno != EWOULDBLOCK )
+            logger::error( "GetPacket: %s", strerror( errno ) );
         doomcom.remotenode = -1; // no packet
         return;
     }
 
     {
         static int first = 1;
-        if (first)
+        if ( first )
             //	    printf("len=%d:p=[0x%x 0x%x] \n", c, *(int*)&sw,
             //*((int*)&sw+1));
             first = 0;
     }
 
     // find remote node number
-    for (i = 0; i < doomcom.numnodes; i++)
+    for ( i = 0; i < doomcom.numnodes; i++ )
         //	if ( fromaddress.sin_addr.s_addr ==
         // sendaddress[i].sin_addr.s_addr )
         break;
 
-    if (i == doomcom.numnodes)
+    if ( i == doomcom.numnodes )
     {
         // packet is not from one of the players (new game broadcast)
         doomcom.remotenode = -1; // no packet
@@ -262,24 +267,24 @@ void PacketGet(void)
     doomcom.datalength = c;
 
     // byte swap
-    netbuffer->checksum = ntohl(sw.checksum);
+    netbuffer->checksum = ntohl( sw.checksum );
     netbuffer->player = sw.player;
     netbuffer->retransmitfrom = sw.retransmitfrom;
     netbuffer->starttic = sw.starttic;
     netbuffer->numtics = sw.numtics;
 
-    for (c = 0; c < static_cast<int>(netbuffer->numtics); c++)
+    for ( c = 0; c < static_cast<int>( netbuffer->numtics ); c++ )
     {
         netbuffer->cmds[c].forwardmove = sw.cmds[c].forwardmove;
         netbuffer->cmds[c].sidemove = sw.cmds[c].sidemove;
-        netbuffer->cmds[c].angleturn = ntohs(sw.cmds[c].angleturn);
-        netbuffer->cmds[c].consistancy = ntohs(sw.cmds[c].consistancy);
+        netbuffer->cmds[c].angleturn = ntohs( sw.cmds[c].angleturn );
+        netbuffer->cmds[c].consistancy = ntohs( sw.cmds[c].consistancy );
         netbuffer->cmds[c].chatchar = sw.cmds[c].chatchar;
         netbuffer->cmds[c].buttons = sw.cmds[c].buttons;
     }
 }
 
-int GetLocalAddress(void)
+int GetLocalAddress( void )
 {
     char hostname[1024];
     struct hostent *hostentry; // host information entry
@@ -288,11 +293,11 @@ int GetLocalAddress(void)
     // get local address
     //    v = gethostname (hostname, sizeof(hostname));
     //    if (v == -1)
-    logger::error("GetLocalAddress : gethostname: errno %d", errno);
+    logger::error( "GetLocalAddress : gethostname: errno %d", errno );
 
     //    hostentry = gethostbyname (hostname);
     //   if (!hostentry)
-    logger::error("GetLocalAddress : gethostbyname: couldn't get local host");
+    logger::error( "GetLocalAddress : gethostbyname: couldn't get local host" );
 
     //    return *(int *)hostentry->h_addr_list[0];
     return {};
@@ -301,7 +306,7 @@ int GetLocalAddress(void)
 //
 // I_InitNetwork
 //
-void I_InitNetwork(void)
+void I_InitNetwork( void )
 {
     bool trueval = true;
     int i;
@@ -309,25 +314,25 @@ void I_InitNetwork(void)
     struct hostent *hostentry; // host information entry
 
     // set up for network
-    i = arguments::has("-dup");
-    if (i && i < arguments::count() - 1)
+    i = arguments::has( "-dup" );
+    if ( i && i < arguments::count() - 1 )
     {
-        doomcom.ticdup = arguments::at(i + 1)[0] - '0';
-        if (doomcom.ticdup < 1)
+        doomcom.ticdup = arguments::at( i + 1 )[0] - '0';
+        if ( doomcom.ticdup < 1 )
             doomcom.ticdup = 1;
-        if (doomcom.ticdup > 9)
+        if ( doomcom.ticdup > 9 )
             doomcom.ticdup = 9;
     }
     else
         doomcom.ticdup = 1;
 
-    if (arguments::has("-extratic"))
+    if ( arguments::has( "-extratic" ) )
         doomcom.extratics = 1;
     else
         doomcom.extratics = 0;
 
-    p = arguments::has("-port");
-    if (p && p < arguments::count() - 1)
+    p = arguments::has( "-port" );
+    if ( p && p < arguments::count() - 1 )
     {
         //	DOOMPORT = atoi (arguments::at(p+1).c_str());
         //	printf ("using alternate port {}\n",DOOMPORT);
@@ -335,8 +340,8 @@ void I_InitNetwork(void)
 
     // parse network game options,
     //  -net <consoleplayer> <host> <host> ...
-    i = arguments::has("-net");
-    if (!i)
+    i = arguments::has( "-net" );
+    if ( !i )
     {
         // single player game
         netgame = false;
@@ -352,16 +357,16 @@ void I_InitNetwork(void)
     netgame = true;
 
     // parse player number and host list
-    doomcom.consoleplayer = arguments::at(i + 1)[0] - '1';
+    doomcom.consoleplayer = arguments::at( i + 1 )[0] - '1';
 
     doomcom.numnodes = 1; // this node for sure
 
     i++;
-    while (++i < arguments::count() && arguments::at(i)[0] != '-')
+    while ( ++i < arguments::count() && arguments::at( i )[0] != '-' )
     {
         //	sendaddress[doomcom.numnodes].sin_family = AF_INET;
         //	sendaddress[doomcom.numnodes].sin_port = htons(DOOMPORT);
-        if (arguments::at(i)[0] == '.')
+        if ( arguments::at( i )[0] == '.' )
         {
             //	    sendaddress[doomcom.numnodes].sin_addr.s_addr
             //		= inet_addr (arguments::at(i+1).c_str());
@@ -370,8 +375,8 @@ void I_InitNetwork(void)
         {
             //	    hostentry = gethostbyname (arguments::at(i).c_str());
             //	    if (!hostentry)
-            logger::error("gethostbyname: couldn't find %s",
-                          arguments::at(i).data());
+            logger::error( "gethostbyname: couldn't find %s",
+                           arguments::at( i ).data() );
             //	    sendaddress[doomcom.numnodes].sin_addr.s_addr
             //		= *(int *)hostentry->h_addr_list[0];
         }
@@ -389,18 +394,18 @@ void I_InitNetwork(void)
     sendsocket = UDPsocket();
 }
 
-void I_NetCmd(void)
+void I_NetCmd( void )
 {
-    if (doomcom.command == CMD_SEND)
+    if ( doomcom.command == CMD_SEND )
     {
         netsend();
     }
-    else if (doomcom.command == CMD_GET)
+    else if ( doomcom.command == CMD_GET )
     {
         netget();
     }
     else
-        logger::error("Bad net cmd: {}\n", doomcom.command);
+        logger::error( "Bad net cmd: {}\n", doomcom.command );
 }
 
 //
@@ -455,7 +460,7 @@ doomdata_t reboundstore;
 //
 //
 //
-int NetbufferSize(void)
+int NetbufferSize( void )
 {
     // JONNY TODO
     // return (int)&(((doomdata_t *)0)->cmds[netbuffer->numtics]);
@@ -465,7 +470,7 @@ int NetbufferSize(void)
 //
 // Checksum
 //
-unsigned NetbufferChecksum(void)
+unsigned NetbufferChecksum( void )
 {
     unsigned c;
 
@@ -487,42 +492,42 @@ unsigned NetbufferChecksum(void)
 //
 //
 //
-int ExpandTics(int low)
+int ExpandTics( int low )
 {
     int delta;
 
-    delta = low - (maketic & 0xff);
+    delta = low - ( maketic & 0xff );
 
-    if (delta >= -64 && delta <= 64)
-        return (maketic & ~0xff) + low;
-    if (delta > 64)
-        return (maketic & ~0xff) - 256 + low;
-    if (delta < -64)
-        return (maketic & ~0xff) + 256 + low;
+    if ( delta >= -64 && delta <= 64 )
+        return ( maketic & ~0xff ) + low;
+    if ( delta > 64 )
+        return ( maketic & ~0xff ) - 256 + low;
+    if ( delta < -64 )
+        return ( maketic & ~0xff ) + 256 + low;
 
-    logger::error("ExpandTics: strange value {} at maketic {}", low, maketic);
+    logger::error( "ExpandTics: strange value {} at maketic {}", low, maketic );
     return 0;
 }
 
 //
 // HSendPacket
 //
-void HSendPacket(int node, int flags)
+void HSendPacket( int node, int flags )
 {
     netbuffer->checksum = NetbufferChecksum() | flags;
 
-    if (!node)
+    if ( !node )
     {
         reboundstore = *netbuffer;
         reboundpacket = true;
         return;
     }
 
-    if (demoplayback)
+    if ( demoplayback )
         return;
 
-    if (!netgame)
-        logger::error("Tried to transmit to another node");
+    if ( !netgame )
+        logger::error( "Tried to transmit to another node" );
 
     doomcom.command = CMD_SEND;
     doomcom.remotenode = node;
@@ -535,9 +540,9 @@ void HSendPacket(int node, int flags)
 // HGetPacket
 // Returns false if no packet is waiting
 //
-bool HGetPacket(void)
+bool HGetPacket( void )
 {
-    if (reboundpacket)
+    if ( reboundpacket )
     {
         *netbuffer = reboundstore;
         doomcom.remotenode = 0;
@@ -545,24 +550,24 @@ bool HGetPacket(void)
         return true;
     }
 
-    if (!netgame)
+    if ( !netgame )
         return false;
 
-    if (demoplayback)
+    if ( demoplayback )
         return false;
 
     doomcom.command = CMD_GET;
     I_NetCmd();
 
-    if (doomcom.remotenode == -1)
+    if ( doomcom.remotenode == -1 )
         return false;
 
-    if (doomcom.datalength != NetbufferSize())
+    if ( doomcom.datalength != NetbufferSize() )
     {
         return false;
     }
 
-    if (NetbufferChecksum() != (netbuffer->checksum & NCMD_CHECKSUM))
+    if ( NetbufferChecksum() != ( netbuffer->checksum & NCMD_CHECKSUM ) )
     {
         return false;
     }
@@ -574,7 +579,7 @@ bool HGetPacket(void)
 //
 char exitmsg[80];
 
-void GetPackets(void)
+void GetPackets( void )
 {
     int netconsole;
     int netnode;
@@ -582,27 +587,27 @@ void GetPackets(void)
     int realend;
     int realstart;
 
-    while (HGetPacket())
+    while ( HGetPacket() )
     {
-        if (netbuffer->checksum & NCMD_SETUP)
+        if ( netbuffer->checksum & NCMD_SETUP )
             continue; // extra setup packet
 
-        netconsole = static_cast<int>(netbuffer->player) & ~PL_DRONE;
+        netconsole = static_cast<int>( netbuffer->player ) & ~PL_DRONE;
         netnode = doomcom.remotenode;
 
         // to save bytes, only the low byte of tic numbers are sent
         // Figure out what the rest of the bytes are
-        realstart = ExpandTics(static_cast<int>(netbuffer->starttic));
-        realend = (realstart + static_cast<int>(netbuffer->numtics));
+        realstart = ExpandTics( static_cast<int>( netbuffer->starttic ) );
+        realend = ( realstart + static_cast<int>( netbuffer->numtics ) );
 
         // check for exiting the game
-        if (netbuffer->checksum & NCMD_EXIT)
+        if ( netbuffer->checksum & NCMD_EXIT )
         {
-            if (!nodeingame[netnode])
+            if ( !nodeingame[netnode] )
                 continue;
             nodeingame[netnode] = false;
             playeringame[netconsole] = false;
-            strcpy(exitmsg, "Player 1 left the game");
+            strcpy( exitmsg, "Player 1 left the game" );
             exitmsg[7] += netconsole;
             players[consoleplayer].message = exitmsg;
             // TODO JONNY circular dependency
@@ -612,33 +617,33 @@ void GetPackets(void)
         }
 
         // check for a remote game kill
-        if (netbuffer->checksum & NCMD_KILL)
-            logger::error("Killed by network driver");
+        if ( netbuffer->checksum & NCMD_KILL )
+            logger::error( "Killed by network driver" );
 
         nodeforplayer[netconsole] = netnode;
 
         // check for retransmit request
-        if (resendcount[netnode] <= 0 &&
-            (netbuffer->checksum & NCMD_RETRANSMIT))
+        if ( resendcount[netnode] <= 0 &&
+             ( netbuffer->checksum & NCMD_RETRANSMIT ) )
         {
             resendto[netnode] =
-                ExpandTics(static_cast<int>(netbuffer->retransmitfrom));
+                ExpandTics( static_cast<int>( netbuffer->retransmitfrom ) );
             resendcount[netnode] = RESENDCOUNT;
         }
         else
             resendcount[netnode]--;
 
         // check for out of order / duplicated packet
-        if (realend == nettics[netnode])
+        if ( realend == nettics[netnode] )
             continue;
 
-        if (realend < nettics[netnode])
+        if ( realend < nettics[netnode] )
         {
             continue;
         }
 
         // check for a missed packet
-        if (realstart > nettics[netnode])
+        if ( realstart > nettics[netnode] )
         {
             // stop processing until the other system resends the missed tics
             remoteresend[netnode] = true;
@@ -654,7 +659,7 @@ void GetPackets(void)
             start = nettics[netnode] - realstart;
             src = &netbuffer->cmds[start];
 
-            while (nettics[netnode] < realend)
+            while ( nettics[netnode] < realend )
             {
                 dest = &netcmds[netconsole][nettics[netnode] % BACKUPTICS];
                 nettics[netnode]++;
@@ -672,7 +677,7 @@ void GetPackets(void)
 //
 int gametime;
 
-export void NetUpdate(void)
+export void NetUpdate( void )
 {
     int nowtime;
     int newtics;
@@ -685,10 +690,10 @@ export void NetUpdate(void)
     newtics = nowtime - gametime;
     gametime = nowtime;
 
-    if (newtics <= 0) // nothing new to update
+    if ( newtics <= 0 ) // nothing new to update
         goto listen;
 
-    if (skiptics <= newtics)
+    if ( skiptics <= newtics )
     {
         newtics -= skiptics;
         skiptics = 0;
@@ -699,18 +704,18 @@ export void NetUpdate(void)
         newtics = 0;
     }
 
-    netbuffer->player = static_cast<std::byte>(consoleplayer);
+    netbuffer->player = static_cast<std::byte>( consoleplayer );
 
     // build new ticcmds for console player
     gameticdiv = gametic / ticdup;
-    for (i = 0; i < newtics; i++)
+    for ( i = 0; i < newtics; i++ )
     {
         I_StartTic();
-        if (maketic - gameticdiv >= BACKUPTICS / 2 - 1)
+        if ( maketic - gameticdiv >= BACKUPTICS / 2 - 1 )
             break; // can't hold any more
 
         // printf ("mk:%i ",maketic);
-        G_BuildTiccmd(&localcmds[maketic % BACKUPTICS]);
+        G_BuildTiccmd( &localcmds[maketic % BACKUPTICS] );
         maketic++;
     }
 
@@ -719,29 +724,30 @@ export void NetUpdate(void)
     // return; // singletic update is syncronous
 
     // send the packet to the other nodes
-    for (i = 0; i < doomcom.numnodes; i++)
-        if (nodeingame[i])
+    for ( i = 0; i < doomcom.numnodes; i++ )
+        if ( nodeingame[i] )
         {
             realstart = resendto[i];
-            netbuffer->starttic = static_cast<std::byte>(realstart);
-            netbuffer->numtics = static_cast<std::byte>(maketic - realstart);
-            if (static_cast<int>(netbuffer->numtics) > BACKUPTICS)
-                logger::error("NetUpdate: netbuffer->numtics > BACKUPTICS");
+            netbuffer->starttic = static_cast<std::byte>( realstart );
+            netbuffer->numtics = static_cast<std::byte>( maketic - realstart );
+            if ( static_cast<int>( netbuffer->numtics ) > BACKUPTICS )
+                logger::error( "NetUpdate: netbuffer->numtics > BACKUPTICS" );
 
             resendto[i] = maketic - doomcom.extratics;
 
-            for (j = 0; j < static_cast<int>(netbuffer->numtics); j++)
-                netbuffer->cmds[j] = localcmds[(realstart + j) % BACKUPTICS];
+            for ( j = 0; j < static_cast<int>( netbuffer->numtics ); j++ )
+                netbuffer->cmds[j] = localcmds[( realstart + j ) % BACKUPTICS];
 
-            if (remoteresend[i])
+            if ( remoteresend[i] )
             {
-                netbuffer->retransmitfrom = static_cast<std::byte>(nettics[i]);
-                HSendPacket(i, NCMD_RETRANSMIT);
+                netbuffer->retransmitfrom =
+                    static_cast<std::byte>( nettics[i] );
+                HSendPacket( i, NCMD_RETRANSMIT );
             }
             else
             {
-                netbuffer->retransmitfrom = std::byte{0};
-                HSendPacket(i, 0);
+                netbuffer->retransmitfrom = std::byte{ 0 };
+                HSendPacket( i, 0 );
             }
         }
 
@@ -753,13 +759,13 @@ listen:
 //
 // CheckAbort
 //
-void CheckAbort(void)
+void CheckAbort( void )
 {
     int stoptic{};
 
     // TODO JONNY circular dependency
     // stoptic = I_GetTime() + 2;
-    while (I_GetTime() < stoptic)
+    while ( I_GetTime() < stoptic )
         I_StartTic();
 
     I_StartTic();
@@ -777,29 +783,29 @@ void CheckAbort(void)
 //
 // D_ArbitrateNetStart
 //
-void D_ArbitrateNetStart(void)
+void D_ArbitrateNetStart( void )
 {
     int i;
     bool gotinfo[MAXNETNODES];
 
     // TODO JONNY circular dependency
     // autostart = true;
-    memset(gotinfo, 0, sizeof(gotinfo));
+    memset( gotinfo, 0, sizeof( gotinfo ) );
 
-    if (doomcom.consoleplayer)
+    if ( doomcom.consoleplayer )
     {
         // listen for setup info from key player
-        printf("listening for network start info...\n");
-        while (1)
+        printf( "listening for network start info...\n" );
+        while ( 1 )
         {
             CheckAbort();
-            if (!HGetPacket())
+            if ( !HGetPacket() )
                 continue;
-            if (netbuffer->checksum & NCMD_SETUP)
+            if ( netbuffer->checksum & NCMD_SETUP )
             {
-                if (netbuffer->player != static_cast<std::byte>(VERSION))
+                if ( netbuffer->player != static_cast<std::byte>( VERSION ) )
                     logger::error(
-                        "Different DOOM versions cannot play a net game!");
+                        "Different DOOM versions cannot play a net game!" );
                 // TODO JONNY circular dependency
                 // startskill = static_cast<skill_t>(netbuffer->retransmitfrom &
                 //                                   static_cast
@@ -818,11 +824,11 @@ void D_ArbitrateNetStart(void)
     else
     {
         // key player, send the setup info
-        printf("sending network start info...\n");
+        printf( "sending network start info...\n" );
         do
         {
             CheckAbort();
-            for (i = 0; i < doomcom.numnodes; i++)
+            for ( i = 0; i < doomcom.numnodes; i++ )
             {
                 // TODO JONNY circular dependency
                 // netbuffer->retransmitfrom =
@@ -837,26 +843,28 @@ void D_ArbitrateNetStart(void)
                 // 64 + startmap); netbuffer->player =
                 // static_cast<std::byte>(VERSION); netbuffer->numtics =
                 // std::byte{0};
-                HSendPacket(i, NCMD_SETUP);
+                HSendPacket( i, NCMD_SETUP );
             }
 
 #if 1
-            for (i = 10; i && HGetPacket(); --i)
+            for ( i = 10; i && HGetPacket(); --i )
             {
-                if (int(netbuffer->player & std::byte{0x7f}) < MAXNETNODES)
-                    gotinfo[static_cast<int>(netbuffer->player) & 0x7f] = true;
+                if ( int( netbuffer->player & std::byte{ 0x7f } ) <
+                     MAXNETNODES )
+                    gotinfo[static_cast<int>( netbuffer->player ) & 0x7f] =
+                        true;
             }
 #else
-            while (HGetPacket())
+            while ( HGetPacket() )
             {
                 gotinfo[netbuffer->player & 0x7f] = true;
             }
 #endif
 
-            for (i = 1; i < doomcom.numnodes; i++)
-                if (!gotinfo[i])
+            for ( i = 1; i < doomcom.numnodes; i++ )
+                if ( !gotinfo[i] )
                     break;
-        } while (i < doomcom.numnodes);
+        } while ( i < doomcom.numnodes );
     }
 }
 
@@ -865,11 +873,11 @@ void D_ArbitrateNetStart(void)
 // Works out player numbers among the net participants
 //
 
-export void D_CheckNetGame(void)
+export void D_CheckNetGame( void )
 {
     int i;
 
-    for (i = 0; i < MAXNETNODES; i++)
+    for ( i = 0; i < MAXNETNODES; i++ )
     {
         nodeingame[i] = false;
         nettics[i] = 0;
@@ -879,12 +887,12 @@ export void D_CheckNetGame(void)
 
     // I_InitNetwork sets doomcom and netgame
     I_InitNetwork();
-    if (doomcom.id != DOOMCOM_ID)
-        logger::error("Doomcom buffer invalid!");
+    if ( doomcom.id != DOOMCOM_ID )
+        logger::error( "Doomcom buffer invalid!" );
 
     netbuffer = &doomcom.data;
     consoleplayer = displayplayer = doomcom.consoleplayer;
-    if (netgame)
+    if ( netgame )
         D_ArbitrateNetStart();
 
     // TODO JONNY circular dependency
@@ -893,17 +901,17 @@ export void D_CheckNetGame(void)
 
     // read values out of doomcom
     ticdup = doomcom.ticdup;
-    maxsend = BACKUPTICS / (2 * ticdup) - 1;
-    if (maxsend < 1)
+    maxsend = BACKUPTICS / ( 2 * ticdup ) - 1;
+    if ( maxsend < 1 )
         maxsend = 1;
 
-    for (i = 0; i < doomcom.numplayers; i++)
+    for ( i = 0; i < doomcom.numplayers; i++ )
         playeringame[i] = true;
-    for (i = 0; i < doomcom.numnodes; i++)
+    for ( i = 0; i < doomcom.numnodes; i++ )
         nodeingame[i] = true;
 
-    printf("player %i of %i (%i nodes)\n", consoleplayer + 1,
-           doomcom.numplayers, doomcom.numnodes);
+    printf( "player %i of %i (%i nodes)\n", consoleplayer + 1,
+            doomcom.numplayers, doomcom.numnodes );
 }
 
 //
@@ -911,21 +919,21 @@ export void D_CheckNetGame(void)
 // Called before quitting to leave a net game
 // without hanging the other players
 //
-void D_QuitNetGame(void)
+void D_QuitNetGame( void )
 {
     int i, j;
 
-    if (!netgame || !usergame || consoleplayer == -1 || demoplayback)
+    if ( !netgame || !usergame || consoleplayer == -1 || demoplayback )
         return;
 
     // send a bunch of packets for security
-    netbuffer->player = static_cast<std::byte>(consoleplayer);
-    netbuffer->numtics = std::byte{0};
-    for (i = 0; i < 4; i++)
+    netbuffer->player = static_cast<std::byte>( consoleplayer );
+    netbuffer->numtics = std::byte{ 0 };
+    for ( i = 0; i < 4; i++ )
     {
-        for (j = 1; j < doomcom.numnodes; j++)
-            if (nodeingame[j])
-                HSendPacket(j, NCMD_EXIT);
+        for ( j = 1; j < doomcom.numnodes; j++ )
+            if ( nodeingame[j] )
+                HSendPacket( j, NCMD_EXIT );
     }
 }
 
@@ -937,7 +945,7 @@ int frameon;
 int frameskip[4];
 int oldnettics;
 
-export void TryRunTics(void)
+export void TryRunTics( void )
 {
     int i;
     int lowtic;
@@ -956,50 +964,50 @@ export void TryRunTics(void)
     NetUpdate();
 
     lowtic = std::numeric_limits<int>::max();
-    for (i = 0; i < doomcom.numnodes; i++)
+    for ( i = 0; i < doomcom.numnodes; i++ )
     {
-        if (nodeingame[i])
+        if ( nodeingame[i] )
         {
-            if (nettics[i] < lowtic)
+            if ( nettics[i] < lowtic )
                 lowtic = nettics[i];
         }
     }
     availabletics = lowtic - gametic / ticdup;
 
     // decide how many tics to run
-    if (realtics < availabletics - 1)
+    if ( realtics < availabletics - 1 )
         counts = realtics + 1;
-    else if (realtics < availabletics)
+    else if ( realtics < availabletics )
         counts = realtics;
     else
         counts = availabletics;
 
-    if (counts < 1)
+    if ( counts < 1 )
         counts = 1;
 
     frameon++;
 
-    if (!demoplayback)
+    if ( !demoplayback )
     {
         // ideally nettics[0] should be 1 - 3 tics above lowtic
         // if we are consistantly slower, speed up time
-        for (i = 0; i < MAXPLAYERS; i++)
-            if (playeringame[i])
+        for ( i = 0; i < MAXPLAYERS; i++ )
+            if ( playeringame[i] )
                 break;
-        if (consoleplayer == i)
+        if ( consoleplayer == i )
         {
             // the key player does not adapt
         }
         else
         {
-            if (nettics[0] <= nettics[nodeforplayer[i]])
+            if ( nettics[0] <= nettics[nodeforplayer[i]] )
             {
                 gametime--;
                 // printf ("-");
             }
-            frameskip[frameon & 3] = (oldnettics > nettics[nodeforplayer[i]]);
+            frameskip[frameon & 3] = ( oldnettics > nettics[nodeforplayer[i]] );
             oldnettics = nettics[0];
-            if (frameskip[0] && frameskip[1] && frameskip[2] && frameskip[3])
+            if ( frameskip[0] && frameskip[1] && frameskip[2] && frameskip[3] )
             {
                 skiptics = 1;
                 // printf ("+");
@@ -1008,20 +1016,20 @@ export void TryRunTics(void)
     } // demoplayback
 
     // wait for new tics if needed
-    while (lowtic < gametic / ticdup + counts)
+    while ( lowtic < gametic / ticdup + counts )
     {
         NetUpdate();
         lowtic = std::numeric_limits<int>::max();
 
-        for (i = 0; i < doomcom.numnodes; i++)
-            if (nodeingame[i] && nettics[i] < lowtic)
+        for ( i = 0; i < doomcom.numnodes; i++ )
+            if ( nodeingame[i] && nettics[i] < lowtic )
                 lowtic = nettics[i];
 
-        if (lowtic < gametic / ticdup)
-            logger::error("TryRunTics: lowtic < gametic");
+        if ( lowtic < gametic / ticdup )
+            logger::error( "TryRunTics: lowtic < gametic" );
 
         // don't stay in here forever -- give the menu a chance to work
-        if (I_GetTime() / ticdup - entertic >= 20)
+        if ( I_GetTime() / ticdup - entertic >= 20 )
         {
             M_Ticker();
             return;
@@ -1029,29 +1037,29 @@ export void TryRunTics(void)
     }
 
     // run the count * ticdup dics
-    while (counts--)
+    while ( counts-- )
     {
-        for (i = 0; i < ticdup; i++)
+        for ( i = 0; i < ticdup; i++ )
         {
-            if (gametic / ticdup > lowtic)
-                logger::error("gametic>lowtic");
+            if ( gametic / ticdup > lowtic )
+                logger::error( "gametic>lowtic" );
             M_Ticker();
             G_Ticker();
             gametic++;
 
             // modify command for duplicated tics
-            if (i != ticdup - 1)
+            if ( i != ticdup - 1 )
             {
                 ticcmd_t *cmd;
                 int buf;
                 int j;
 
-                buf = (gametic / ticdup) % BACKUPTICS;
-                for (j = 0; j < MAXPLAYERS; j++)
+                buf = ( gametic / ticdup ) % BACKUPTICS;
+                for ( j = 0; j < MAXPLAYERS; j++ )
                 {
                     cmd = &netcmds[j][buf];
                     cmd->chatchar = 0;
-                    if (cmd->buttons & BT_SPECIAL)
+                    if ( cmd->buttons & BT_SPECIAL )
                         cmd->buttons = {};
                 }
             }

@@ -27,20 +27,20 @@ import :arguments;
 
 //! I_GetTime
 //! returns time in 1/70th second tics
-export int I_GetTime(void)
+export int I_GetTime( void )
 {
     using namespace std::chrono;
     using tic = duration<int, std::ratio<1, 70>>;
     const auto now = steady_clock::now();
     static const auto basetime = now;
-    const auto tics = duration_cast<tic>(now - basetime).count();
+    const auto tics = duration_cast<tic>( now - basetime ).count();
     return tics;
 }
 
 //
 //! I_Init
 //
-export void I_Init(void)
+export void I_Init( void )
 {
     // I_InitSound();
     // I_InitGraphics();
@@ -49,7 +49,7 @@ export void I_Init(void)
 //
 //! I_Quit
 //
-export void I_Quit(void)
+export void I_Quit( void )
 {
     // TODO JONNY circular dependency
     // D_QuitNetGame();
@@ -57,7 +57,7 @@ export void I_Quit(void)
     // I_ShutdownMusic();
     // @TODO JONNY circular dependency
     // M_SaveDefaults();
-    exit(0);
+    exit( 0 );
 }
 
 //
@@ -73,10 +73,10 @@ export int numChannels = 3;  //!< machine-independent sound params
 extern char *chat_macros[];  //!< Default chat macros
 
 std::map<std::string, int &> defaults = {
-    {"mouse_sensitivity", mouseSensitivity},
+    { "mouse_sensitivity", mouseSensitivity },
     //{"sfx_volume", &snd_SfxVolume},
     //{"music_volume", &snd_MusicVolume},
-    {"show_messages", showMessages},
+    { "show_messages", showMessages },
     //{"key_right", &key_right},
     //{"key_left", &key_left},
     //{"key_up", &key_up},
@@ -97,10 +97,10 @@ std::map<std::string, int &> defaults = {
     //{"joyb_use", &joybuse, 3},
     //{"joyb_speed", &joybspeed, 2},
 
-    {"screenblocks", screenblocks},
-    {"detaillevel", detailLevel},
+    { "screenblocks", screenblocks },
+    { "detaillevel", detailLevel },
 
-    {"snd_channels", numChannels},
+    { "snd_channels", numChannels },
 
     //{"usegamma", usegamma},
     /*
@@ -136,12 +136,12 @@ std::filesystem::path defaults_file_path;
 //
 //! M_SaveDefaults
 //
-export void M_SaveDefaults(void)
+export void M_SaveDefaults( void )
 {
-    std::ofstream file(defaults_file_path);
-    if (file)
+    std::ofstream file( defaults_file_path );
+    if ( file )
     {
-        for (const auto &[key, value] : defaults)
+        for ( const auto &[key, value] : defaults )
         {
             file << key << " " << value << std::endl;
         }
@@ -152,45 +152,45 @@ extern std::byte scantokey[128];
 //
 //! M_LoadDefaults
 //
-export void M_LoadDefaults(void)
+export void M_LoadDefaults( void )
 {
 
     // check for a custom default file
-    if (constexpr auto arg = "-config"; arguments::has(arg))
+    if ( constexpr auto arg = "-config"; arguments::has( arg ) )
     {
-        defaults_file_path = arguments::at(arguments::index_of(arg) + 1);
-        logger::info("Defaults config set on command line: {}",
-                     defaults_file_path.string());
+        defaults_file_path = arguments::at( arguments::index_of( arg ) + 1 );
+        logger::info( "Defaults config set on command line: {}",
+                      defaults_file_path.string() );
     }
-    else if (const auto home_var = getenv("HOME"); home_var)
+    else if ( const auto home_var = getenv( "HOME" ); home_var )
     {
         const std::filesystem::path home_path = home_var;
         defaults_file_path = home_path / defaults_file_name;
     }
 
-    if (std::filesystem::exists(defaults_file_path))
+    if ( std::filesystem::exists( defaults_file_path ) )
     {
-        logger::info("Defaults config found at: {}",
-                     defaults_file_path.string());
+        logger::info( "Defaults config found at: {}",
+                      defaults_file_path.string() );
 
-        if (std::ifstream config(defaults_file_path); config)
+        if ( std::ifstream config( defaults_file_path ); config )
         {
             std::string key, value;
-            while (config >> key >> value)
+            while ( config >> key >> value )
             {
-                logger::info("Read default from config: {} = {}", key, value);
-                assert(defaults.contains(key));
-                defaults.find(key)->second = std::stoi(value);
+                logger::info( "Read default from config: {} = {}", key, value );
+                assert( defaults.contains( key ) );
+                defaults.find( key )->second = std::stoi( value );
             }
         }
         else
         {
-            logger::error("Failed to open config: {}",
-                          defaults_file_path.string());
+            logger::error( "Failed to open config: {}",
+                           defaults_file_path.string() );
         }
     }
     else
     {
-        logger::info("No default config file found");
+        logger::info( "No default config file found" );
     }
 }

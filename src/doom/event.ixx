@@ -52,7 +52,7 @@ export enum buttoncode_t : unsigned char {
     // If true, the next 3 bits hold weapon num.
     BT_CHANGE = 4,
     // The 3bit weapon mask and shift, convenience.
-    BT_WEAPONMASK = (8 + 16 + 32),
+    BT_WEAPONMASK = ( 8 + 16 + 32 ),
     BT_WEAPONSHIFT = 3,
 
     // Pause the game.
@@ -62,7 +62,7 @@ export enum buttoncode_t : unsigned char {
 
     // Savegame slot numbers
     //  occupy the second byte of buttons.
-    BTS_SAVEMASK = (4 + 8 + 16),
+    BTS_SAVEMASK = ( 4 + 8 + 16 ),
     BTS_SAVESHIFT = 2,
 };
 

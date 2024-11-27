@@ -88,24 +88,24 @@ export mapthing_t playerstarts[MAXPLAYERS];
 //
 // P_LoadVertexes
 //
-void P_LoadVertexes(int lump)
+void P_LoadVertexes( int lump )
 {
     std::byte *data;
     mapvertex_t *ml;
 
     // Determine number of lumps:
     //  total lump length / vertex record length.
-    auto numvertexes = W_LumpLength(lump) / sizeof(mapvertex_t);
-    vertexes.resize(numvertexes);
+    auto numvertexes = W_LumpLength( lump ) / sizeof( mapvertex_t );
+    vertexes.resize( numvertexes );
 
     // Load data into cache.
-    data = static_cast<std::byte *>(W_CacheLumpNum(lump));
+    data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
 
     ml = (mapvertex_t *)data;
 
     // Copy and convert vertex coordinates,
     // internal representation as fixed.
-    for (auto &vert : vertexes)
+    for ( auto &vert : vertexes )
     {
         vert.x = ml->x << FRACBITS;
         vert.y = ml->y << FRACBITS;
@@ -116,7 +116,7 @@ void P_LoadVertexes(int lump)
 //
 // P_LoadSegs
 //
-void P_LoadSegs(int lump)
+void P_LoadSegs( int lump )
 {
     std::byte *data;
     int i;
@@ -126,25 +126,25 @@ void P_LoadSegs(int lump)
     int linedef;
     int side;
 
-    auto numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
-    segs.resize(numsegs);
-    data = static_cast<std::byte *>(W_CacheLumpNum(lump));
+    auto numsegs = W_LumpLength( lump ) / sizeof( mapseg_t );
+    segs.resize( numsegs );
+    data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
 
     ml = (mapseg_t *)data;
-    for (auto &seg : segs)
+    for ( auto &seg : segs )
     {
         seg.v1 = &vertexes[ml->v1];
         seg.v2 = &vertexes[ml->v2];
 
-        seg.angle = (ml->angle) << 16;
-        seg.offset = (ml->offset) << 16;
+        seg.angle = ( ml->angle ) << 16;
+        seg.offset = ( ml->offset ) << 16;
         linedef = ml->linedef;
         ldef = &lines[linedef];
         seg.linedef = ldef;
         side = ml->side;
         seg.sidedef = &sides[ldef->sidenum[side]];
         seg.frontsector = sides[ldef->sidenum[side]].sector;
-        if (ldef->flags & ML_TWOSIDED)
+        if ( ldef->flags & ML_TWOSIDED )
             seg.backsector = sides[ldef->sidenum[side ^ 1]].sector;
         else
             seg.backsector = 0;
@@ -155,20 +155,20 @@ void P_LoadSegs(int lump)
 //
 // P_LoadSubsectors
 //
-void P_LoadSubsectors(int lump)
+void P_LoadSubsectors( int lump )
 {
     std::byte *data;
     int i;
     mapsubsector_t *ms;
     subsector_t *ss;
 
-    auto numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_t);
-    subsectors.resize(numsubsectors);
-    data = static_cast<std::byte *>(W_CacheLumpNum(lump));
+    auto numsubsectors = W_LumpLength( lump ) / sizeof( mapsubsector_t );
+    subsectors.resize( numsubsectors );
+    data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
 
     ms = (mapsubsector_t *)data;
 
-    for (auto &ss : subsectors)
+    for ( auto &ss : subsectors )
     {
         ss.numlines = ms->numsegs;
         ss.firstline = ms->firstseg;
@@ -179,25 +179,25 @@ void P_LoadSubsectors(int lump)
 //
 // P_LoadSectors
 //
-void P_LoadSectors(int lump)
+void P_LoadSectors( int lump )
 {
     std::byte *data;
     int i;
     mapsector_t *ms;
     sector_t *ss;
 
-    auto numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
-    sectors.resize(numsectors);
-    data = static_cast<std::byte *>(W_CacheLumpNum(lump));
+    auto numsectors = W_LumpLength( lump ) / sizeof( mapsector_t );
+    sectors.resize( numsectors );
+    data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
 
     ms = (mapsector_t *)data;
     ss = sectors.data();
-    for (i = 0; i < numsectors; i++, ss++, ms++)
+    for ( i = 0; i < numsectors; i++, ss++, ms++ )
     {
         ss->floorheight = ms->floorheight << FRACBITS;
         ss->ceilingheight = ms->ceilingheight << FRACBITS;
-        ss->floorpic = R_FlatNumForName(ms->floorpic);
-        ss->ceilingpic = R_FlatNumForName(ms->ceilingpic);
+        ss->floorpic = R_FlatNumForName( ms->floorpic );
+        ss->ceilingpic = R_FlatNumForName( ms->ceilingpic );
         ss->lightlevel = ms->lightlevel;
         ss->special = ms->special;
         ss->tag = ms->tag;
@@ -208,29 +208,29 @@ void P_LoadSectors(int lump)
 //
 // P_LoadNodes
 //
-void P_LoadNodes(int lump)
+void P_LoadNodes( int lump )
 {
     std::byte *data;
     int j;
     int k;
     mapnode_t *mn;
 
-    auto numnodes = W_LumpLength(lump) / sizeof(mapnode_t);
-    nodes.resize(numnodes);
-    data = static_cast<std::byte *>(W_CacheLumpNum(lump));
+    auto numnodes = W_LumpLength( lump ) / sizeof( mapnode_t );
+    nodes.resize( numnodes );
+    data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
 
     mn = (mapnode_t *)data;
 
-    for (auto &node : nodes)
+    for ( auto &node : nodes )
     {
         node.x = mn->x << FRACBITS;
         node.y = mn->y << FRACBITS;
         node.dx = mn->dx << FRACBITS;
         node.dy = mn->dy << FRACBITS;
-        for (j = 0; j < 2; j++)
+        for ( j = 0; j < 2; j++ )
         {
             node.children[j] = mn->children[j];
-            for (k = 0; k < 4; k++)
+            for ( k = 0; k < 4; k++ )
                 node.bbox[j][k] = mn->bbox[j][k] << FRACBITS;
         }
         mn++;
@@ -240,7 +240,7 @@ void P_LoadNodes(int lump)
 //
 // P_LoadThings
 //
-void P_LoadThings(int lump)
+void P_LoadThings( int lump )
 {
     std::byte *data;
     int i;
@@ -248,18 +248,18 @@ void P_LoadThings(int lump)
     int numthings;
     bool spawn;
 
-    data = static_cast<std::byte *>(W_CacheLumpNum(lump));
-    numthings = W_LumpLength(lump) / sizeof(mapthing_t);
+    data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
+    numthings = W_LumpLength( lump ) / sizeof( mapthing_t );
 
     mt = (mapthing_t *)data;
-    for (i = 0; i < numthings; i++, mt++)
+    for ( i = 0; i < numthings; i++, mt++ )
     {
         spawn = true;
 
         // Do not spawn cool, new monsters if !commercial
-        if (gamemode != commercial)
+        if ( gamemode != commercial )
         {
-            switch (mt->type)
+            switch ( mt->type )
             {
             case 68: // Arachnotron
             case 64: // Archvile
@@ -275,7 +275,7 @@ void P_LoadThings(int lump)
                 break;
             }
         }
-        if (spawn == false)
+        if ( spawn == false )
             break;
 
         // Do spawn all other stuff.
@@ -285,7 +285,7 @@ void P_LoadThings(int lump)
         mt->type = mt->type;
         mt->options = mt->options;
 
-        P_SpawnMapThing(mt);
+        P_SpawnMapThing( mt );
     }
 }
 
@@ -293,19 +293,19 @@ void P_LoadThings(int lump)
 // P_LoadLineDefs
 // Also counts secret lines for intermissions.
 //
-void P_LoadLineDefs(int lump)
+void P_LoadLineDefs( int lump )
 {
     std::byte *data;
     maplinedef_t *mld;
     vertex_t *v1;
     vertex_t *v2;
 
-    auto numlines = W_LumpLength(lump) / sizeof(maplinedef_t);
-    lines.resize(numlines);
-    data = static_cast<std::byte *>(W_CacheLumpNum(lump));
+    auto numlines = W_LumpLength( lump ) / sizeof( maplinedef_t );
+    lines.resize( numlines );
+    data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
 
     mld = (maplinedef_t *)data;
-    for (auto &line : lines)
+    for ( auto &line : lines )
     {
         line.flags = mld->flags;
         line.special = mld->special;
@@ -315,19 +315,19 @@ void P_LoadLineDefs(int lump)
         line.dx = v2->x - v1->x;
         line.dy = v2->y - v1->y;
 
-        if (!line.dx)
+        if ( !line.dx )
             line.slopetype = ST_VERTICAL;
-        else if (!line.dy)
+        else if ( !line.dy )
             line.slopetype = ST_HORIZONTAL;
         else
         {
-            if (FixedDiv(line.dy, line.dx) > 0)
+            if ( FixedDiv( line.dy, line.dx ) > 0 )
                 line.slopetype = ST_POSITIVE;
             else
                 line.slopetype = ST_NEGATIVE;
         }
 
-        if (v1->x < v2->x)
+        if ( v1->x < v2->x )
         {
             line.bbox[BOXLEFT] = v1->x;
             line.bbox[BOXRIGHT] = v2->x;
@@ -338,7 +338,7 @@ void P_LoadLineDefs(int lump)
             line.bbox[BOXRIGHT] = v1->x;
         }
 
-        if (v1->y < v2->y)
+        if ( v1->y < v2->y )
         {
             line.bbox[BOXBOTTOM] = v1->y;
             line.bbox[BOXTOP] = v2->y;
@@ -352,12 +352,12 @@ void P_LoadLineDefs(int lump)
         line.sidenum[0] = mld->sidenum[0];
         line.sidenum[1] = mld->sidenum[1];
 
-        if (line.sidenum[0] != -1)
+        if ( line.sidenum[0] != -1 )
             line.frontsector = sides[line.sidenum[0]].sector;
         else
             line.frontsector = 0;
 
-        if (line.sidenum[1] != -1)
+        if ( line.sidenum[1] != -1 )
             line.backsector = sides[line.sidenum[1]].sector;
         else
             line.backsector = 0;
@@ -368,20 +368,20 @@ void P_LoadLineDefs(int lump)
 //
 // P_LoadSideDefs
 //
-void P_LoadSideDefs(int lump)
+void P_LoadSideDefs( int lump )
 {
-    auto numsides = W_LumpLength(lump) / sizeof(mapsidedef_t);
-    sides.resize(numsides);
-    auto data = static_cast<std::byte *>(W_CacheLumpNum(lump));
+    auto numsides = W_LumpLength( lump ) / sizeof( mapsidedef_t );
+    sides.resize( numsides );
+    auto data = static_cast<std::byte *>( W_CacheLumpNum( lump ) );
 
     auto msd = (mapsidedef_t *)data;
-    for (auto &sd : sides)
+    for ( auto &sd : sides )
     {
         sd.textureoffset = msd->textureoffset << FRACBITS;
         sd.rowoffset = msd->rowoffset << FRACBITS;
-        sd.toptexture = R_TextureNumForName(msd->toptexture);
-        sd.bottomtexture = R_TextureNumForName(msd->bottomtexture);
-        sd.midtexture = R_TextureNumForName(msd->midtexture);
+        sd.toptexture = R_TextureNumForName( msd->toptexture );
+        sd.bottomtexture = R_TextureNumForName( msd->bottomtexture );
+        sd.midtexture = R_TextureNumForName( msd->midtexture );
         sd.sector = &sectors[msd->sector];
         msd++;
     }
@@ -390,16 +390,16 @@ void P_LoadSideDefs(int lump)
 //
 // P_LoadBlockMap
 //
-void P_LoadBlockMap(int lump)
+void P_LoadBlockMap( int lump )
 {
     int i;
     int count;
 
-    blockmaplump = static_cast<short *>(W_CacheLumpNum(lump));
+    blockmaplump = static_cast<short *>( W_CacheLumpNum( lump ) );
     blockmap = blockmaplump + 4;
-    count = W_LumpLength(lump) / 2;
+    count = W_LumpLength( lump ) / 2;
 
-    for (i = 0; i < count; i++)
+    for ( i = 0; i < count; i++ )
         blockmaplump[i] = blockmaplump[i];
 
     bmaporgx = blockmaplump[0] << FRACBITS;
@@ -408,9 +408,9 @@ void P_LoadBlockMap(int lump)
     bmapheight = blockmaplump[3];
 
     // clear out mobj chains
-    count = sizeof(*blocklinks) * bmapwidth * bmapheight;
-    blocklinks = static_cast<mobj_t **>(malloc(count));
-    memset(blocklinks, 0, count);
+    count = sizeof( *blocklinks ) * bmapwidth * bmapheight;
+    blocklinks = static_cast<mobj_t **>( malloc( count ) );
+    memset( blocklinks, 0, count );
 }
 
 //
@@ -418,51 +418,51 @@ void P_LoadBlockMap(int lump)
 // Builds sector line lists and subsector sector numbers.
 // Finds block bounding boxes for sectors.
 //
-void P_GroupLines(void)
+void P_GroupLines( void )
 {
     seg_t *seg;
     fixed_t bbox[4];
     int block;
 
     // look up sector number for each subsector
-    for (auto i = 0; i < subsectors.size(); i++)
+    for ( auto i = 0; i < subsectors.size(); i++ )
     {
         seg = &segs[subsectors[i].firstline];
         subsectors[i].sector = seg->sidedef->sector;
     }
 
     // build line tables for each sector
-    for (auto &sector : sectors)
+    for ( auto &sector : sectors )
     {
-        M_ClearBox(bbox);
-        for (auto &line : lines)
+        M_ClearBox( bbox );
+        for ( auto &line : lines )
         {
-            if (line.frontsector == &sector || line.backsector == &sector)
+            if ( line.frontsector == &sector || line.backsector == &sector )
             {
-                sector.lines.push_back(&line);
-                M_AddToBox(bbox, line.v1->x, line.v1->y);
-                M_AddToBox(bbox, line.v2->x, line.v2->y);
+                sector.lines.push_back( &line );
+                M_AddToBox( bbox, line.v1->x, line.v1->y );
+                M_AddToBox( bbox, line.v2->x, line.v2->y );
             }
         }
 
         // set the degenmobj_t to the middle of the bounding box
-        sector.soundorg.x = (bbox[BOXRIGHT] + bbox[BOXLEFT]) / 2;
-        sector.soundorg.y = (bbox[BOXTOP] + bbox[BOXBOTTOM]) / 2;
+        sector.soundorg.x = ( bbox[BOXRIGHT] + bbox[BOXLEFT] ) / 2;
+        sector.soundorg.y = ( bbox[BOXTOP] + bbox[BOXBOTTOM] ) / 2;
 
         // adjust bounding box to map blocks
-        block = (bbox[BOXTOP] - bmaporgy + MAXRADIUS) >> MAPBLOCKSHIFT;
+        block = ( bbox[BOXTOP] - bmaporgy + MAXRADIUS ) >> MAPBLOCKSHIFT;
         block = block >= bmapheight ? bmapheight - 1 : block;
         sector.blockbox[BOXTOP] = block;
 
-        block = (bbox[BOXBOTTOM] - bmaporgy - MAXRADIUS) >> MAPBLOCKSHIFT;
+        block = ( bbox[BOXBOTTOM] - bmaporgy - MAXRADIUS ) >> MAPBLOCKSHIFT;
         block = block < 0 ? 0 : block;
         sector.blockbox[BOXBOTTOM] = block;
 
-        block = (bbox[BOXRIGHT] - bmaporgx + MAXRADIUS) >> MAPBLOCKSHIFT;
+        block = ( bbox[BOXRIGHT] - bmaporgx + MAXRADIUS ) >> MAPBLOCKSHIFT;
         block = block >= bmapwidth ? bmapwidth - 1 : block;
         sector.blockbox[BOXRIGHT] = block;
 
-        block = (bbox[BOXLEFT] - bmaporgx - MAXRADIUS) >> MAPBLOCKSHIFT;
+        block = ( bbox[BOXLEFT] - bmaporgx - MAXRADIUS ) >> MAPBLOCKSHIFT;
         block = block < 0 ? 0 : block;
         sector.blockbox[BOXLEFT] = block;
     }
@@ -471,7 +471,7 @@ void P_GroupLines(void)
 //
 // P_SetupLevel
 //
-export void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
+export void P_SetupLevel( int episode, int map, int playermask, skill_t skill )
 {
     int i;
     char lumpname[9];
@@ -479,7 +479,7 @@ export void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
 
     totalkills = totalitems = totalsecret = wminfo.maxfrags = 0;
     wminfo.partime = 180;
-    for (i = 0; i < MAXPLAYERS; i++)
+    for ( i = 0; i < MAXPLAYERS; i++ )
     {
         players[i].killcount = players[i].secretcount = players[i].itemcount =
             0;
@@ -498,12 +498,12 @@ export void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
     W_Reload();
 
     // find map name
-    if (gamemode == commercial)
+    if ( gamemode == commercial )
     {
-        if (map < 10)
-            snprintf(lumpname, 9, "map0%i", map);
+        if ( map < 10 )
+            snprintf( lumpname, 9, "map0%i", map );
         else
-            snprintf(lumpname, 9, "map%i", map);
+            snprintf( lumpname, 9, "map%i", map );
     }
     else
     {
@@ -514,37 +514,37 @@ export void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
         lumpname[4] = 0;
     }
 
-    lumpnum = W_GetNumForName(lumpname);
+    lumpnum = W_GetNumForName( lumpname );
 
     leveltime = 0;
 
     // note: most of this ordering is important
-    P_LoadBlockMap(lumpnum + ML_BLOCKMAP);
-    P_LoadVertexes(lumpnum + ML_VERTEXES);
-    P_LoadSectors(lumpnum + ML_SECTORS);
-    P_LoadSideDefs(lumpnum + ML_SIDEDEFS);
+    P_LoadBlockMap( lumpnum + ML_BLOCKMAP );
+    P_LoadVertexes( lumpnum + ML_VERTEXES );
+    P_LoadSectors( lumpnum + ML_SECTORS );
+    P_LoadSideDefs( lumpnum + ML_SIDEDEFS );
 
-    P_LoadLineDefs(lumpnum + ML_LINEDEFS);
-    P_LoadSubsectors(lumpnum + ML_SSECTORS);
-    P_LoadNodes(lumpnum + ML_NODES);
-    P_LoadSegs(lumpnum + ML_SEGS);
+    P_LoadLineDefs( lumpnum + ML_LINEDEFS );
+    P_LoadSubsectors( lumpnum + ML_SSECTORS );
+    P_LoadNodes( lumpnum + ML_NODES );
+    P_LoadSegs( lumpnum + ML_SEGS );
 
     rejectmatrix =
-        static_cast<std::byte *>(W_CacheLumpNum(lumpnum + ML_REJECT));
+        static_cast<std::byte *>( W_CacheLumpNum( lumpnum + ML_REJECT ) );
     P_GroupLines();
 
     bodyqueslot = 0;
     deathmatch_p = deathmatchstarts;
-    P_LoadThings(lumpnum + ML_THINGS);
+    P_LoadThings( lumpnum + ML_THINGS );
 
     // if deathmatch, randomly spawn the active players
-    if (deathmatch)
+    if ( deathmatch )
     {
-        for (i = 0; i < MAXPLAYERS; i++)
-            if (playeringame[i])
+        for ( i = 0; i < MAXPLAYERS; i++ )
+            if ( playeringame[i] )
             {
                 players[i].mo = NULL;
-                G_DeathMatchSpawnPlayer(i);
+                G_DeathMatchSpawnPlayer( i );
             }
     }
 
@@ -558,7 +558,7 @@ export void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
     //	UNUSED P_ConnectSubsectors ();
 
     // preload graphics
-    if (precache)
+    if ( precache )
         R_PrecacheLevel();
 
     // printf ("free memory: 0x%x\n", freeMemory());
@@ -567,9 +567,9 @@ export void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
 //
 // P_Init
 //
-export void P_Init(void)
+export void P_Init( void )
 {
     P_InitSwitchList();
     P_InitPicAnims();
-    R_InitSprites(sprnames);
+    R_InitSprites( sprnames );
 }
