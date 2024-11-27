@@ -719,7 +719,7 @@ export void HU_Ticker(void)
                     //			if (w_inputbuffer[i].l.len
                     //			    && (chat_dest[i] == consoleplayer+1
                     //				|| chat_dest[i] ==
-                    //HU_BROADCAST))
+                    // HU_BROADCAST))
                     //			{
                     //			    HUlib_addMessageToSText(&w_message,
                     //						    player_names[i],

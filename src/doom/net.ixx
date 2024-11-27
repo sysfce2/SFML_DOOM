@@ -248,7 +248,7 @@ void PacketGet(void)
     // find remote node number
     for (i = 0; i < doomcom.numnodes; i++)
         //	if ( fromaddress.sin_addr.s_addr ==
-        //sendaddress[i].sin_addr.s_addr )
+        // sendaddress[i].sin_addr.s_addr )
         break;
 
     if (i == doomcom.numnodes)

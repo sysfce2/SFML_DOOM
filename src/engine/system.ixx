@@ -45,7 +45,7 @@ export int I_GetTime(void)
 export void I_Init(void)
 {
     // I_InitSound();
-    //I_InitGraphics();
+    // I_InitGraphics();
 }
 
 //
