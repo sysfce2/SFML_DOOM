@@ -47,7 +47,7 @@ export void I_Init(void)
 }
 
 //
-// I_Quit
+//! I_Quit
 //
 export void I_Quit(void)
 {
