@@ -7,7 +7,7 @@ file(GLOB_RECURSE MODULE_SOURCE CONFIGURE_DEPENDS *.ixx)
 target_sources(${PROJECT_NAME} PUBLIC FILE_SET CXX_MODULES FILES ${MODULE_SOURCE})
 
 # Legacy cpp files
-file(GLOB SOURCE CONFIGURE_DEPENDS ../../linuxdoom-1.10/*.c ../../linuxdoom-1.10/*.cpp ../../linuxdoom-1.10/*.h)
+file(GLOB SOURCE CONFIGURE_DEPENDS ../../linuxdoom-1.10/*.c ../../linuxdoom-1.10/*.cpp ../../linuxdoom-1.10/*.h *.cpp)
 target_sources(${PROJECT_NAME} PUBLIC ${SOURCE})
 
 # Include directories
