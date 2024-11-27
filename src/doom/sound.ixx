@@ -318,23 +318,14 @@ sfxinfo_t S_sfx[] = { {},
 // Information about all the music
 //
 musicinfo_t S_music[] = {
-    { "e1m1", 0 },   { "e1m2", 0 },   { "e1m3", 0 },   { "e1m4", 0 },
-    { "e1m5", 0 },   { "e1m6", 0 },   { "e1m7", 0 },   { "e1m8", 0 },
-    { "e1m9", 0 },   { "e2m1", 0 },   { "e2m2", 0 },   { "e2m3", 0 },
-    { "e2m4", 0 },   { "e2m5", 0 },   { "e2m6", 0 },   { "e2m7", 0 },
-    { "e2m8", 0 },   { "e2m9", 0 },   { "e3m1", 0 },   { "e3m2", 0 },
-    { "e3m3", 0 },   { "e3m4", 0 },   { "e3m5", 0 },   { "e3m6", 0 },
-    { "e3m7", 0 },   { "e3m8", 0 },   { "e3m9", 0 },   { "inter", 0 },
-    { "intro", 0 },  { "bunny", 0 },  { "victor", 0 }, { "introa", 0 },
-    { "runnin", 0 }, { "stalks", 0 }, { "countd", 0 }, { "betwee", 0 },
-    { "doom", 0 },   { "the_da", 0 }, { "shawn", 0 },  { "ddtblu", 0 },
-    { "in_cit", 0 }, { "dead", 0 },   { "stlks2", 0 }, { "theda2", 0 },
-    { "doom2", 0 },  { "ddtbl2", 0 }, { "runni2", 0 }, { "dead2", 0 },
-    { "stlks3", 0 }, { "romero", 0 }, { "shawn2", 0 }, { "messag", 0 },
-    { "count2", 0 }, { "ddtbl3", 0 }, { "ampie", 0 },  { "theda3", 0 },
-    { "adrian", 0 }, { "messg2", 0 }, { "romer2", 0 }, { "tense", 0 },
-    { "shawn3", 0 }, { "openin", 0 }, { "evil", 0 },   { "ultima", 0 },
-    { "read_m", 0 }, { "dm2ttl", 0 }, { "dm2int", 0 } };
+    { "e1m1", 0 },   { "e1m2", 0 },   { "e1m3", 0 },   { "e1m4", 0 },   { "e1m5", 0 },   { "e1m6", 0 },   { "e1m7", 0 },   { "e1m8", 0 },   { "e1m9", 0 },
+    { "e2m1", 0 },   { "e2m2", 0 },   { "e2m3", 0 },   { "e2m4", 0 },   { "e2m5", 0 },   { "e2m6", 0 },   { "e2m7", 0 },   { "e2m8", 0 },   { "e2m9", 0 },
+    { "e3m1", 0 },   { "e3m2", 0 },   { "e3m3", 0 },   { "e3m4", 0 },   { "e3m5", 0 },   { "e3m6", 0 },   { "e3m7", 0 },   { "e3m8", 0 },   { "e3m9", 0 },
+    { "inter", 0 },  { "intro", 0 },  { "bunny", 0 },  { "victor", 0 }, { "introa", 0 }, { "runnin", 0 }, { "stalks", 0 }, { "countd", 0 }, { "betwee", 0 },
+    { "doom", 0 },   { "the_da", 0 }, { "shawn", 0 },  { "ddtblu", 0 }, { "in_cit", 0 }, { "dead", 0 },   { "stlks2", 0 }, { "theda2", 0 }, { "doom2", 0 },
+    { "ddtbl2", 0 }, { "runni2", 0 }, { "dead2", 0 },  { "stlks3", 0 }, { "romero", 0 }, { "shawn2", 0 }, { "messag", 0 }, { "count2", 0 }, { "ddtbl3", 0 },
+    { "ampie", 0 },  { "theda3", 0 }, { "adrian", 0 }, { "messg2", 0 }, { "romer2", 0 }, { "tense", 0 },  { "shawn3", 0 }, { "openin", 0 }, { "evil", 0 },
+    { "ultima", 0 }, { "read_m", 0 }, { "dm2ttl", 0 }, { "dm2int", 0 } };
 
 //
 // Identifiers for all music in game.
@@ -423,11 +414,7 @@ const auto SAMPLERATE = 11025; // Hz
 
 struct channel_t
 {
-    channel_t( sfxinfo_t *info, void *origin, int vol, int pitch )
-        : sfxinfo( info ), origin( origin ), sound( info->data )
-    {
-        sound.play();
-    };
+    channel_t( sfxinfo_t *info, void *origin, int vol, int pitch ) : sfxinfo( info ), origin( origin ), sound( info->data ) { sound.play(); };
     // sound information (if null, channel avail.)
     sfxinfo_t *sfxinfo;
 
@@ -769,8 +756,7 @@ export void S_Start( void )
 void S_StartSoundAtVolume( void *origin_p, int sfx_id, int volume )
 {
     mobj_t *origin = (mobj_t *)origin_p;
-    logger::debug( "S_StartSoundAtVolume: playing sound {} ({})", sfx_id,
-                   S_sfx[sfx_id].name );
+    logger::debug( "S_StartSoundAtVolume: playing sound {} ({})", sfx_id, S_sfx[sfx_id].name );
 
     // check for bogus sound #
     if ( sfx_id < 1 || sfx_id > NUMSFX )
@@ -826,8 +812,7 @@ void S_StartSoundAtVolume( void *origin_p, int sfx_id, int volume )
     // cache data if necessary
     if ( !sfx->data.getSampleCount() )
     {
-        logger::error(
-            "S_StartSoundAtVolume: 16bit and not pre-cached - wtf?\n" );
+        logger::error( "S_StartSoundAtVolume: 16bit and not pre-cached - wtf?\n" );
     }
 
     // increase the usefulness
@@ -856,8 +841,7 @@ export void S_StartSound( void *origin, int sfx_id )
         static int first_saw = 0;
         static int next_saw = 0;
 
-        if ( sfx_id == sfx_sawidl || sfx_id == sfx_sawful ||
-             sfx_id == sfx_sawhit )
+        if ( sfx_id == sfx_sawidl || sfx_id == sfx_sawful || sfx_id == sfx_sawhit )
         {
             for ( i = first_saw; i != next_saw; i = ( i + 1 ) % 10 )
                 if ( last_saw_origins[i] != origin )
@@ -873,9 +857,7 @@ export void S_StartSound( void *origin, int sfx_id )
 
             for ( n = i = 0; i < numChannels; i++ )
             {
-                if ( channels[i].sfxinfo == &S_sfx[sfx_sawidl] ||
-                     channels[i].sfxinfo == &S_sfx[sfx_sawful] ||
-                     channels[i].sfxinfo == &S_sfx[sfx_sawhit] )
+                if ( channels[i].sfxinfo == &S_sfx[sfx_sawidl] || channels[i].sfxinfo == &S_sfx[sfx_sawful] || channels[i].sfxinfo == &S_sfx[sfx_sawhit] )
                     n++;
             }
 
@@ -883,15 +865,12 @@ export void S_StartSound( void *origin, int sfx_id )
             {
                 for ( i = 0; i < numChannels; i++ )
                 {
-                    if ( channels[i].sfxinfo == &S_sfx[sfx_sawidl] ||
-                         channels[i].sfxinfo == &S_sfx[sfx_sawful] ||
-                         channels[i].sfxinfo == &S_sfx[sfx_sawhit] )
+                    if ( channels[i].sfxinfo == &S_sfx[sfx_sawidl] || channels[i].sfxinfo == &S_sfx[sfx_sawful] || channels[i].sfxinfo == &S_sfx[sfx_sawhit] )
                     {
                         fprintf( stderr,
                                  "chn: sfxinfo=0x%lx, origin=0x%lx, "
                                  "handle=%d\n",
-                                 channels[i].sfxinfo, channels[i].origin,
-                                 channels[i].handle );
+                                 channels[i].sfxinfo, channels[i].origin, channels[i].handle );
                     }
                 }
                 fprintf( stderr, "\n" );
@@ -903,8 +882,7 @@ export void S_StartSound( void *origin, int sfx_id )
 
 export void S_StopSound( void *origin )
 {
-    std::erase_if( channels, [origin]( channel_t &channel )
-                   { return channel.origin == origin; } );
+    std::erase_if( channels, [origin]( channel_t &channel ) { return channel.origin == origin; } );
 }
 
 //
@@ -937,8 +915,7 @@ export void S_UpdateSounds( void *listener_p )
     mobj_t *listener = (mobj_t *)listener_p;
     // sf::Listener::setPosition...
 
-    auto stopped = []( channel_t &channel )
-    { return channel.sound.getStatus() == sf::Sound::Status::Stopped; };
+    auto stopped = []( channel_t &channel ) { return channel.sound.getStatus() == sf::Sound::Status::Stopped; };
     std::erase_if( channels, stopped );
 }
 
@@ -977,12 +954,9 @@ void I_InitSound()
             std::vector<int16_t> samples( header.sample_count );
             for ( auto i : std::ranges::iota_view{ 0u, samples.size() } )
             {
-                samples[i] =
-                    ( static_cast<uint8_t *>( sfx )[i] * 256 ) ^ 0x8000;
+                samples[i] = ( static_cast<uint8_t *>( sfx )[i] * 256 ) ^ 0x8000;
             }
-            if ( !sound.data.loadFromSamples( samples.data(), samples.size(), 1,
-                                              header.sample_rate,
-                                              { sf::SoundChannel::Mono } ) )
+            if ( !sound.data.loadFromSamples( samples.data(), samples.size(), 1, header.sample_rate, { sf::SoundChannel::Mono } ) )
             {
                 logger::error( "Failed to load sound: {}", sound.name );
             }

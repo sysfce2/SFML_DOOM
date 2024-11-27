@@ -46,34 +46,27 @@ export const auto D_CDROM = "VERSION CD-ROM: DEFAULT.CFG DANS C:\\DOOMDATA\n";
 export const auto PRESSKEY = "APPUYEZ SUR UNE TOUCHE.";
 export const auto PRESSYN = "APPUYEZ SUR Y OU N";
 export const auto QUITMSG = "VOUS VOULEZ VRAIMENT\nQUITTER CE SUPER JEU?";
-export const auto LOADNET = std::format(
-    "VOUS NE POUVEZ PAS CHARGER\nUN JEU EN RESEAU!\n\n{}", PRESSKEY );
-export const auto QLOADNET =
-    std::format( "CHARGEMENT RAPIDE INTERDIT EN RESEAU!\n\n{}", PRESSKEY );
-export const auto QSAVESPOT =
-    std::format( "VOUS N'AVEZ PAS CHOISI UN EMPLACEMENT!\n\n{}", PRESSKEY );
-#define SAVEDEAD                                                               \
-    "VOUS NE POUVEZ PAS SAUVER SI VOUS NE JOUEZ "                              \
+export const auto LOADNET = std::format( "VOUS NE POUVEZ PAS CHARGER\nUN JEU EN RESEAU!\n\n{}", PRESSKEY );
+export const auto QLOADNET = std::format( "CHARGEMENT RAPIDE INTERDIT EN RESEAU!\n\n{}", PRESSKEY );
+export const auto QSAVESPOT = std::format( "VOUS N'AVEZ PAS CHOISI UN EMPLACEMENT!\n\n{}", PRESSKEY );
+#define SAVEDEAD                                                                                                                                               \
+    "VOUS NE POUVEZ PAS SAUVER SI VOUS NE JOUEZ "                                                                                                              \
     "PAS!\n\n" PRESSKEY
-export const auto QSPROMPT =
-    std::format( "SAUVEGARDE RAPIDE DANS LE FICHIER \n\n'%s'?\n\n{}", PRESSYN );
-#define QLPROMPT                                                               \
-    "VOULEZ-VOUS CHARGER LA SAUVEGARDE"                                        \
+export const auto QSPROMPT = std::format( "SAUVEGARDE RAPIDE DANS LE FICHIER \n\n'%s'?\n\n{}", PRESSYN );
+#define QLPROMPT                                                                                                                                               \
+    "VOULEZ-VOUS CHARGER LA SAUVEGARDE"                                                                                                                        \
     "\n\n'%s'?\n\n" PRESSYN
-export const auto NEWGAME = std::format(
-    "VOUS NE POUVEZ PAS LANCER\nUN NOUVEAU JEU SUR RESEAU.\n\n{}", PRESSKEY );
-export const auto NIGHTMARE = std::format(
-    "VOUS CONFIRMEZ? CE NIVEAU EST\nVRAIMENT IMPITOYABLE!n{}", PRESSYN );
-#define SWSTRING                                                               \
-    "CECI EST UNE VERSION SHAREWARE DE DOOM.\n\n"                              \
+export const auto NEWGAME = std::format( "VOUS NE POUVEZ PAS LANCER\nUN NOUVEAU JEU SUR RESEAU.\n\n{}", PRESSKEY );
+export const auto NIGHTMARE = std::format( "VOUS CONFIRMEZ? CE NIVEAU EST\nVRAIMENT IMPITOYABLE!n{}", PRESSYN );
+#define SWSTRING                                                                                                                                               \
+    "CECI EST UNE VERSION SHAREWARE DE DOOM.\n\n"                                                                                                              \
     "VOUS DEVRIEZ COMMANDER LA TRILOGIE COMPLETE.\n\n" PRESSKEY
 export const auto MSGOFF = "MESSAGES OFF";
 export const auto MSGON = "MESSAGES ON";
-#define NETEND                                                                 \
-    "VOUS NE POUVEZ PAS METTRE FIN A UN JEU SUR "                              \
+#define NETEND                                                                                                                                                 \
+    "VOUS NE POUVEZ PAS METTRE FIN A UN JEU SUR "                                                                                                              \
     "RESEAU!\n\n" PRESSKEY
-export const auto ENDGAME =
-    std::format( "VOUS VOULEZ VRAIMENT METTRE FIN AU JEU?\n\n{}", PRESSYN );
+export const auto ENDGAME = std::format( "VOUS VOULEZ VRAIMENT METTRE FIN AU JEU?\n\n{}", PRESSYN );
 
 export const auto DOSY = "(APPUYEZ SUR Y POUR REVENIR AU OS.)";
 
@@ -94,8 +87,7 @@ export const auto GOTMEGA = "MEGA-ARMURE RECUPEREE!";
 export const auto GOTHTHBONUS = "BONUS DE SANTE RECUPERE.";
 export const auto GOTARMBONUS = "BONUS D'ARMURE RECUPERE.";
 export const auto GOTSTIM = "STIMPACK RECUPERE.";
-export const auto GOTMEDINEED =
-    "MEDIKIT RECUPERE. VOUS EN AVEZ VRAIMENT BESOIN!";
+export const auto GOTMEDINEED = "MEDIKIT RECUPERE. VOUS EN AVEZ VRAIMENT BESOIN!";
 export const auto GOTMEDIKIT = "MEDIKIT RECUPERE.";
 export const auto GOTSUPER = "SUPERCHARGE!";
 
@@ -278,8 +270,7 @@ export const auto STSTR_FAADDED = "ARMES (SAUF CLEFS) AJOUTEES";
 export const auto STSTR_NCON = "BARRIERES ON";
 export const auto STSTR_NCOFF = "BARRIERES OFF";
 
-export const auto STSTR_BEHOLD =
-    " inVuln, Str, Inviso, Rad, Allmap, or Lite-amp";
+export const auto STSTR_BEHOLD = " inVuln, Str, Inviso, Rad, Allmap, or Lite-amp";
 export const auto STSTR_BEHOLDX = "AMELIORATION ACTIVEE";
 
 export const auto STSTR_CHOPPERS = "... DOESN'T SUCK - GM";
@@ -407,18 +398,18 @@ export auto E1TEXT = "APRES AVOIR VAINCU LES GROS MECHANTS\n"
 
 // Before level 31, put this:
 
-#define C5TEXT                                                                 \
-    "FELICITATIONS! VOUS AVEZ TROUVE LE\n"                                     \
-    "NIVEAU SECRET! IL SEMBLE AVOIR ETE\n"                                     \
-    "CONSTRUIT PAR LES HUMAINS. VOUS VOUS\n"                                   \
-    "DEMANDEZ QUELS PEUVENT ETRE LES\n"                                        \
+#define C5TEXT                                                                                                                                                 \
+    "FELICITATIONS! VOUS AVEZ TROUVE LE\n"                                                                                                                     \
+    "NIVEAU SECRET! IL SEMBLE AVOIR ETE\n"                                                                                                                     \
+    "CONSTRUIT PAR LES HUMAINS. VOUS VOUS\n"                                                                                                                   \
+    "DEMANDEZ QUELS PEUVENT ETRE LES\n"                                                                                                                        \
     "HABITANTS DE CE COIN PERDU DE L'ENFER."
 
 // Before level 32, put this:
 
-#define C6TEXT                                                                 \
-    "FELICITATIONS! VOUS AVEZ DECOUVERT\n"                                     \
-    "LE NIVEAU SUPER SECRET! VOUS FERIEZ\n"                                    \
+#define C6TEXT                                                                                                                                                 \
+    "FELICITATIONS! VOUS AVEZ DECOUVERT\n"                                                                                                                     \
+    "LE NIVEAU SUPER SECRET! VOUS FERIEZ\n"                                                                                                                    \
     "MIEUX DE FONCER DANS CELUI-LA!\n"
 
     //
@@ -466,36 +457,25 @@ export const auto D_CDROM = "CD-ROM Version: default.cfg from c:\\doomdata\n";
 export const auto PRESSKEY = "press a key.";
 export const auto PRESSYN = "press y or n.";
 export const auto QUITMSG = "are you sure you want to\nquit this great game?";
-export const auto LOADNET =
-    std::format( "you can't do load while in a net game!\n\n{}", PRESSKEY );
-export const auto QLOADNET =
-    std::format( "you can't quickload during a netgame!\n\n{}", PRESSKEY );
-export const auto QSAVESPOT =
-    std::format( "you haven't picked a quicksave slot yet!\n\n{}", PRESSKEY );
-export const auto SAVEDEAD =
-    std::format( "you can't save if you aren't playing!\n\n{}", PRESSKEY );
-export const auto QSPROMPT =
-    std::format( "quicksave over your game named\n\n'%s'?\n\n{}", PRESSYN );
-export const auto QLPROMPT = std::format(
-    "do you want to quickload the game named\n\n'%s'?\n\n{}", PRESSYN );
+export const auto LOADNET = std::format( "you can't do load while in a net game!\n\n{}", PRESSKEY );
+export const auto QLOADNET = std::format( "you can't quickload during a netgame!\n\n{}", PRESSKEY );
+export const auto QSAVESPOT = std::format( "you haven't picked a quicksave slot yet!\n\n{}", PRESSKEY );
+export const auto SAVEDEAD = std::format( "you can't save if you aren't playing!\n\n{}", PRESSKEY );
+export const auto QSPROMPT = std::format( "quicksave over your game named\n\n'%s'?\n\n{}", PRESSYN );
+export const auto QLPROMPT = std::format( "do you want to quickload the game named\n\n'%s'?\n\n{}", PRESSYN );
 
-export const auto NEWGAME = std::format(
-    "you can't start a new game\nwhile in a network game.\n\n{}", PRESSKEY );
+export const auto NEWGAME = std::format( "you can't start a new game\nwhile in a network game.\n\n{}", PRESSKEY );
 
-export const auto NIGHTMARE = std::format(
-    "are you sure? this skill level\nisn't even remotely fair.\n\n", PRESSYN );
+export const auto NIGHTMARE = std::format( "are you sure? this skill level\nisn't even remotely fair.\n\n", PRESSYN );
 
-export const auto SWSTRING =
-    std::format( "this is the shareware version of doom.\n\nyou need to order "
-                 "the entire trilogy.\n\n",
-                 PRESSKEY );
+export const auto SWSTRING = std::format( "this is the shareware version of doom.\n\nyou need to order "
+                                          "the entire trilogy.\n\n",
+                                          PRESSKEY );
 
 export const auto MSGOFF = "Messages OFF";
 export const auto MSGON = "Messages ON";
-export const auto NETEND =
-    std::format( "you can't end a netgame!\n\n{}", PRESSKEY );
-export const auto ENDGAME =
-    std::format( "are you sure you want to end the game?\n\n{}", PRESSYN );
+export const auto NETEND = std::format( "you can't end a netgame!\n\n{}", PRESSKEY );
+export const auto ENDGAME = std::format( "are you sure you want to end the game?\n\n{}", PRESSYN );
 
 export const auto DOSY = "(press y to quit)";
 
@@ -781,8 +761,7 @@ export const auto STSTR_FAADDED = "Ammo (no keys) Added";
 export const auto STSTR_NCON = "No Clipping Mode ON";
 export const auto STSTR_NCOFF = "No Clipping Mode OFF";
 
-export const auto STSTR_BEHOLD =
-    "inVuln, Str, Inviso, Rad, Allmap, or Lite-amp";
+export const auto STSTR_BEHOLD = "inVuln, Str, Inviso, Rad, Allmap, or Lite-amp";
 export const auto STSTR_BEHOLDX = "Power-up Toggled";
 
 export const auto STSTR_CHOPPERS = "... doesn't suck - GM";
@@ -1096,31 +1075,23 @@ export const auto CC_HERO = "OUR HERO";
 
 export const char *endmsg[NUM_QUITMESSAGES + 1] = {
     // DOOM1
-    QUITMSG, "please don't leave, there's more\ndemons to toast!",
-    "let's beat it -- this is turning\ninto a bloodbath!",
-    "i wouldn't leave if i were you.\ndos is much worse.",
-    "you're trying to say you like dos\nbetter than me, right?",
-    "don't leave yet -- there's a\ndemon around that corner!",
-    "ya know, next time you come in here\ni'm gonna toast ya.",
+    QUITMSG, "please don't leave, there's more\ndemons to toast!", "let's beat it -- this is turning\ninto a bloodbath!",
+    "i wouldn't leave if i were you.\ndos is much worse.", "you're trying to say you like dos\nbetter than me, right?",
+    "don't leave yet -- there's a\ndemon around that corner!", "ya know, next time you come in here\ni'm gonna toast ya.",
     "go ahead and leave. see if i care."
 
     // QuitDOOM II messages
     "you want to quit?\nthen, thou hast lost an eighth!",
     "don't go now, there's a \ndimensional shambler waiting\nat the dos "
     "prompt!",
-    "get outta here and go back\nto your boring programs.",
-    "if i were your boss, i'd \n deathmatch ya in a minute!",
-    "look, bud. you leave now\nand you forfeit your body count!",
-    "just leave. when you come\nback, i'll be waiting with a bat.",
+    "get outta here and go back\nto your boring programs.", "if i were your boss, i'd \n deathmatch ya in a minute!",
+    "look, bud. you leave now\nand you forfeit your body count!", "just leave. when you come\nback, i'll be waiting with a bat.",
     "you're lucky i don't smack\nyou for thinking about leaving."
 
     // FinalDOOM?
     "fuck you, pussy!\nget the fuck out!",
-    "you quit and i'll jizz\nin your cystholes!",
-    "if you leave, i'll make\nthe lord drink my jizz.",
-    "hey, ron! can we say\n'fuck' in the game?",
-    "i'd leave: this is just\nmore monsters and levels.\nwhat a load.",
-    "suck it down, asshole!\nyou're a fucking wimp!",
+    "you quit and i'll jizz\nin your cystholes!", "if you leave, i'll make\nthe lord drink my jizz.", "hey, ron! can we say\n'fuck' in the game?",
+    "i'd leave: this is just\nmore monsters and levels.\nwhat a load.", "suck it down, asshole!\nyou're a fucking wimp!",
     "don't quit now! we're \nstill spending your money!",
 
     // Internal debug. Different style, too.

@@ -67,10 +67,10 @@ export int viewwidth;            //!< Default view width
 export int viewheight;           //!< Default view height
 export int mouseSensitivity = 5; //!< Default mouse sensivity
 export int showMessages = 1;     //!< Show messages has default, 0 = off, 1 = on
-export int detailLevel = 0;  //!< Blocky mode, has default, 0 = high, 1 = normal
-export int screenblocks = 9; //!< Number of screen blocks (?)
-export int numChannels = 3;  //!< machine-independent sound params
-extern char *chat_macros[];  //!< Default chat macros
+export int detailLevel = 0;      //!< Blocky mode, has default, 0 = high, 1 = normal
+export int screenblocks = 9;     //!< Number of screen blocks (?)
+export int numChannels = 3;      //!< machine-independent sound params
+extern char *chat_macros[];      //!< Default chat macros
 
 std::map<std::string, int &> defaults = {
     { "mouse_sensitivity", mouseSensitivity },
@@ -159,8 +159,7 @@ export void M_LoadDefaults( void )
     if ( constexpr auto arg = "-config"; arguments::has( arg ) )
     {
         defaults_file_path = arguments::at( arguments::index_of( arg ) + 1 );
-        logger::info( "Defaults config set on command line: {}",
-                      defaults_file_path.string() );
+        logger::info( "Defaults config set on command line: {}", defaults_file_path.string() );
     }
     else if ( const auto home_var = getenv( "HOME" ); home_var )
     {
@@ -170,8 +169,7 @@ export void M_LoadDefaults( void )
 
     if ( std::filesystem::exists( defaults_file_path ) )
     {
-        logger::info( "Defaults config found at: {}",
-                      defaults_file_path.string() );
+        logger::info( "Defaults config found at: {}", defaults_file_path.string() );
 
         if ( std::ifstream config( defaults_file_path ); config )
         {
@@ -185,8 +183,7 @@ export void M_LoadDefaults( void )
         }
         else
         {
-            logger::error( "Failed to open config: {}",
-                           defaults_file_path.string() );
+            logger::error( "Failed to open config: {}", defaults_file_path.string() );
         }
     }
     else

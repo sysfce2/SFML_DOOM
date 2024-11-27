@@ -481,8 +481,7 @@ export void P_SetupLevel( int episode, int map, int playermask, skill_t skill )
     wminfo.partime = 180;
     for ( i = 0; i < MAXPLAYERS; i++ )
     {
-        players[i].killcount = players[i].secretcount = players[i].itemcount =
-            0;
+        players[i].killcount = players[i].secretcount = players[i].itemcount = 0;
     }
 
     // Initial height of PointOfView
@@ -529,8 +528,7 @@ export void P_SetupLevel( int episode, int map, int playermask, skill_t skill )
     P_LoadNodes( lumpnum + ML_NODES );
     P_LoadSegs( lumpnum + ML_SEGS );
 
-    rejectmatrix =
-        static_cast<std::byte *>( W_CacheLumpNum( lumpnum + ML_REJECT ) );
+    rejectmatrix = static_cast<std::byte *>( W_CacheLumpNum( lumpnum + ML_REJECT ) );
     P_GroupLines();
 
     bodyqueslot = 0;

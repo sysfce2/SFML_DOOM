@@ -251,42 +251,25 @@ static point_t lnodes[NUMEPISODES][NUMMAPS] = {
 // Using patches saves a lot of space,
 //  as they replace 320x200 full screen frames.
 //
-static anim_t epsd0animinfo[] = { { ANIM_ALWAYS, TICRATE / 3, 3, { 224, 104 } },
-                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 184, 160 } },
-                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 112, 136 } },
-                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 72, 112 } },
-                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 88, 96 } },
-                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 64, 48 } },
-                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 192, 40 } },
-                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 136, 16 } },
-                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 80, 16 } },
-                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 64, 24 } } };
+static anim_t epsd0animinfo[] = { { ANIM_ALWAYS, TICRATE / 3, 3, { 224, 104 } }, { ANIM_ALWAYS, TICRATE / 3, 3, { 184, 160 } },
+                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 112, 136 } }, { ANIM_ALWAYS, TICRATE / 3, 3, { 72, 112 } },
+                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 88, 96 } },   { ANIM_ALWAYS, TICRATE / 3, 3, { 64, 48 } },
+                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 192, 40 } },  { ANIM_ALWAYS, TICRATE / 3, 3, { 136, 16 } },
+                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 80, 16 } },   { ANIM_ALWAYS, TICRATE / 3, 3, { 64, 24 } } };
 
 static anim_t epsd1animinfo[] = {
-    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 1 },
-    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 2 },
-    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 3 },
-    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 4 },
-    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 5 },
-    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 6 },
-    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 7 },
-    { ANIM_LEVEL, TICRATE / 3, 3, { 192, 144 }, 8 },
-    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 8 } };
+    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 1 }, { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 2 }, { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 3 },
+    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 4 }, { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 5 }, { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 6 },
+    { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 7 }, { ANIM_LEVEL, TICRATE / 3, 3, { 192, 144 }, 8 }, { ANIM_LEVEL, TICRATE / 3, 1, { 128, 136 }, 8 } };
 
-static anim_t epsd2animinfo[] = { { ANIM_ALWAYS, TICRATE / 3, 3, { 104, 168 } },
-                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 40, 136 } },
-                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 160, 96 } },
-                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 104, 80 } },
-                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 120, 32 } },
-                                  { ANIM_ALWAYS, TICRATE / 4, 3, { 40, 0 } } };
+static anim_t epsd2animinfo[] = { { ANIM_ALWAYS, TICRATE / 3, 3, { 104, 168 } }, { ANIM_ALWAYS, TICRATE / 3, 3, { 40, 136 } },
+                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 160, 96 } },  { ANIM_ALWAYS, TICRATE / 3, 3, { 104, 80 } },
+                                  { ANIM_ALWAYS, TICRATE / 3, 3, { 120, 32 } },  { ANIM_ALWAYS, TICRATE / 4, 3, { 40, 0 } } };
 
-static int NUMANIMS[NUMEPISODES] = { sizeof( epsd0animinfo ) / sizeof( anim_t ),
-                                     sizeof( epsd1animinfo ) / sizeof( anim_t ),
-                                     sizeof( epsd2animinfo ) /
-                                         sizeof( anim_t ) };
+static int NUMANIMS[NUMEPISODES] = { sizeof( epsd0animinfo ) / sizeof( anim_t ), sizeof( epsd1animinfo ) / sizeof( anim_t ),
+                                     sizeof( epsd2animinfo ) / sizeof( anim_t ) };
 
-static anim_t *anims[NUMEPISODES] = { epsd0animinfo, epsd1animinfo,
-                                      epsd2animinfo };
+static anim_t *anims[NUMEPISODES] = { epsd0animinfo, epsd1animinfo, epsd2animinfo };
 
 //
 // GENERAL DATA
@@ -429,8 +412,7 @@ void WI_drawLF( void )
     int y = WI_TITLEY;
 
     // draw <LevelName>
-    V_DrawPatch( ( SCREENWIDTH - lnames[wbs->last]->width ) / 2, y, FB,
-                 lnames[wbs->last] );
+    V_DrawPatch( ( SCREENWIDTH - lnames[wbs->last]->width ) / 2, y, FB, lnames[wbs->last] );
 
     // draw "Finished!"
     y += ( 5 * lnames[wbs->last]->height ) / 4;
@@ -449,8 +431,7 @@ void WI_drawEL( void )
     // draw level
     y += ( 5 * lnames[wbs->next]->height ) / 4;
 
-    V_DrawPatch( ( SCREENWIDTH - lnames[wbs->next]->width ) / 2, y, FB,
-                 lnames[wbs->next] );
+    V_DrawPatch( ( SCREENWIDTH - lnames[wbs->next]->width ) / 2, y, FB, lnames[wbs->next] );
 }
 
 void WI_drawOnLnode( int n, patch_t *c[] )
@@ -471,8 +452,7 @@ void WI_drawOnLnode( int n, patch_t *c[] )
         right = left + c[i]->width;
         bottom = top + c[i]->height;
 
-        if ( left >= 0 && right < SCREENWIDTH && top >= 0 &&
-             bottom < SCREENHEIGHT )
+        if ( left >= 0 && right < SCREENWIDTH && top >= 0 && bottom < SCREENHEIGHT )
         {
             fits = true;
         }
@@ -559,8 +539,7 @@ void WI_updateAnimatedBack( void )
 
             case ANIM_LEVEL:
                 // gawd-awful hack for level anims
-                if ( !( state == StatCount && i == 7 ) &&
-                     wbs->next == a->data1 )
+                if ( !( state == StatCount && i == 7 ) && wbs->next == a->data1 )
                 {
                     a->ctr++;
                     if ( a->ctr == a->nanims )
@@ -949,8 +928,7 @@ void WI_drawDeathmatchStats( void )
     WI_drawLF();
 
     // draw stat titles (top line)
-    V_DrawPatch( DM_TOTALSX - total->width / 2, DM_MATRIXY - WI_SPACINGY + 10,
-                 FB, total );
+    V_DrawPatch( DM_TOTALSX - total->width / 2, DM_MATRIXY - WI_SPACINGY + 10, FB, total );
 
     V_DrawPatch( DM_KILLERSX, DM_KILLERSY, FB, killers );
     V_DrawPatch( DM_VICTIMSX, DM_VICTIMSY, FB, victims );
@@ -963,15 +941,13 @@ void WI_drawDeathmatchStats( void )
     {
         if ( playeringame[i] )
         {
-            V_DrawPatch( x - p[i]->width / 2, DM_MATRIXY - WI_SPACINGY, FB,
-                         p[i] );
+            V_DrawPatch( x - p[i]->width / 2, DM_MATRIXY - WI_SPACINGY, FB, p[i] );
 
             V_DrawPatch( DM_MATRIXX - p[i]->width / 2, y, FB, p[i] );
 
             if ( i == me )
             {
-                V_DrawPatch( x - p[i]->width / 2, DM_MATRIXY - WI_SPACINGY, FB,
-                             bstar );
+                V_DrawPatch( x - p[i]->width / 2, DM_MATRIXY - WI_SPACINGY, FB, bstar );
 
                 V_DrawPatch( DM_MATRIXX - p[i]->width / 2, y, FB, star );
             }
@@ -1210,15 +1186,12 @@ void WI_drawNetgameStats( void )
     // draw stat titles (top line)
     V_DrawPatch( NG_STATSX + NG_SPACINGX - kills->width, NG_STATSY, FB, kills );
 
-    V_DrawPatch( NG_STATSX + 2 * NG_SPACINGX - items->width, NG_STATSY, FB,
-                 items );
+    V_DrawPatch( NG_STATSX + 2 * NG_SPACINGX - items->width, NG_STATSY, FB, items );
 
-    V_DrawPatch( NG_STATSX + 3 * NG_SPACINGX - secret->width, NG_STATSY, FB,
-                 secret );
+    V_DrawPatch( NG_STATSX + 3 * NG_SPACINGX - secret->width, NG_STATSY, FB, secret );
 
     if ( dofrags )
-        V_DrawPatch( NG_STATSX + 4 * NG_SPACINGX - frags->width, NG_STATSY, FB,
-                     frags );
+        V_DrawPatch( NG_STATSX + 4 * NG_SPACINGX - frags->width, NG_STATSY, FB, frags );
 
     // draw stats
     y = NG_STATSY + kills->height;
@@ -1389,8 +1362,7 @@ void WI_drawStats( void )
     WI_drawPercent( SCREENWIDTH - SP_STATSX, SP_STATSY + lh, cnt_items[0] );
 
     V_DrawPatch( SP_STATSX, SP_STATSY + 2 * lh, FB, sp_secret );
-    WI_drawPercent( SCREENWIDTH - SP_STATSX, SP_STATSY + 2 * lh,
-                    cnt_secret[0] );
+    WI_drawPercent( SCREENWIDTH - SP_STATSX, SP_STATSY + 2 * lh, cnt_secret[0] );
 
     // JONNY TODO
     // V_DrawPatch(SP_TIMEX, SP_TIMEY, FB, time);
@@ -1544,8 +1516,7 @@ void WI_loadData( void )
                     {
                         // animations
                         snprintf( name, 9, "WIA%d%.2d%.2d", wbs->epsd, j, i );
-                        a->p[i] =
-                            static_cast<patch_t *>( W_CacheLumpName( name ) );
+                        a->p[i] = static_cast<patch_t *>( W_CacheLumpName( name ) );
                     }
                     else
                     {

@@ -89,8 +89,7 @@ int wipe_doColorXForm( int width, int height, int ticks )
         {
             if ( *w > *e )
             {
-                newval =
-                    static_cast<std::byte>( static_cast<int>( *w ) - ticks );
+                newval = static_cast<std::byte>( static_cast<int>( *w ) - ticks );
                 if ( newval < *e )
                     *w = *e;
                 else
@@ -99,8 +98,7 @@ int wipe_doColorXForm( int width, int height, int ticks )
             }
             else if ( *w < *e )
             {
-                newval =
-                    static_cast<std::byte>( static_cast<int>( *w ) + ticks );
+                newval = static_cast<std::byte>( static_cast<int>( *w ) + ticks );
                 if ( newval > *e )
                     *w = *e;
                 else
@@ -221,13 +219,10 @@ export int wipe_EndScreen( int x, int y, int width, int height )
     return 0;
 }
 
-export int wipe_ScreenWipe( int wipeno, int x, int y, int width, int height,
-                            int ticks )
+export int wipe_ScreenWipe( int wipeno, int x, int y, int width, int height, int ticks )
 {
     int rc;
-    static int ( *wipes[] )( int, int, int ) = {
-        wipe_initColorXForm, wipe_doColorXForm, wipe_exitColorXForm,
-        wipe_initMelt,       wipe_doMelt,       wipe_exitMelt };
+    static int ( *wipes[] )( int, int, int ) = { wipe_initColorXForm, wipe_doColorXForm, wipe_exitColorXForm, wipe_initMelt, wipe_doMelt, wipe_exitMelt };
 
     // initial stuff
     if ( !go )

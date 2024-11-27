@@ -47,10 +47,7 @@ export thinker_t thinkercap;
 //
 // P_InitThinkers
 //
-export void P_InitThinkers( void )
-{
-    thinkercap.prev = thinkercap.next = &thinkercap;
-}
+export void P_InitThinkers( void ) { thinkercap.prev = thinkercap.next = &thinkercap; }
 
 //
 // P_AddThinker
@@ -120,8 +117,7 @@ export void P_Ticker( void )
         return;
 
     // pause if in menu and at least one tic has been run
-    if ( !netgame && /*menuactive &&*/ !demoplayback &&
-         players[consoleplayer].viewz != 1 )
+    if ( !netgame && /*menuactive &&*/ !demoplayback && players[consoleplayer].viewz != 1 )
     {
         return;
     }

@@ -29,18 +29,16 @@ import sound;
 // List of wad files we populate on start up
 std::vector<std::string> wadfilenames;
 
-//
-// IdentifyVersion
-// Checks availability of IWAD files by name,
-// to determine whether registered/commercial features
-// should be executed (notably loading PWAD's).
+//! Checks availability of IWAD files by name,
+//! to determine whether registered/commercial features
+//! should be executed (notably loading PWAD's).
 //
 void IdentifyVersion( void )
 {
+    // Search in the "wads" dir relative to the working directory
     std::string waddir = "wads";
 
-    logger::info( "WAD directory: {}",
-                  ( std::filesystem::current_path() / waddir ).string() );
+    logger::info( "WAD directory: {}", ( std::filesystem::current_path() / waddir ).string() );
 
     // Commercial.
     const auto doom2wad = waddir + "/doom2.wad";
@@ -161,9 +159,6 @@ void IdentifyVersion( void )
 
 void init( void )
 {
-    int p;
-    std::string file;
-
     IdentifyVersion();
 
     modifiedgame = false;
@@ -179,20 +174,16 @@ void init( void )
     switch ( gamemode )
     {
     case retail:
-        logger::info( "The Ultimate DOOM Startup v{}.{}", VERSION / 100,
-                      VERSION % 100 );
+        logger::info( "The Ultimate DOOM Startup v{}.{}", VERSION / 100, VERSION % 100 );
         break;
     case shareware:
-        logger::info( "DOOM Shareware Startup v{}.{}", VERSION / 100,
-                      VERSION % 100 );
+        logger::info( "DOOM Shareware Startup v{}.{}", VERSION / 100, VERSION % 100 );
         break;
     case registered:
-        logger::info( "DOOM Registered Startup v{}.{}", VERSION / 100,
-                      VERSION % 100 );
+        logger::info( "DOOM Registered Startup v{}.{}", VERSION / 100, VERSION % 100 );
         break;
     case commercial:
-        logger::info( "DOOM 2: Hell on Earth v{}.{}", VERSION / 100,
-                      VERSION % 100 );
+        logger::info( "DOOM 2: Hell on Earth v{}.{}", VERSION / 100, VERSION % 100 );
         break;
         /*FIXME
                case pack_plut:
@@ -359,11 +350,8 @@ void init( void )
     {
         // These are the lumps that will be checked in IWAD,
         // if any one is not present, execution will be aborted.
-        std::array name = { "e2m1",   "e2m2",   "e2m3",    "e2m4",   "e2m5",
-                            "e2m6",   "e2m7",   "e2m8",    "e2m9",   "e3m1",
-                            "e3m3",   "e3m3",   "e3m4",    "e3m5",   "e3m6",
-                            "e3m7",   "e3m8",   "e3m9",    "dphoof", "bfgga0",
-                            "heada1", "cybra1", "spida1d1" };
+        std::array name = { "e2m1", "e2m2", "e2m3", "e2m4", "e2m5", "e2m6", "e2m7",   "e2m8",   "e2m9",   "e3m1",   "e3m3",    "e3m3",
+                            "e3m4", "e3m5", "e3m6", "e3m7", "e3m8", "e3m9", "dphoof", "bfgga0", "heada1", "cybra1", "spida1d1" };
         int i;
 
         if ( gamemode == shareware )
@@ -381,21 +369,20 @@ void init( void )
     // Iff additonal PWAD files are used, print modified banner
     if ( modifiedgame )
     {
-        /*m*/ printf(
-            "=================================================================="
-            "===="
-            "=====\n"
-            "ATTENTION:  This version of DOOM has been modified.  If you would "
-            "like to\n"
-            "get a copy of the original game, call 1-800-IDGAMES or see the "
-            "readme "
-            "file.\n"
-            "        You will not receive technical support for modified "
-            "games.\n"
-            "                      press enter to continue\n"
-            "=================================================================="
-            "===="
-            "=====\n" );
+        /*m*/ printf( "=================================================================="
+                      "===="
+                      "=====\n"
+                      "ATTENTION:  This version of DOOM has been modified.  If you would "
+                      "like to\n"
+                      "get a copy of the original game, call 1-800-IDGAMES or see the "
+                      "readme "
+                      "file.\n"
+                      "        You will not receive technical support for modified "
+                      "games.\n"
+                      "                      press enter to continue\n"
+                      "=================================================================="
+                      "===="
+                      "=====\n" );
         getchar();
     }
 
@@ -404,28 +391,26 @@ void init( void )
     {
     case shareware:
     case indetermined:
-        printf(
-            "==============================================================="
-            "===="
-            "========\n"
-            "                                Shareware!\n"
-            "==============================================================="
-            "===="
-            "========\n" );
+        printf( "==============================================================="
+                "===="
+                "========\n"
+                "                                Shareware!\n"
+                "==============================================================="
+                "===="
+                "========\n" );
         break;
     case registered:
     case retail:
     case commercial:
-        printf(
-            "==============================================================="
-            "===="
-            "========\n"
-            "                 Commercial product - do not distribute!\n"
-            "         Please report software piracy to the SPA: "
-            "1-800-388-PIR8\n"
-            "==============================================================="
-            "===="
-            "========\n" );
+        printf( "==============================================================="
+                "===="
+                "========\n"
+                "                 Commercial product - do not distribute!\n"
+                "         Please report software piracy to the SPA: "
+                "1-800-388-PIR8\n"
+                "==============================================================="
+                "===="
+                "========\n" );
         break;
 
     default:
@@ -485,8 +470,7 @@ void init( void )
     p = arguments::has( "-loadgame" );
     if ( p && p < arguments::count() - 1 )
     {
-        file =
-            std::format( "{}{}.dsg", SAVEGAMENAME, arguments::at( p + 1 )[0] );
+        file = std::format( "{}{}.dsg", SAVEGAMENAME, arguments::at( p + 1 )[0] );
         G_LoadGame( file );
     }
 

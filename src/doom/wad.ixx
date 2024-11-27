@@ -180,24 +180,20 @@ void W_AddFile( const std::filesystem::path &filepath )
         // single lump file
         fileinfo = { singleinfo };
         singleinfo.filepos = 0;
-        singleinfo.size =
-            static_cast<int>( std::filesystem::file_size( filepath ) );
-        std::copy( filename.string().begin(), filename.string().end(),
-                   singleinfo.name.begin() );
+        singleinfo.size = static_cast<int>( std::filesystem::file_size( filepath ) );
+        std::copy( filename.string().begin(), filename.string().end(), singleinfo.name.begin() );
         lumpinfo.emplace_back();
     }
     else
     {
         // WAD file
-        wadfiles.back().read( reinterpret_cast<char *>( &header ),
-                              sizeof( header ) );
+        wadfiles.back().read( reinterpret_cast<char *>( &header ), sizeof( header ) );
         if ( strncmp( header.identification, "IWAD", 4 ) )
         {
             // Homebrew levels?
             if ( strncmp( header.identification, "PWAD", 4 ) )
             {
-                logger::error( "Wad file {} doesn't have or PWAD id\n",
-                               filename.string() );
+                logger::error( "Wad file {} doesn't have or PWAD id\n", filename.string() );
             }
 
             // ???modifiedgame = true;
@@ -207,8 +203,7 @@ void W_AddFile( const std::filesystem::path &filepath )
         length = header.numlumps * sizeof( filelump_t );
         fileinfo.resize( header.numlumps );
         wadfiles.back().seekg( header.infotableofs, std::ios::beg );
-        wadfiles.back().read( reinterpret_cast<char *>( fileinfo.data() ),
-                              length );
+        wadfiles.back().read( reinterpret_cast<char *>( fileinfo.data() ), length );
         lumpinfo.reserve( lumpinfo.size() + header.numlumps );
     }
 
@@ -216,8 +211,7 @@ void W_AddFile( const std::filesystem::path &filepath )
     {
         const auto fileIndex = reloadpath.empty() ? wadfiles.size() - 1 : -1;
         lumpinfo.emplace_back();
-        std::copy( fileinfo[i].name.begin(), fileinfo[i].name.end(),
-                   lumpinfo.back().name );
+        std::copy( fileinfo[i].name.begin(), fileinfo[i].name.end(), lumpinfo.back().name );
         lumpinfo.back().handle = static_cast<int>( fileIndex );
         lumpinfo.back().position = fileinfo[i].filepos;
         lumpinfo.back().size = fileinfo[i].size;
@@ -254,8 +248,7 @@ export void W_Reload( void )
     // Fill in lumpinfo
     lump_p = &lumpinfo[reloadlump];
 
-    for ( auto i = reloadlump; i < reloadlump + lumpcount;
-          i++, lump_p++, fileinfo++ )
+    for ( auto i = reloadlump; i < reloadlump + lumpcount; i++, lump_p++, fileinfo++ )
     {
         if ( lumpcache[i] )
             free( lumpcache[i] );
@@ -319,14 +312,12 @@ export int W_CheckNumForName( const std::string &name )
 {
     // scan backwards so patch lump files take precedence
     auto upper_name = name;
-    std::transform( std::begin( upper_name ), std::end( upper_name ),
-                    std::begin( upper_name ), toupper );
+    std::transform( std::begin( upper_name ), std::end( upper_name ), std::begin( upper_name ), toupper );
     for ( auto lump = lumpinfo.rbegin(); lump != lumpinfo.rend(); ++lump )
     {
         if ( lump->name == upper_name )
         {
-            return static_cast<int>(
-                std::distance( lumpinfo.begin(), lump.base() ) - 1 );
+            return static_cast<int>( std::distance( lumpinfo.begin(), lump.base() ) - 1 );
         }
     }
 
@@ -384,11 +375,9 @@ export void W_ReadLump( int lump, void *dest )
     if ( l.handle == -1 )
     {
         // reloadable file, so use open / read / close
-        if ( std::ifstream file{ reloadpath.c_str(), std::ios::binary };
-             !file.is_open() )
+        if ( std::ifstream file{ reloadpath.c_str(), std::ios::binary }; !file.is_open() )
         {
-            logger::error( "W_ReadLump: couldn't open {}",
-                           reloadpath.string() );
+            logger::error( "W_ReadLump: couldn't open {}", reloadpath.string() );
         }
         else
         {
@@ -397,8 +386,7 @@ export void W_ReadLump( int lump, void *dest )
 
             if ( !file )
             {
-                logger::error( "W_ReadLump: only read {} of {} on lump {}",
-                               file.gcount(), l.size, lump );
+                logger::error( "W_ReadLump: only read {} of {} on lump {}", file.gcount(), l.size, lump );
             }
         }
     }
@@ -411,8 +399,7 @@ export void W_ReadLump( int lump, void *dest )
 
         if ( !file )
         {
-            logger::error( "W_ReadLump: only read {} of {} on lump {}",
-                           file.gcount(), l.size, lump );
+            logger::error( "W_ReadLump: only read {} of {} on lump {}", file.gcount(), l.size, lump );
         }
     }
 }
@@ -447,7 +434,4 @@ export void *W_CacheLumpNum( uint32_t lump )
 //
 // W_CacheLumpName
 //
-export void *W_CacheLumpName( const std::string &name )
-{
-    return W_CacheLumpNum( W_GetNumForName( name ) );
-}
+export void *W_CacheLumpName( const std::string &name ) { return W_CacheLumpNum( W_GetNumForName( name ) ); }

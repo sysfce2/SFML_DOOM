@@ -202,8 +202,7 @@ export visplane_t *R_FindPlane( fixed_t height, int picnum, int lightlevel )
 
     for ( check = visplanes; check < lastvisplane; check++ )
     {
-        if ( height == check->height && picnum == check->picnum &&
-             lightlevel == check->lightlevel )
+        if ( height == check->height && picnum == check->picnum && lightlevel == check->lightlevel )
         {
             break;
         }
@@ -330,16 +329,13 @@ export void R_DrawPlanes( void )
 
 #ifdef RANGECHECK
     if ( ds_p - drawsegs > MAXDRAWSEGS )
-        logger::error( "R_DrawPlanes: drawsegs overflow ({})",
-                       ds_p - drawsegs );
+        logger::error( "R_DrawPlanes: drawsegs overflow ({})", ds_p - drawsegs );
 
     if ( lastvisplane - visplanes > MAXVISPLANES )
-        logger::error( "R_DrawPlanes: visplane overflow ({})",
-                       lastvisplane - visplanes );
+        logger::error( "R_DrawPlanes: visplane overflow ({})", lastvisplane - visplanes );
 
     if ( lastopening - openings > MAXOPENINGS )
-        logger::error( "R_DrawPlanes: opening overflow ({})",
-                       lastopening - openings );
+        logger::error( "R_DrawPlanes: opening overflow ({})", lastopening - openings );
 #endif
 
     for ( pl = visplanes; pl < lastvisplane; pl++ )
@@ -375,8 +371,7 @@ export void R_DrawPlanes( void )
         }
 
         // regular flat
-        ds_source = static_cast<std::byte *>(
-            W_CacheLumpNum( firstflat + flattranslation[pl->picnum] ) );
+        ds_source = static_cast<std::byte *>( W_CacheLumpNum( firstflat + flattranslation[pl->picnum] ) );
 
         planeheight = abs( pl->height - viewz );
         light = ( pl->lightlevel >> LIGHTSEGSHIFT ) + extralight;
@@ -396,9 +391,7 @@ export void R_DrawPlanes( void )
 
         for ( x = pl->minx; x <= stop; x++ )
         {
-            R_MakeSpans( x, static_cast<int>( pl->top[x - 1] ),
-                         static_cast<int>( pl->bottom[x - 1] ),
-                         static_cast<int>( pl->top[x] ),
+            R_MakeSpans( x, static_cast<int>( pl->top[x - 1] ), static_cast<int>( pl->bottom[x - 1] ), static_cast<int>( pl->top[x] ),
                          static_cast<int>( pl->bottom[x] ) );
         }
     }

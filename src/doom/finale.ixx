@@ -231,8 +231,7 @@ export void F_Ticker( void )
     if ( gamemode == commercial )
         return;
 
-    if ( !finalestage &&
-         finalecount > finaletext.length() * TEXTSPEED + TEXTWAIT )
+    if ( !finalestage && finalecount > finaletext.length() * TEXTSPEED + TEXTWAIT )
     {
         finalecount = 0;
         finalestage = 1;
@@ -487,18 +486,15 @@ void F_CastTicker( void )
         if ( caststate == &states[S_NULL] )
         {
             if ( castonmelee )
-                caststate =
-                    &states[mobjinfo[castorder[castnum].type].meleestate];
+                caststate = &states[mobjinfo[castorder[castnum].type].meleestate];
             else
-                caststate =
-                    &states[mobjinfo[castorder[castnum].type].missilestate];
+                caststate = &states[mobjinfo[castorder[castnum].type].missilestate];
         }
     }
 
     if ( castattacking )
     {
-        if ( castframes == 24 ||
-             caststate == &states[mobjinfo[castorder[castnum].type].seestate] )
+        if ( castframes == 24 || caststate == &states[mobjinfo[castorder[castnum].type].seestate] )
         {
         stopattack:
             castattacking = false;
@@ -596,8 +592,7 @@ void F_CastDrawer( void )
     patch_t *patch;
 
     // erase the entire screen to a background
-    V_DrawPatch( 0, 0, 0,
-                 static_cast<patch_t *>( W_CacheLumpName( "BOSSBACK" ) ) );
+    V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( W_CacheLumpName( "BOSSBACK" ) ) );
 
     F_CastPrint( castorder[castnum].name );
 
@@ -643,8 +638,7 @@ void F_DrawPatchCol( int x, patch_t *patch, int col )
             *dest = *source++;
             dest += SCREENWIDTH;
         }
-        column = (column_t *)( (std::byte *)column +
-                               static_cast<int>( column->length ) + 4 );
+        column = (column_t *)( (std::byte *)column + static_cast<int>( column->length ) + 4 );
     }
 }
 
@@ -684,8 +678,7 @@ void F_BunnyScroll( void )
         return;
     if ( finalecount < 1180 )
     {
-        V_DrawPatch( ( SCREENWIDTH - 13 * 8 ) / 2, ( SCREENHEIGHT - 8 * 8 ) / 2,
-                     0, static_cast<patch_t *>( W_CacheLumpName( "END0" ) ) );
+        V_DrawPatch( ( SCREENWIDTH - 13 * 8 ) / 2, ( SCREENHEIGHT - 8 * 8 ) / 2, 0, static_cast<patch_t *>( W_CacheLumpName( "END0" ) ) );
         laststage = 0;
         return;
     }
@@ -700,8 +693,7 @@ void F_BunnyScroll( void )
     }
 
     snprintf( name, 10, "END%i", stage );
-    V_DrawPatch( ( SCREENWIDTH - 13 * 8 ) / 2, ( SCREENHEIGHT - 8 * 8 ) / 2, 0,
-                 static_cast<patch_t *>( W_CacheLumpName( name ) ) );
+    V_DrawPatch( ( SCREENWIDTH - 13 * 8 ) / 2, ( SCREENHEIGHT - 8 * 8 ) / 2, 0, static_cast<patch_t *>( W_CacheLumpName( name ) ) );
 }
 
 //
@@ -723,26 +715,18 @@ export void F_Drawer( void )
         {
         case 1:
             if ( gamemode == retail )
-                V_DrawPatch(
-                    0, 0, 0,
-                    static_cast<patch_t *>( W_CacheLumpName( "CREDIT" ) ) );
+                V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( W_CacheLumpName( "CREDIT" ) ) );
             else
-                V_DrawPatch(
-                    0, 0, 0,
-                    static_cast<patch_t *>( W_CacheLumpName( "HELP2" ) ) );
+                V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( W_CacheLumpName( "HELP2" ) ) );
             break;
         case 2:
-            V_DrawPatch(
-                0, 0, 0,
-                static_cast<patch_t *>( W_CacheLumpName( "VICTORY2" ) ) );
+            V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( W_CacheLumpName( "VICTORY2" ) ) );
             break;
         case 3:
             F_BunnyScroll();
             break;
         case 4:
-            V_DrawPatch(
-                0, 0, 0,
-                static_cast<patch_t *>( W_CacheLumpName( "ENDPIC" ) ) );
+            V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( W_CacheLumpName( "ENDPIC" ) ) );
             break;
         }
     }

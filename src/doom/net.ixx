@@ -35,21 +35,12 @@ import doom;
 
 // For some odd reason...
 #ifndef ntohl
-#define ntohl( x )                                                             \
-    ( (unsigned long int)( ( ( (unsigned long int)( x ) & 0x000000ffU )        \
-                             << 24 ) |                                         \
-                           ( ( (unsigned long int)( x ) & 0x0000ff00U )        \
-                             << 8 ) |                                          \
-                           ( ( (unsigned long int)( x ) & 0x00ff0000U ) >>     \
-                             8 ) |                                             \
-                           ( ( (unsigned long int)( x ) & 0xff000000U ) >>     \
-                             24 ) ) )
+#define ntohl( x )                                                                                                                                             \
+    ( (unsigned long int)( ( ( (unsigned long int)( x ) & 0x000000ffU ) << 24 ) | ( ( (unsigned long int)( x ) & 0x0000ff00U ) << 8 ) |                        \
+                           ( ( (unsigned long int)( x ) & 0x00ff0000U ) >> 8 ) | ( ( (unsigned long int)( x ) & 0xff000000U ) >> 24 ) ) )
 #endif
 #ifndef ntohs
-#define ntohs( x )                                                             \
-    ( (unsigned short int)( ( ( (unsigned short int)( x ) & 0x00ff ) << 8 ) |  \
-                            ( ( (unsigned short int)( x ) & 0xff00 ) >>        \
-                              8 ) ) )
+#define ntohs( x ) ( (unsigned short int)( ( ( (unsigned short int)( x ) & 0x00ff ) << 8 ) | ( ( (unsigned short int)( x ) & 0xff00 ) >> 8 ) ) )
 
 #endif
 #ifndef htonl
@@ -375,8 +366,7 @@ void I_InitNetwork( void )
         {
             //	    hostentry = gethostbyname (arguments::at(i).c_str());
             //	    if (!hostentry)
-            logger::error( "gethostbyname: couldn't find %s",
-                           arguments::at( i ).data() );
+            logger::error( "gethostbyname: couldn't find %s", arguments::at( i ).data() );
             //	    sendaddress[doomcom.numnodes].sin_addr.s_addr
             //		= *(int *)hostentry->h_addr_list[0];
         }
@@ -623,11 +613,9 @@ void GetPackets( void )
         nodeforplayer[netconsole] = netnode;
 
         // check for retransmit request
-        if ( resendcount[netnode] <= 0 &&
-             ( netbuffer->checksum & NCMD_RETRANSMIT ) )
+        if ( resendcount[netnode] <= 0 && ( netbuffer->checksum & NCMD_RETRANSMIT ) )
         {
-            resendto[netnode] =
-                ExpandTics( static_cast<int>( netbuffer->retransmitfrom ) );
+            resendto[netnode] = ExpandTics( static_cast<int>( netbuffer->retransmitfrom ) );
             resendcount[netnode] = RESENDCOUNT;
         }
         else
@@ -740,8 +728,7 @@ export void NetUpdate( void )
 
             if ( remoteresend[i] )
             {
-                netbuffer->retransmitfrom =
-                    static_cast<std::byte>( nettics[i] );
+                netbuffer->retransmitfrom = static_cast<std::byte>( nettics[i] );
                 HSendPacket( i, NCMD_RETRANSMIT );
             }
             else
@@ -804,8 +791,7 @@ void D_ArbitrateNetStart( void )
             if ( netbuffer->checksum & NCMD_SETUP )
             {
                 if ( netbuffer->player != static_cast<std::byte>( VERSION ) )
-                    logger::error(
-                        "Different DOOM versions cannot play a net game!" );
+                    logger::error( "Different DOOM versions cannot play a net game!" );
                 // TODO JONNY circular dependency
                 // startskill = static_cast<skill_t>(netbuffer->retransmitfrom &
                 //                                   static_cast
@@ -849,10 +835,8 @@ void D_ArbitrateNetStart( void )
 #if 1
             for ( i = 10; i && HGetPacket(); --i )
             {
-                if ( int( netbuffer->player & std::byte{ 0x7f } ) <
-                     MAXNETNODES )
-                    gotinfo[static_cast<int>( netbuffer->player ) & 0x7f] =
-                        true;
+                if ( int( netbuffer->player & std::byte{ 0x7f } ) < MAXNETNODES )
+                    gotinfo[static_cast<int>( netbuffer->player ) & 0x7f] = true;
             }
 #else
             while ( HGetPacket() )
@@ -910,8 +894,7 @@ export void D_CheckNetGame( void )
     for ( i = 0; i < doomcom.numnodes; i++ )
         nodeingame[i] = true;
 
-    printf( "player %i of %i (%i nodes)\n", consoleplayer + 1,
-            doomcom.numplayers, doomcom.numnodes );
+    printf( "player %i of %i (%i nodes)\n", consoleplayer + 1, doomcom.numplayers, doomcom.numnodes );
 }
 
 //

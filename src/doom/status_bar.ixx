@@ -202,8 +202,7 @@ typedef struct
 #define ST_NUMTURNFACES 2
 #define ST_NUMSPECIALFACES 3
 
-#define ST_FACESTRIDE                                                          \
-    ( ST_NUMSTRAIGHTFACES + ST_NUMTURNFACES + ST_NUMSPECIALFACES )
+#define ST_FACESTRIDE ( ST_NUMSTRAIGHTFACES + ST_NUMTURNFACES + ST_NUMSPECIALFACES )
 
 #define ST_NUMEXTRAFACES 2
 
@@ -357,8 +356,7 @@ typedef struct
 // Height, in lines.
 #define ST_OUTHEIGHT 1
 
-#define ST_MAPWIDTH                                                            \
-    ( strlen( mapnames[( gameepisode - 1 ) * 9 + ( gamemap - 1 )] ) )
+#define ST_MAPWIDTH ( strlen( mapnames[( gameepisode - 1 ) * 9 + ( gamemap - 1 )] ) )
 
 #define ST_MAPTITLEX ( SCREENWIDTH - ST_MAPWIDTH * ST_CHATFONTWIDTH )
 
@@ -545,11 +543,8 @@ cheatseq_t cheat_ammonokey = { cheat_ammonokey_seq, 0 };
 cheatseq_t cheat_noclip = { cheat_noclip_seq, 0 };
 cheatseq_t cheat_commercial_noclip = { cheat_commercial_noclip_seq, 0 };
 
-cheatseq_t cheat_powerup[7] = {
-    { cheat_powerup_seq[0], 0 }, { cheat_powerup_seq[1], 0 },
-    { cheat_powerup_seq[2], 0 }, { cheat_powerup_seq[3], 0 },
-    { cheat_powerup_seq[4], 0 }, { cheat_powerup_seq[5], 0 },
-    { cheat_powerup_seq[6], 0 } };
+cheatseq_t cheat_powerup[7] = { { cheat_powerup_seq[0], 0 }, { cheat_powerup_seq[1], 0 }, { cheat_powerup_seq[2], 0 }, { cheat_powerup_seq[3], 0 },
+                                { cheat_powerup_seq[4], 0 }, { cheat_powerup_seq[5], 0 }, { cheat_powerup_seq[6], 0 } };
 
 cheatseq_t cheat_choppers = { cheat_choppers_seq, 0 };
 cheatseq_t cheat_clev = { cheat_clev_seq, 0 };
@@ -800,8 +795,7 @@ int ST_calcPainOffset( void )
 
     if ( health != oldhealth )
     {
-        lastcalc =
-            ST_FACESTRIDE * ( ( ( 100 - health ) * ST_NUMPAINFACES ) / 101 );
+        lastcalc = ST_FACESTRIDE * ( ( ( 100 - health ) * ST_NUMPAINFACES ) / 101 );
         oldhealth = health;
     }
     return lastcalc;
@@ -872,9 +866,7 @@ void ST_updateFaceWidget( void )
             }
             else
             {
-                badguyangle =
-                    R_PointToAngle2( plyr->mo->x, plyr->mo->y,
-                                     plyr->attacker->x, plyr->attacker->y );
+                badguyangle = R_PointToAngle2( plyr->mo->x, plyr->mo->y, plyr->attacker->x, plyr->attacker->y );
 
                 if ( badguyangle > plyr->mo->angle )
                 {
@@ -1086,8 +1078,7 @@ void ST_doPaletteStuff( void )
         palette += STARTBONUSPALS;
     }
 
-    else if ( plyr->powers[pw_ironfeet] > 4 * 32 ||
-              plyr->powers[pw_ironfeet] & 8 )
+    else if ( plyr->powers[pw_ironfeet] > 4 * 32 || plyr->powers[pw_ironfeet] & 8 )
         palette = RADIATIONPAL;
     else
         palette = 0;
@@ -1212,8 +1203,7 @@ void STlib_updateBinIcon( st_binicon_t *bi, bool refresh )
 void STlib_updateMultIcon( st_multicon_t *mi, bool refresh )
 {
 
-    if ( *mi->on && ( mi->oldinum != *mi->inum || refresh ) &&
-         ( *mi->inum != -1 ) )
+    if ( *mi->on && ( mi->oldinum != *mi->inum || refresh ) && ( *mi->inum != -1 ) )
     {
         if ( mi->oldinum != -1 )
         {
@@ -1360,8 +1350,7 @@ void ST_loadGraphics( void )
         for ( j = 0; j < ST_NUMSTRAIGHTFACES; j++ )
         {
             snprintf( namebuf, 9, "STFST%d%d", i, j );
-            faces[facenum++] =
-                static_cast<patch_t *>( W_CacheLumpName( namebuf ) );
+            faces[facenum++] = static_cast<patch_t *>( W_CacheLumpName( namebuf ) );
         }
         snprintf( namebuf, 9, "STFTR%d0", i ); // turn right
         faces[facenum++] = static_cast<patch_t *>( W_CacheLumpName( namebuf ) );
@@ -1417,8 +1406,7 @@ void ST_initData( void )
 }
 
 // ?
-void STlib_initNum( st_number_t *n, int x, int y, patch_t **pl, int *num,
-                    bool *on, int width )
+void STlib_initNum( st_number_t *n, int x, int y, patch_t **pl, int *num, bool *on, int width )
 {
     n->x = x;
     n->y = y;
@@ -1430,15 +1418,13 @@ void STlib_initNum( st_number_t *n, int x, int y, patch_t **pl, int *num,
 }
 
 //
-void STlib_initPercent( st_percent_t *p, int x, int y, patch_t **pl, int *num,
-                        bool *on, patch_t *percent )
+void STlib_initPercent( st_percent_t *p, int x, int y, patch_t **pl, int *num, bool *on, patch_t *percent )
 {
     STlib_initNum( &p->n, x, y, pl, num, on, 3 );
     p->p = percent;
 }
 
-void STlib_initMultIcon( st_multicon_t *i, int x, int y, patch_t **il,
-                         int *inum, bool *on )
+void STlib_initMultIcon( st_multicon_t *i, int x, int y, patch_t **il, int *inum, bool *on )
 {
     i->x = x;
     i->y = y;
@@ -1448,8 +1434,7 @@ void STlib_initMultIcon( st_multicon_t *i, int x, int y, patch_t **il,
     i->p = il;
 }
 
-void STlib_initBinIcon( st_binicon_t *b, int x, int y, patch_t *i, bool *val,
-                        bool *on )
+void STlib_initBinIcon( st_binicon_t *b, int x, int y, patch_t *i, bool *val, bool *on )
 {
     b->x = x;
     b->y = y;
@@ -1465,76 +1450,57 @@ void ST_createWidgets( void )
     int i;
 
     // ready weapon ammo
-    STlib_initNum( &w_ready, ST_AMMOX, ST_AMMOY, tallnum,
-                   &plyr->ammo[weaponinfo[plyr->readyweapon].ammo],
-                   &st_statusbaron, ST_AMMOWIDTH );
+    STlib_initNum( &w_ready, ST_AMMOX, ST_AMMOY, tallnum, &plyr->ammo[weaponinfo[plyr->readyweapon].ammo], &st_statusbaron, ST_AMMOWIDTH );
 
     // the last weapon type
     w_ready.data = plyr->readyweapon;
 
     // health percentage
-    STlib_initPercent( &w_health, ST_HEALTHX, ST_HEALTHY, tallnum,
-                       &plyr->health, &st_statusbaron, tallpercent );
+    STlib_initPercent( &w_health, ST_HEALTHX, ST_HEALTHY, tallnum, &plyr->health, &st_statusbaron, tallpercent );
 
     // arms background
-    STlib_initBinIcon( &w_armsbg, ST_ARMSBGX, ST_ARMSBGY, armsbg,
-                       &st_notdeathmatch, &st_statusbaron );
+    STlib_initBinIcon( &w_armsbg, ST_ARMSBGX, ST_ARMSBGY, armsbg, &st_notdeathmatch, &st_statusbaron );
 
     // weapons owned
     for ( i = 0; i < 6; i++ )
     {
-        STlib_initMultIcon( &w_arms[i], ST_ARMSX + ( i % 3 ) * ST_ARMSXSPACE,
-                            ST_ARMSY + ( i / 3 ) * ST_ARMSYSPACE, arms[i],
-                            (int *)&plyr->weaponowned[i + 1], &st_armson );
+        STlib_initMultIcon( &w_arms[i], ST_ARMSX + ( i % 3 ) * ST_ARMSXSPACE, ST_ARMSY + ( i / 3 ) * ST_ARMSYSPACE, arms[i], (int *)&plyr->weaponowned[i + 1],
+                            &st_armson );
     }
 
     // frags sum
-    STlib_initNum( &w_frags, ST_FRAGSX, ST_FRAGSY, tallnum, &st_fragscount,
-                   &st_fragson, ST_FRAGSWIDTH );
+    STlib_initNum( &w_frags, ST_FRAGSX, ST_FRAGSY, tallnum, &st_fragscount, &st_fragson, ST_FRAGSWIDTH );
 
     // faces
-    STlib_initMultIcon( &w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex,
-                        &st_statusbaron );
+    STlib_initMultIcon( &w_faces, ST_FACESX, ST_FACESY, faces, &st_faceindex, &st_statusbaron );
 
     // armor percentage - should be colored later
-    STlib_initPercent( &w_armor, ST_ARMORX, ST_ARMORY, tallnum,
-                       &plyr->armorpoints, &st_statusbaron, tallpercent );
+    STlib_initPercent( &w_armor, ST_ARMORX, ST_ARMORY, tallnum, &plyr->armorpoints, &st_statusbaron, tallpercent );
 
     // keyboxes 0-2
-    STlib_initMultIcon( &w_keyboxes[0], ST_KEY0X, ST_KEY0Y, keys, &keyboxes[0],
-                        &st_statusbaron );
+    STlib_initMultIcon( &w_keyboxes[0], ST_KEY0X, ST_KEY0Y, keys, &keyboxes[0], &st_statusbaron );
 
-    STlib_initMultIcon( &w_keyboxes[1], ST_KEY1X, ST_KEY1Y, keys, &keyboxes[1],
-                        &st_statusbaron );
+    STlib_initMultIcon( &w_keyboxes[1], ST_KEY1X, ST_KEY1Y, keys, &keyboxes[1], &st_statusbaron );
 
-    STlib_initMultIcon( &w_keyboxes[2], ST_KEY2X, ST_KEY2Y, keys, &keyboxes[2],
-                        &st_statusbaron );
+    STlib_initMultIcon( &w_keyboxes[2], ST_KEY2X, ST_KEY2Y, keys, &keyboxes[2], &st_statusbaron );
 
     // ammo count (all four kinds)
-    STlib_initNum( &w_ammo[0], ST_AMMO0X, ST_AMMO0Y, shortnum, &plyr->ammo[0],
-                   &st_statusbaron, ST_AMMO0WIDTH );
+    STlib_initNum( &w_ammo[0], ST_AMMO0X, ST_AMMO0Y, shortnum, &plyr->ammo[0], &st_statusbaron, ST_AMMO0WIDTH );
 
-    STlib_initNum( &w_ammo[1], ST_AMMO1X, ST_AMMO1Y, shortnum, &plyr->ammo[1],
-                   &st_statusbaron, ST_AMMO1WIDTH );
+    STlib_initNum( &w_ammo[1], ST_AMMO1X, ST_AMMO1Y, shortnum, &plyr->ammo[1], &st_statusbaron, ST_AMMO1WIDTH );
 
-    STlib_initNum( &w_ammo[2], ST_AMMO2X, ST_AMMO2Y, shortnum, &plyr->ammo[2],
-                   &st_statusbaron, ST_AMMO2WIDTH );
+    STlib_initNum( &w_ammo[2], ST_AMMO2X, ST_AMMO2Y, shortnum, &plyr->ammo[2], &st_statusbaron, ST_AMMO2WIDTH );
 
-    STlib_initNum( &w_ammo[3], ST_AMMO3X, ST_AMMO3Y, shortnum, &plyr->ammo[3],
-                   &st_statusbaron, ST_AMMO3WIDTH );
+    STlib_initNum( &w_ammo[3], ST_AMMO3X, ST_AMMO3Y, shortnum, &plyr->ammo[3], &st_statusbaron, ST_AMMO3WIDTH );
 
     // max ammo count (all four kinds)
-    STlib_initNum( &w_maxammo[0], ST_MAXAMMO0X, ST_MAXAMMO0Y, shortnum,
-                   &plyr->maxammo[0], &st_statusbaron, ST_MAXAMMO0WIDTH );
+    STlib_initNum( &w_maxammo[0], ST_MAXAMMO0X, ST_MAXAMMO0Y, shortnum, &plyr->maxammo[0], &st_statusbaron, ST_MAXAMMO0WIDTH );
 
-    STlib_initNum( &w_maxammo[1], ST_MAXAMMO1X, ST_MAXAMMO1Y, shortnum,
-                   &plyr->maxammo[1], &st_statusbaron, ST_MAXAMMO1WIDTH );
+    STlib_initNum( &w_maxammo[1], ST_MAXAMMO1X, ST_MAXAMMO1Y, shortnum, &plyr->maxammo[1], &st_statusbaron, ST_MAXAMMO1WIDTH );
 
-    STlib_initNum( &w_maxammo[2], ST_MAXAMMO2X, ST_MAXAMMO2Y, shortnum,
-                   &plyr->maxammo[2], &st_statusbaron, ST_MAXAMMO2WIDTH );
+    STlib_initNum( &w_maxammo[2], ST_MAXAMMO2X, ST_MAXAMMO2Y, shortnum, &plyr->maxammo[2], &st_statusbaron, ST_MAXAMMO2WIDTH );
 
-    STlib_initNum( &w_maxammo[3], ST_MAXAMMO3X, ST_MAXAMMO3Y, shortnum,
-                   &plyr->maxammo[3], &st_statusbaron, ST_MAXAMMO3WIDTH );
+    STlib_initNum( &w_maxammo[3], ST_MAXAMMO3X, ST_MAXAMMO3Y, shortnum, &plyr->maxammo[3], &st_statusbaron, ST_MAXAMMO3WIDTH );
 }
 
 static bool st_stopped = true;

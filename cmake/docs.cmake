@@ -6,7 +6,7 @@ if (NOT DOXYGEN_FOUND)
 endif()
 
 # Just document engine files
-file(GLOB FILES ${CMAKE_CURRENT_LIST_DIR}/../src/engine/*[.ixx|.cpp])
+file(GLOB FILES ${CMAKE_CURRENT_LIST_DIR}/../src/*[.ixx|.cpp])
 
 set(DOXYGEN_NUM_PROC_THREADS 0) # Use as many threads as the host has
 set(DOXYGEN_WARN_AS_ERROR YES) # Treat warnings as errors

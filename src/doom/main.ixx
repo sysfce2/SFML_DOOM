@@ -104,8 +104,7 @@ export void D_ProcessEvents( void )
     if ( ( gamemode == commercial ) && ( W_CheckNumForName( "map01" ) < 0 ) )
         return;
 
-    for ( ; eventtail != eventhead;
-          eventtail = ( ++eventtail ) & ( MAXEVENTS - 1 ) )
+    for ( ; eventtail != eventhead; eventtail = ( ++eventtail ) & ( MAXEVENTS - 1 ) )
     {
         auto &ev = events[eventtail];
         if ( M_Responder( *ev ) )
@@ -119,11 +118,7 @@ std::string pagename;
 //
 // D_PageDrawer
 //
-void D_PageDrawer( void )
-{
-    V_DrawPatch( 0, 0, 0,
-                 static_cast<patch_t *>( W_CacheLumpName( pagename ) ) );
-}
+void D_PageDrawer( void ) { V_DrawPatch( 0, 0, 0, static_cast<patch_t *>( W_CacheLumpName( pagename ) ) ); }
 
 //
 // D_Display
@@ -159,8 +154,7 @@ export void D_Display( void )
     if ( setsizeneeded )
     {
         R_ExecuteSetViewSize();
-        oldgamestate =
-            static_cast<gamestate_t>( -1 ); // force background redraw
+        oldgamestate = static_cast<gamestate_t>( -1 ); // force background redraw
         borderdrawcount = 3;
     }
 
@@ -217,8 +211,7 @@ export void D_Display( void )
 
     // clean up border stuff
     if ( gamestate != oldgamestate && gamestate != GS_LEVEL )
-        I_SetPalette(
-            static_cast<std::byte *>( W_CacheLumpName( "PLAYPAL" ) ) );
+        I_SetPalette( static_cast<std::byte *>( W_CacheLumpName( "PLAYPAL" ) ) );
 
     // see if the border needs to be initially drawn
     if ( gamestate == GS_LEVEL && oldgamestate != GS_LEVEL )
@@ -251,9 +244,7 @@ export void D_Display( void )
             y = 4;
         else
             y = viewwindowy + 4;
-        V_DrawPatchDirect(
-            viewwindowx + ( scaledviewwidth - 68 ) / 2, y, 0,
-            static_cast<patch_t *>( W_CacheLumpName( "M_PAUSE" ) ) );
+        V_DrawPatchDirect( viewwindowx + ( scaledviewwidth - 68 ) / 2, y, 0, static_cast<patch_t *>( W_CacheLumpName( "M_PAUSE" ) ) );
     }
 
     // menus go directly to the screen
@@ -280,8 +271,7 @@ export void D_Display( void )
             tics = nowtime - wipestart;
         } while ( !tics );
         wipestart = nowtime;
-        done =
-            wipe_ScreenWipe( wipe_Melt, 0, 0, SCREENWIDTH, SCREENHEIGHT, tics );
+        done = wipe_ScreenWipe( wipe_Melt, 0, 0, SCREENWIDTH, SCREENHEIGHT, tics );
         I_UpdateNoBlit();
         M_Drawer();       // menu is drawn even on top of wipes
         I_FinishUpdate(); // page flip or blit buffer
