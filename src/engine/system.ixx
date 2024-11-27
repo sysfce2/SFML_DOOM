@@ -25,10 +25,8 @@ export module engine:system;
 import :logger;
 import :arguments;
 
-//
-// I_GetTime
-// returns time in 1/70th second tics
-//
+//! I_GetTime
+//! returns time in 1/70th second tics
 export int I_GetTime(void)
 {
     using namespace std::chrono;
@@ -40,7 +38,7 @@ export int I_GetTime(void)
 }
 
 //
-// I_Init
+//! I_Init
 //
 export void I_Init(void)
 {

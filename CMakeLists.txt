@@ -6,5 +6,7 @@ add_subdirectory(src/engine)
 add_subdirectory(src/hello)
 add_subdirectory(src/doom)
 
-# Target to format code
-add_custom_target(format ${CMAKE_COMMAND} -P cmake/format.cmake)
+# extra cmake modules
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+include(docs)
+include(format)
