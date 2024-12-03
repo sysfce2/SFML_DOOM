@@ -42,8 +42,6 @@ import engine;
 // Screen 1 is an extra buffer.
 using screen = std::array<std::byte, SCREENWIDTH * SCREENHEIGHT>;
 
-extern int dirtybox[4];
-
 export int usegamma = 0;
 
 export std::array<screen, 5> screens;

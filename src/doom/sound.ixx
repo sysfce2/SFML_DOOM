@@ -597,11 +597,11 @@ int I_QrySongPlaying( int handle )
 
 // Current music/sfx card - index useless
 //  w/o a reference LUT in a sound module.
-extern int snd_MusicDevice;
-extern int snd_SfxDevice;
+int snd_MusicDevice;
+int snd_SfxDevice;
 // Config file? Same disclaimer as above.
-extern int snd_DesiredMusicDevice;
-extern int snd_DesiredSfxDevice;
+int snd_DesiredMusicDevice;
+int snd_DesiredSfxDevice;
 
 // whether songs are mus_paused
 static bool mus_paused;

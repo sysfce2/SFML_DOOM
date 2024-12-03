@@ -70,7 +70,6 @@ export int showMessages = 1;     //!< Show messages has default, 0 = off, 1 = on
 export int detailLevel = 0;      //!< Blocky mode, has default, 0 = high, 1 = normal
 export int screenblocks = 9;     //!< Number of screen blocks (?)
 export int numChannels = 3;      //!< machine-independent sound params
-extern char *chat_macros[];      //!< Default chat macros
 
 std::map<std::string, int &> defaults = {
     { "mouse_sensitivity", mouseSensitivity },
@@ -148,7 +147,7 @@ export void M_SaveDefaults( void )
     }
 }
 
-extern std::byte scantokey[128];
+std::byte scantokey[128];
 //
 //! M_LoadDefaults
 //

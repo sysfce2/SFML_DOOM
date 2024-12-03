@@ -38,8 +38,8 @@ export inline short *lastopening;
 
 typedef void ( *planefunction_t )( int top, int bottom );
 
-extern planefunction_t floorfunc;
-extern planefunction_t ceilingfunc_t;
+planefunction_t floorfunc;
+planefunction_t ceilingfunc_t;
 
 //
 // Clip values are the solid pixel bounding the range.
@@ -51,9 +51,6 @@ export inline short ceilingclip[SCREENWIDTH];
 
 export inline fixed_t yslope[SCREENHEIGHT];
 export inline fixed_t distscale[SCREENWIDTH];
-
-planefunction_t floorfunc;
-planefunction_t ceilingfunc;
 
 //
 // opening

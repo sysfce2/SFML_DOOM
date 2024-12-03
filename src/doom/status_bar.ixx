@@ -551,9 +551,6 @@ cheatseq_t cheat_clev = { cheat_clev_seq, 0 };
 cheatseq_t cheat_mypos = { cheat_mypos_seq, 0 };
 
 //
-extern char *mapnames[];
-
-//
 // STATUS BAR CODE
 //
 void ST_Stop( void );
