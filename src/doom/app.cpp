@@ -331,9 +331,6 @@ void init( void )
 
     I_InitSound();
 
-    printf( "I_Init: Setting up machine state.\n" );
-    I_Init();
-
     printf( "D_CheckNetGame: Checking network game status.\n" );
     D_CheckNetGame();
 

@@ -8,4 +8,4 @@ void init()
     logger::error( "Hello-h no!" );
 }
 
-void update() { I_Quit(); }
+void update() { quit(); }

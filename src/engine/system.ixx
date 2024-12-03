@@ -38,29 +38,6 @@ export int I_GetTime( void )
 }
 
 //
-//! I_Init
-//
-export void I_Init( void )
-{
-    // I_InitSound();
-    // I_InitGraphics();
-}
-
-//
-//! I_Quit
-//
-export void I_Quit( void )
-{
-    // TODO JONNY circular dependency
-    // D_QuitNetGame();
-    // I_ShutdownSound();
-    // I_ShutdownMusic();
-    // @TODO JONNY circular dependency
-    // M_SaveDefaults();
-    exit( 0 );
-}
-
-//
 // DEFAULTS
 //
 export int viewwidth;            //!< Default view width

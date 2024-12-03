@@ -65,6 +65,7 @@ import status_bar;
 import sound;
 import hud;
 import info;
+import app;
 
 using enum gameaction_t;
 
@@ -1424,7 +1425,7 @@ bool G_CheckDemoStatus(void) {
 
   if (demoplayback) {
     if (singledemo)
-      I_Quit();
+      quit();
 
     demoplayback = false;
     netdemo = false;

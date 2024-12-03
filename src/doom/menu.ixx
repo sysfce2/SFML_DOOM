@@ -38,6 +38,7 @@ import doom;
 import video;
 import sound;
 import hud;
+import app;
 
 export bool message_dontfuckwithme;
 
@@ -878,7 +879,7 @@ void M_QuitResponse( sf::Keyboard::Key ch )
         else
             S_StartSound( NULL, quitsounds[( gametic >> 2 ) & 7] );
     }
-    I_Quit();
+    quit();
 }
 
 void M_QuitDOOM( int choice )

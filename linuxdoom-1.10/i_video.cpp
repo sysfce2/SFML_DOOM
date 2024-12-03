@@ -214,8 +214,6 @@ void I_InitGraphics(void) {
     return;
   firsttime = 0;
 
-  signal(SIGINT, (void (*)(int))I_Quit);
-
   width = SCREENWIDTH;
   height = SCREENHEIGHT;
 
