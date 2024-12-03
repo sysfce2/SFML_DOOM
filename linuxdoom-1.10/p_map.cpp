@@ -43,6 +43,7 @@ import sky;
 import tick;
 import setup;
 import sound;
+import data;
 
 fixed_t tmbbox[4];
 mobj_t *tmthing;

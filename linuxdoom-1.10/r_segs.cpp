@@ -32,6 +32,7 @@
 import engine;
 import sky;
 import plane;
+import data;
 
 // OPTIMIZE: closed two sided lines as single sided
 

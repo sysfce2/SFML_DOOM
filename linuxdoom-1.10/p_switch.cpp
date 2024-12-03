@@ -38,6 +38,7 @@ import engine;
 import doom;
 import setup;
 import sound;
+import data;
 
 //
 // CHANGE THE TEXTURE OF A WALL SWITCH TO ITS OPPOSITE

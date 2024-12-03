@@ -41,6 +41,7 @@ import setup;
 import main;
 import doom;
 import plane;
+import data;
 
 // Fineangles in the SCREENWIDTH wide window.
 #define FIELDOFVIEW 2048

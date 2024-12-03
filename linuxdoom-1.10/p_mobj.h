@@ -28,16 +28,23 @@
 // We need the thinker_t stuff.
 #include "d_think.h"
 
-// We need the WAD data structure for Map things,
-// from the THINGS lump.
-#include "doomdata.h"
-
 // States are tied to finite states are
 //  tied to animation frames.
 // Needs precompiled tables/data structures.
 #include "info.h"
 
 typedef unsigned angle_t;
+
+// Thing definition, position, orientation and type,
+// plus skill/visibility flags and attributes.
+typedef struct
+{
+    short x;
+    short y;
+    short angle;
+    short type;
+    short options;
+} mapthing_t;
 
 //
 // NOTES: mobj_t

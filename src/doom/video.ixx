@@ -24,8 +24,6 @@
 //-----------------------------------------------------------------------------
 
 module;
-#include "doomdata.h"
-
 #include "m_bbox.h"
 #include "r_defs.h"
 #include <array>

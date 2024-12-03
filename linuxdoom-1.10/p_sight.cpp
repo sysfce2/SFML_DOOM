@@ -30,6 +30,7 @@
 import doom;
 import engine;
 import setup;
+import data;
 
 //
 // P_CheckSight

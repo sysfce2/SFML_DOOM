@@ -53,6 +53,7 @@ import tick;
 import setup;
 import sound;
 import doom;
+import data;
 
 //
 // Animating textures and planes

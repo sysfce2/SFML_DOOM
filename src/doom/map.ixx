@@ -47,6 +47,7 @@ import wad;
 import setup;
 import video;
 import doom;
+import data;
 
 // For use if I do walls with outsides/insides
 #define REDS ( 256 - 5 * 16 )

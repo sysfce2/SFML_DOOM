@@ -37,6 +37,7 @@ import doom;
 import tick;
 import sound;
 import setup;
+import data;
 
 //
 // FLOORS
