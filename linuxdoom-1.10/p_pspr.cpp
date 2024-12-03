@@ -39,6 +39,7 @@ import items;
 import tick;
 import doom;
 import sound;
+import info;
 
 using enum buttoncode_t;
 

@@ -38,6 +38,7 @@ import tick;
 import sound;
 import intermission;
 import data;
+import info;
 
 // A single Vertex.
 typedef struct

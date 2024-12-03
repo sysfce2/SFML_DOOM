@@ -28,6 +28,7 @@
 
 import tick;
 import doom;
+import info;
 
 using enum buttoncode_t;
 

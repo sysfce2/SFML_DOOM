@@ -22,23 +22,20 @@
 //	This one is the original DOOM version, preserved.
 //
 //-----------------------------------------------------------------------------
-
+module;
 // Data.
 #include "m_fixed.h"
-
-
-#include "info.h"
-
 #include "p_mobj.h"
 #include "p_pspr.h"
 
 #include <array>
 #include <string>
+export module info;
 
 import doom;
 import sound;
 
-std::array<const std::string, NUMSPRITES> sprnames = {
+export std::array<const std::string, NUMSPRITES> sprnames = {
     "TROO", "SHTG", "PUNG", "PISG", "PISF", "SHTF", "SHT2", "CHGG", "CHGF",
     "MISG", "MISF", "SAWG", "PLSG", "PLSF", "BFGG", "BFGF", "BLUD", "PUFF",
     "BAL1", "BAL2", "PLSS", "PLSE", "MISL", "BFS1", "BFE1", "BFE2", "TFOG",
@@ -57,155 +54,155 @@ std::array<const std::string, NUMSPRITES> sprnames = {
     "BRS1", "TLMP", "TLP2"};
 
 // Doesn't work with g++, needs actionf_p1
-void A_Light0(player_t *player, pspdef_t *psp);
+export void A_Light0(player_t *player, pspdef_t *psp);
 
-void A_WeaponReady(player_t *player, pspdef_t *psp);
+export void A_WeaponReady(player_t *player, pspdef_t *psp);
 
-void A_Lower(player_t *player, pspdef_t *psp);
+export void A_Lower(player_t *player, pspdef_t *psp);
 
-void A_Raise(player_t *player, pspdef_t *psp);
+export void A_Raise(player_t *player, pspdef_t *psp);
 
-void A_Punch(player_t *player, pspdef_t *psp);
+export void A_Punch(player_t *player, pspdef_t *psp);
 
-void A_ReFire(player_t *player, pspdef_t *psp);
+export void A_ReFire(player_t *player, pspdef_t *psp);
 
-void A_FirePistol(player_t *player, pspdef_t *psp);
+export void A_FirePistol(player_t *player, pspdef_t *psp);
 
-void A_Light1(player_t *player, pspdef_t *psp);
+export void A_Light1(player_t *player, pspdef_t *psp);
 
-void A_FireShotgun(player_t *player, pspdef_t *psp);
+export void A_FireShotgun(player_t *player, pspdef_t *psp);
 
-void A_Light2(player_t *player, pspdef_t *psp);
+export void A_Light2(player_t *player, pspdef_t *psp);
 
-void A_FireShotgun2(player_t *player, pspdef_t *psp);
+export void A_FireShotgun2(player_t *player, pspdef_t *psp);
 
-void A_CheckReload(player_t *player, pspdef_t *psp);
+export void A_CheckReload(player_t *player, pspdef_t *psp);
 
-void A_OpenShotgun2(player_t *player, pspdef_t *psp);
+export void A_OpenShotgun2(player_t *player, pspdef_t *psp);
 
-void A_LoadShotgun2(player_t *player, pspdef_t *psp);
+export void A_LoadShotgun2(player_t *player, pspdef_t *psp);
 
-void A_CloseShotgun2(player_t *player, pspdef_t *psp);
+export void A_CloseShotgun2(player_t *player, pspdef_t *psp);
 
-void A_FireCGun(player_t *player, pspdef_t *psp);
+export void A_FireCGun(player_t *player, pspdef_t *psp);
 
-void A_GunFlash(player_t *player, pspdef_t *psp);
+export void A_GunFlash(player_t *player, pspdef_t *psp);
 
-void A_FireMissile(player_t *player, pspdef_t *psp);
+export void A_FireMissile(player_t *player, pspdef_t *psp);
 
-void A_Saw(player_t *player, pspdef_t *psp);
+export void A_Saw(player_t *player, pspdef_t *psp);
 
-void A_FirePlasma(player_t *player, pspdef_t *psp);
+export void A_FirePlasma(player_t *player, pspdef_t *psp);
 
-void A_BFGsound(player_t *player, pspdef_t *psp);
+export void A_BFGsound(player_t *player, pspdef_t *psp);
 
-void A_FireBFG(player_t *player, pspdef_t *psp);
+export void A_FireBFG(player_t *player, pspdef_t *psp);
 
-void A_BFGSpray(mobj_t *mo);
+export void A_BFGSpray(mobj_t *mo);
 
-void A_Explode(mobj_t *mo);
+export void A_Explode(mobj_t *mo);
 
-void A_Pain(mobj_t *mo);
+export void A_Pain(mobj_t *mo);
 
-void A_PlayerScream(mobj_t *mo);
+export void A_PlayerScream(mobj_t *mo);
 
-void A_Fall(mobj_t *mo);
+export void A_Fall(mobj_t *mo);
 
-void A_XScream(mobj_t *mo);
+export void A_XScream(mobj_t *mo);
 
-void A_Look(mobj_t *mo);
+export void A_Look(mobj_t *mo);
 
-void A_Chase(mobj_t *mo);
+export void A_Chase(mobj_t *mo);
 
-void A_FaceTarget(mobj_t *mo);
+export void A_FaceTarget(mobj_t *mo);
 
-void A_PosAttack(mobj_t *mo);
+export void A_PosAttack(mobj_t *mo);
 
-void A_Scream(mobj_t *mo);
+export void A_Scream(mobj_t *mo);
 
-void A_SPosAttack(mobj_t *mo);
+export void A_SPosAttack(mobj_t *mo);
 
-void A_VileChase(mobj_t *mo);
+export void A_VileChase(mobj_t *mo);
 
-void A_VileStart(mobj_t *mo);
+export void A_VileStart(mobj_t *mo);
 
-void A_VileTarget(mobj_t *mo);
+export void A_VileTarget(mobj_t *mo);
 
-void A_VileAttack(mobj_t *mo);
+export void A_VileAttack(mobj_t *mo);
 
-void A_StartFire(mobj_t *mo);
+export void A_StartFire(mobj_t *mo);
 
-void A_Fire(mobj_t *mo);
+export void A_Fire(mobj_t *mo);
 
-void A_FireCrackle(mobj_t *mo);
+export void A_FireCrackle(mobj_t *mo);
 
-void A_Tracer(mobj_t *mo);
+export void A_Tracer(mobj_t *mo);
 
-void A_SkelWhoosh(mobj_t *mo);
+export void A_SkelWhoosh(mobj_t *mo);
 
-void A_SkelFist(mobj_t *mo);
+export void A_SkelFist(mobj_t *mo);
 
-void A_SkelMissile(mobj_t *mo);
+export void A_SkelMissile(mobj_t *mo);
 
-void A_FatRaise(mobj_t *mo);
+export void A_FatRaise(mobj_t *mo);
 
-void A_FatAttack1(mobj_t *mo);
+export void A_FatAttack1(mobj_t *mo);
 
-void A_FatAttack2(mobj_t *mo);
+export void A_FatAttack2(mobj_t *mo);
 
-void A_FatAttack3(mobj_t *mo);
+export void A_FatAttack3(mobj_t *mo);
 
-void A_BossDeath(mobj_t *mo);
+export void A_BossDeath(mobj_t *mo);
 
-void A_CPosAttack(mobj_t *mo);
+export void A_CPosAttack(mobj_t *mo);
 
-void A_CPosRefire(mobj_t *mo);
+export void A_CPosRefire(mobj_t *mo);
 
-void A_TroopAttack(mobj_t *mo);
+export void A_TroopAttack(mobj_t *mo);
 
-void A_SargAttack(mobj_t *mo);
+export void A_SargAttack(mobj_t *mo);
 
-void A_HeadAttack(mobj_t *mo);
+export void A_HeadAttack(mobj_t *mo);
 
-void A_BruisAttack(mobj_t *mo);
+export void A_BruisAttack(mobj_t *mo);
 
-void A_SkullAttack(mobj_t *mo);
+export void A_SkullAttack(mobj_t *mo);
 
-void A_Metal(mobj_t *mo);
+export void A_Metal(mobj_t *mo);
 
-void A_SpidRefire(mobj_t *mo);
+export void A_SpidRefire(mobj_t *mo);
 
-void A_BabyMetal(mobj_t *mo);
+export void A_BabyMetal(mobj_t *mo);
 
-void A_BspiAttack(mobj_t *mo);
+export void A_BspiAttack(mobj_t *mo);
 
-void A_Hoof(mobj_t *mo);
+export void A_Hoof(mobj_t *mo);
 
-void A_CyberAttack(mobj_t *mo);
+export void A_CyberAttack(mobj_t *mo);
 
-void A_PainAttack(mobj_t *mo);
+export void A_PainAttack(mobj_t *mo);
 
-void A_PainDie(mobj_t *mo);
+export void A_PainDie(mobj_t *mo);
 
-void A_KeenDie(mobj_t *mo);
+export void A_KeenDie(mobj_t *mo);
 
-void A_BrainPain(mobj_t *mo);
+export void A_BrainPain(mobj_t *mo);
 
-void A_BrainScream(mobj_t *mo);
+export void A_BrainScream(mobj_t *mo);
 
-void A_BrainDie(mobj_t *mo);
+export void A_BrainDie(mobj_t *mo);
 
-void A_BrainAwake(mobj_t *mo);
+export void A_BrainAwake(mobj_t *mo);
 
-void A_BrainSpit(mobj_t *mo);
+export void A_BrainSpit(mobj_t *mo);
 
-void A_SpawnSound(mobj_t *mo);
+export void A_SpawnSound(mobj_t *mo);
 
-void A_SpawnFly(mobj_t *mo);
+export void A_SpawnFly(mobj_t *mo);
 
-void A_BrainExplode(mobj_t *mo);
+export void A_BrainExplode(mobj_t *mo);
 
-state_t states[NUMSTATES] = {
+export state_t states[NUMSTATES] = {
     {SPR_TROO, 0, -1, {NULL}, S_NULL, 0, 0}, // S_NULL
     {SPR_SHTG,
      4,
@@ -3863,7 +3860,7 @@ state_t states[NUMSTATES] = {
     {SPR_TLP2, 32771, 4, {NULL}, S_TECH2LAMP, 0, 0}     // S_TECH2LAMP4
 };
 
-mobjinfo_t mobjinfo[NUMMOBJTYPES] = {
+export mobjinfo_t mobjinfo[NUMMOBJTYPES] = {
 
     {
         // MT_PLAYER

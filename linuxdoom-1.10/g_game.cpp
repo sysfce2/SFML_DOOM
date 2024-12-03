@@ -64,6 +64,7 @@ import video;
 import status_bar;
 import sound;
 import hud;
+import info;
 
 using enum gameaction_t;
 

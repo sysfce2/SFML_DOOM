@@ -26,6 +26,7 @@ module;
 #include "g_game.h"
 #include "p_pspr.h"
 #include "r_state.h"
+#include "p_mobj.h"
 
 #include <string>
 
@@ -38,6 +39,7 @@ import doom;
 import video;
 import sound;
 import hud;
+import info;
 
 // ?
 // //

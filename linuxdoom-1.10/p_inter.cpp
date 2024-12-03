@@ -42,6 +42,7 @@ import items;
 import doom;
 import doom;
 import sound;
+import info;
 
 #define BONUSADD 6
 

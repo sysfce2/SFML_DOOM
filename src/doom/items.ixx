@@ -20,9 +20,7 @@
 //
 //-----------------------------------------------------------------------------
 module;
-// We are referring to sprite numbers.
-#include "info.h"
-
+#include "p_mobj.h"
 export module items;
 
 import doom.map;

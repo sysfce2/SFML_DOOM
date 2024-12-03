@@ -46,6 +46,7 @@ import tick;
 import doom;
 import sound;
 import data;
+import info;
 
 typedef enum {
   DI_EAST,

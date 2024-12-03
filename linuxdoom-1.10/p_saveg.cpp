@@ -38,6 +38,7 @@ import engine;
 import tick;
 import setup;
 import doom;
+import info;
 
 std::byte *save_p;
 
