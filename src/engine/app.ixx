@@ -41,3 +41,15 @@ export int main( int argc, char **argv )
 
     return 0;
 }
+
+//! Get the current tick count
+//! @return the number of ticks (1/70s) since the app started
+export int get_current_tick()
+{
+    using namespace std::chrono;
+    using tic = duration<int, std::ratio<1, 70>>;
+    const auto now = steady_clock::now();
+    static const auto basetime = now;
+    const auto tics = duration_cast<tic>( now - basetime ).count();
+    return tics;
+}

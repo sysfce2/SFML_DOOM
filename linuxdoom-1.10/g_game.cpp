@@ -406,7 +406,7 @@ void G_DoLoadLevel(void) {
 
   P_SetupLevel(gameepisode, gamemap, 0, gameskill);
   displayplayer = consoleplayer; // view the guy you are playing
-  starttime = I_GetTime();
+  starttime = get_current_tick();
   gameaction = ga_nothing;
 
   // clear cmd building stuff
@@ -1419,7 +1419,7 @@ bool G_CheckDemoStatus(void) {
   int endtime;
 
   if (timingdemo) {
-    endtime = I_GetTime();
+    endtime = get_current_tick();
     logger::error("timed {} gametics in {} realtics", gametic, endtime - starttime);
   }
 

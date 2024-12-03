@@ -25,18 +25,6 @@ export module engine:system;
 import :logger;
 import :arguments;
 
-//! I_GetTime
-//! returns time in 1/70th second tics
-export int I_GetTime( void )
-{
-    using namespace std::chrono;
-    using tic = duration<int, std::ratio<1, 70>>;
-    const auto now = steady_clock::now();
-    static const auto basetime = now;
-    const auto tics = duration_cast<tic>( now - basetime ).count();
-    return tics;
-}
-
 //
 // DEFAULTS
 //

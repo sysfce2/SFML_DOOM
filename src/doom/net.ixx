@@ -32,6 +32,7 @@ import engine;
 import engine;
 import menu;
 import doom;
+import app;
 
 // For some odd reason...
 #ifndef ntohl
@@ -674,7 +675,7 @@ export void NetUpdate( void )
     int gameticdiv;
 
     // check time
-    nowtime = I_GetTime() / ticdup;
+    nowtime = get_current_tick() / ticdup;
     newtics = nowtime - gametime;
     gametime = nowtime;
 
@@ -751,8 +752,8 @@ void CheckAbort( void )
     int stoptic{};
 
     // TODO JONNY circular dependency
-    // stoptic = I_GetTime() + 2;
-    while ( I_GetTime() < stoptic )
+    // stoptic = get_current_tick() + 2;
+    while ( get_current_tick() < stoptic )
         I_StartTic();
 
     I_StartTic();
@@ -939,7 +940,7 @@ export void TryRunTics( void )
     int counts;
 
     // get real tics
-    entertic = I_GetTime() / ticdup;
+    entertic = get_current_tick() / ticdup;
     realtics = entertic - oldentertics;
     oldentertics = entertic;
 
@@ -1012,7 +1013,7 @@ export void TryRunTics( void )
             logger::error( "TryRunTics: lowtic < gametic" );
 
         // don't stay in here forever -- give the menu a chance to work
-        if ( I_GetTime() / ticdup - entertic >= 20 )
+        if ( get_current_tick() / ticdup - entertic >= 20 )
         {
             M_Ticker();
             return;

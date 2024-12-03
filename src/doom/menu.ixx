@@ -1097,56 +1097,56 @@ export bool M_Responder( const sf::Event &ev )
     // static  int     lastx = 0;
 
     /* TODO JONNY
-    if (ev->type == ev_joystick && joywait < I_GetTime())
+    if (ev->type == ev_joystick && joywait < get_current_tick())
     {
     if (ev->data3 == -1)
     {
             ch = KEY_UPARROW;
-            joywait = I_GetTime() + 5;
+            joywait = get_current_tick() + 5;
     }
     else if (ev->data3 == 1)
     {
             ch = KEY_DOWNARROW;
-            joywait = I_GetTime() + 5;
+            joywait = get_current_tick() + 5;
     }
 
     if (ev->data2 == -1)
     {
             ch = KEY_LEFTARROW;
-            joywait = I_GetTime() + 2;
+            joywait = get_current_tick() + 2;
     }
     else if (ev->data2 == 1)
     {
             ch = KEY_RIGHTARROW;
-            joywait = I_GetTime() + 2;
+            joywait = get_current_tick() + 2;
     }
 
     if (ev->data1&1)
     {
             ch = KEY_ENTER;
-            joywait = I_GetTime() + 5;
+            joywait = get_current_tick() + 5;
     }
     if (ev->data1&2)
     {
             ch = KEY_BACKSPACE;
-            joywait = I_GetTime() + 5;
+            joywait = get_current_tick() + 5;
     }
     }
     else
     {
-    if (ev->type == ev_mouse && mousewait < I_GetTime())
+    if (ev->type == ev_mouse && mousewait < get_current_tick())
     {
             mousey += ev->data3;
             if (mousey < lasty-30)
             {
             ch = KEY_DOWNARROW;
-            mousewait = I_GetTime() + 5;
+            mousewait = get_current_tick() + 5;
             mousey = lasty -= 30;
             }
             else if (mousey > lasty+30)
             {
             ch = KEY_UPARROW;
-            mousewait = I_GetTime() + 5;
+            mousewait = get_current_tick() + 5;
             mousey = lasty += 30;
             }
 
@@ -1154,26 +1154,26 @@ export bool M_Responder( const sf::Event &ev )
             if (mousex < lastx-30)
             {
             ch = KEY_LEFTARROW;
-            mousewait = I_GetTime() + 5;
+            mousewait = get_current_tick() + 5;
             mousex = lastx -= 30;
             }
             else if (mousex > lastx+30)
             {
             ch = KEY_RIGHTARROW;
-            mousewait = I_GetTime() + 5;
+            mousewait = get_current_tick() + 5;
             mousex = lastx += 30;
             }
 
             if (ev->data1&1)
             {
             ch = KEY_ENTER;
-            mousewait = I_GetTime() + 15;
+            mousewait = get_current_tick() + 15;
             }
 
             if (ev->data1&2)
             {
             ch = KEY_BACKSPACE;
-            mousewait = I_GetTime() + 15;
+            mousewait = get_current_tick() + 15;
             }
     }
     else

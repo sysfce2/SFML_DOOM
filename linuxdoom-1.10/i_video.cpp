@@ -41,6 +41,7 @@ import engine;
 import engine;
 import video;
 import doom;
+import app;
 
 #define POINTER_WARP_COUNTDOWN 1
 
@@ -162,7 +163,7 @@ void I_FinishUpdate(void) {
   // draws little dots on the bottom of the screen
 #if !NDEBUG
 
-    i = I_GetTime();
+    i = get_current_tick();
     tics = i - lasttic;
     lasttic = i;
     if (tics > 20)

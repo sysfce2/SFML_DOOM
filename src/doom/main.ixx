@@ -45,6 +45,7 @@ import video;
 import status_bar;
 import hud;
 import sound;
+import app;
 
 export bool nomonsters;  // checkparm of -nomonsters
 export bool respawnparm; // checkparm of -respawn
@@ -258,13 +259,13 @@ export void D_Display( void )
     // wipe update
     wipe_EndScreen( 0, 0, SCREENWIDTH, SCREENHEIGHT );
 
-    wipestart = I_GetTime() - 1;
+    wipestart = get_current_tick() - 1;
 
     do
     {
         do
         {
-            nowtime = I_GetTime();
+            nowtime = get_current_tick();
             tics = nowtime - wipestart;
         } while ( !tics );
         wipestart = nowtime;
@@ -356,7 +357,7 @@ export void D_DoAdvanceDemo( void )
 //  called by D_DoomMain, never exits.
 // Manages timing and IO,
 //  calls all ?_Responder, ?_Ticker, and ?_Drawer,
-//  calls I_GetTime, I_StartFrame, and I_StartTic
+//  calls get_current_tick, I_StartFrame, and I_StartTic
 //
 export bool demorecording;
 
