@@ -20,7 +20,7 @@ module;
 #include <fstream>
 #include <map>
 
-export module engine:system;
+export module engine:preferences;
 
 import :logger;
 import :arguments;
