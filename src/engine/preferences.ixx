@@ -9,10 +9,6 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
 // for more details.
-//
-// DESCRIPTION:
-//	System specific interface stuff.
-//
 //-----------------------------------------------------------------------------
 module;
 #include <cassert>
